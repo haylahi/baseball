@@ -1,0 +1,39 @@
+<openerp>
+    <data>
+        <record id="roles_members" model="phoenix.roles">
+            <field name="name">Member</field>
+        </record>
+        <record id="roles_president" model="phoenix.roles">
+            <field name="name">President</field>
+        </record>
+        <record id="roles_secretary" model="phoenix.roles">
+            <field name="name">Secretary</field>
+        </record>
+        <record id="roles_treasurer" model="phoenix.roles">
+            <field name="name">Treasurer</field>
+        </record>
+            <record id="roles_administration" model="phoenix.roles">
+            <field name="name">Administrator</field>
+        </record>
+
+
+
+<!--         <record id="product_template_jerseys" model="product.template">
+            <field name="name">Orange jerseys</field>
+        </record> 
+ -->
+
+<!--         <record id="product_template_jerseys" model="product.product">
+            <field name="name">Jersey</field>
+            <field name="categ_id" ref="product_category_5"/>
+            <field name="standard_price">14</field>
+            <field name="list_price">16.50</field>
+            <field name="type">consu</field>
+            <field name="uom_id" ref="product_uom_unit"/>
+            <field name="uom_po_id" ref="product_uom_unit"/>
+            <field name="default_code">A6678</field>
+            <field name="attribute_value_ids" eval="[(6,0,[ref('product.product_attribute_value_1')])]"/>
+        </record> -->
+
+    </data>
+</openerp>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+
+        <record id="view_phoenix_tournament_tree" model="ir.ui.view">
+            <field name="name">phoenix.tournament.tree</field>
+            <field name="model">phoenix.game</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+
+                <tree string="Games">
+                    <field name="start_time"/>
+                    <field name="end_time"/>
+                    <field name="division"/>
+                    <field name="home_team"/>
+                    <field name="venue"/>
+                </tree>
+            </field>
+        </record>
+
+
+       <record id="view_tournament_filter" model="ir.ui.view">
+            <field name="name">phoenix.game.search</field>
+            <field name="model">phoenix.game</field>
+            <field name="arch" type="xml">
+                <search>
+                  <field name="start_time"/>
+                  <filter name="game_type" string="Official" domain="[('game_type', '=', 'tournament')]"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="phoenix_list_tournaments">
+            <field name="name">Tournaments</field>
+            <field name="res_model">phoenix.game</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_phoenix_tournament_tree"/>
+            <field name="search_view_id" ref="phoenix.view_teams_filter"/>
+            <field name="context">{'search_default_game_type':'tournament'}</field>
+            <field name="domain">[('game_type','=','tournament')]</field>
+        </record>
+
+
+
+        <menuitem id="menu_tounraments" name="Tournaments"
+                  parent="menu_competition"
+                  action="phoenix_list_tournaments"/>
+
+    </data>
+</openerp>
+

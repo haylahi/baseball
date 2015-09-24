@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+
+        <record id="view_phoenix_divisions_tree" model="ir.ui.view">
+            <field name="name">phoenix.divisions.tree</field>
+            <field name="model">phoenix.divisions</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Divisions">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+
+        <record id="view_phoenix_divisions_form" model="ir.ui.view">
+            <field name="name">phoenix.divisions.form</field>
+            <field name="model">phoenix.divisions</field>
+            <field name="arch" type="xml">
+                <form string="Divisions">
+                <sheet>
+                    <div class="oe_title oe_left">
+                        <h1>
+                            <field name="name" placeholder="Name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="code"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+       <record id="view_divisions_filter" model="ir.ui.view">
+            <field name="name">phoenix.divisions.search</field>
+            <field name="model">phoenix.divisions</field>
+            <field name="arch" type="xml">
+                <search>
+                  <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="phoenix_list_divisions">
+            <field name="name">Divisions</field>
+            <field name="res_model">phoenix.divisions</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+        <menuitem id="menu_divisions_management" name="Divisions"
+                  parent="menu_management"
+                  action="phoenix_list_divisions"/>
+
+	</data>
+</openerp>
+

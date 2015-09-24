@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_phoenix_club_tree" model="ir.ui.view">
+            <field name="name">phoenix.club.tree</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_tree"/>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="string">Clubs</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_phoenix_club_form" model="ir.ui.view">
+            <field name="name">phoenix.club.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_registry']" position="after">
+                    <field name="current_season_id"/>
+                </xpath>
+            </field>
+        </record>
+
+
+	</data>
+</openerp>
+

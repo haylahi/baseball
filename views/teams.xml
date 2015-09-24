@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+  
+
+
+        <record id="view_phoenix_teams_tree" model="ir.ui.view">
+            <field name="name">phoenix.teams.tree</field>
+            <field name="model">phoenix.teams</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Teams">
+                    <field name="name"/>
+                    <field name="division_ids"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_phoenix_teams_form" model="ir.ui.view">
+            <field name="name">phoenix.teams.form</field>
+            <field name="model">phoenix.teams</field>
+            <field name="arch" type="xml">
+                <form string="Teams">
+                <sheet>
+                    <field name="image" widget='image' class="oe_left oe_avatar"/>
+                    <div class="oe_title oe_left">
+                        <h1>
+                            <field name="name" placeholder="Name" />
+                        </h1>
+                        <field name="name_from_federation" placeholder="Name on federation website" />
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="is_opponent"/>
+                            <field name="coaches_ids" widget="many2many_tags" attrs="{'invisible': [('is_opponent','=',True)]}"/>
+                            <field name="responsible_ids" widget="many2many_tags" attrs="{'invisible': [('is_opponent','=',True)]}"/>
+                            <field name="division_ids" widget="many2many_tags"/>
+                            <field name="venue" mode="form" attrs="{'invisible': [('is_opponent','=',False)]}"/>
+                        </group>
+                        <group>
+                            <field name="active" attrs="{'invisible': [('is_opponent','=',True)]}"/>
+                            <field name="is_official_umpires" attrs="{'invisible': [('is_opponent','=',True)]}"/>
+                            <field name="is_official_scorers" attrs="{'invisible': [('is_opponent','=',True)]}"/>
+                            <field name="multiple_teams" attrs="{'invisible': [('is_opponent','=',True)]}"/>
+                            <field name="subteams_ids" widget="many2one_tags" attrs="{'invisible': ['|',('is_opponent','=',True),('multiple_teams','=',False)]}"/>
+                            
+                        </group>
+                    </group>
+
+
+                     <notebook colspan="4" attrs="{'invisible': [('is_opponent','=',True)]}">
+                        <page name="members" string="Members" >
+                            <field name="players_ids" readonly="1">
+                                <tree colors="red: is_in_order==False; blue: is_in_order==True and is_registered==False">
+                                    <field name="name"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                    <field name="positions_ids" widget="many2many_tags"/>
+                                    <field name="is_photo"/>
+                                    <field name="is_certificate"/>
+                                    <field name="is_in_order" invisible="1"/>
+                                    <field name="is_registered"/>
+                                    <field name="licence_number"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="category_description" string="Description" >
+                            <field name="description"/>
+                        </page>
+<!--                         <page name="calendar" string="Calendar" >
+                            <field name="upcoming_events_ids"/>
+                        </page> -->
+
+                    </notebook> 
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+
+       <record id="view_phoenix_venues_form" model="ir.ui.view">
+            <field name="name">phoenix.venue.form</field>
+            <field name="model">phoenix.venue</field>
+            <field name="arch" type="xml">
+                <form string="Venue">
+                <sheet>
+                    <div class="oe_title oe_left">
+                        <h1>
+                            <field name="name" placeholder="Name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <label for="street" string="Address"/>
+                            <div>
+                                <field name="street" placeholder="Street..." />
+                                <field name="street2"/>
+                                <div class="address_format">
+                                    <field name="city" placeholder="City" style="width: 40%%" />
+                                    <field name="zip_code" placeholder="ZIP" style="width: 20%%"/>
+                                </div>
+                                <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}'/>
+                            </div>
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+
+       <record id="view_teams_filter" model="ir.ui.view">
+            <field name="name">phoenix.teams.search</field>
+            <field name="model">phoenix.teams</field>
+            <field name="arch" type="xml">
+                <search>
+                  <field name="name"/>
+                  <filter name="is_opponent" string="Club Teams" domain="[('is_opponent', '=', False)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="phoenix_list_teams">
+            <field name="name">Teams</field>
+            <field name="res_model">phoenix.teams</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="phoenix.view_teams_filter"/>
+            <field name="context">{'search_default_is_opponent':1}</field>
+        </record>
+
+
+
+        <menuitem id="menu_teams_management" name="Teams"
+                  parent="menu_management"
+                  action="phoenix_list_teams"/>
+
+    </data>
+</openerp>

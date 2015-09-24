@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <template id="theme" name="theme" inherit_id="website.theme">
+      <xpath expr="//link[last()]" position="after">
+        <link href="/phoenix/static/src/css/banner.css" rel="stylesheet" type="text/css" />
+      </xpath>
+    </template>
+
+
+    <template id="layout" inherit_id="website.layout">
+      <xpath expr="//div[@class='navbar navbar-default navbar-static-top']" position="before">
+          <div class="row">
+              <div class="col-md-2">
+                  <center>
+                    <img src="phoenix/static/src/img/logo2.png" class="img img-responsive" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                  </center>
+              </div>
+              <div class="col-md-8">
+                <div class="header_banner">
+                  <center>
+                    <img src='phoenix/static/src/img/banner3_lanceuse.png' id='header-lanceuse'/>
+                    <img src='phoenix/static/src/img/banner3_frappeur.png' id='header-frappeur'/>
+                    <img src='phoenix/static/src/img/banner3_catcher.png' id='header-catcher'/>
+                    <img src='phoenix/static/src/img/banner3_fond.png' id='fond'/>
+                    <img src='phoenix/static/src/img/banner3_trace.png' id='header-trace'/>
+                    <img src='phoenix/static/src/img/banner3_balle.png' id='balle'/>
+                  </center>
+                </div>
+              </div>
+              <div class="col-md-2">
+
+              </div>
+          </div>
+      </xpath>
+    </template>
+
+
+  </data>
+</openerp>

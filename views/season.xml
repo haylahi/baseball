@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+
+        <record id="view_phoenix_season_tree" model="ir.ui.view">
+            <field name="name">phoenix.season.tree</field>
+            <field name="model">phoenix.season</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Seasons" editable="bottom">
+                    <field name="name"/>
+                    <field name="members_qty"/>
+                    <field name="amount_left_to_collect"/>
+                    <field name="is_current"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="phoenix_seasons">
+            <field name="name">Seasons</field>
+            <field name="res_model">phoenix.season</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+
+        <menuitem id="menu_venues_management" name="Seasons"
+                  parent="menu_management"
+                  action="phoenix_seasons"
+                  sequence="10"
+                  />
+
+	</data>
+</openerp>
+

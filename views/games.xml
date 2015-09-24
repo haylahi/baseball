@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+
+        <record id="view_phoenix_game_tree" model="ir.ui.view">
+            <field name="name">phoenix.game.tree</field>
+            <field name="model">phoenix.game</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+
+                <tree string="Games">
+                    <field name="game_number"/>
+                    <field name="start_time"/>
+                    <field name="division"/>
+                    <field name="home_team"/>
+                    <field name="score_home"/>
+                    <field name="away_team"/>
+                    <field name="venue"/>
+                    <field name="score_away"/>
+                    <field name="umpires"/>
+                    <field name="scorer"/>
+
+                </tree>
+            </field>
+        </record>
+
+
+
+
+        <record id="view_phoenix_game_form" model="ir.ui.view">
+            <field name="name">phoenix.game.form</field>
+            <field name="model">phoenix.game</field>
+            <field name="arch" type="xml">
+
+                <form string="Games">
+                    <header>
+                        <button string="Update games" type="object" name="action_get_games_database"/>
+                    </header>
+
+
+                <sheet>
+                    <div class="oe_title oe_left">
+                        <h1>
+                            <field name="game_number" placeholder="Game number"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="game_type" invisible="1"/>
+                        <field name="start_time"/>
+                        <field name="division" attrs="{'invisible': [('game_type','=', 'tournament')]}"/>
+                        <field name="scorer" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
+                        <field name="umpires" widget="many2many_tags" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
+                        <field name="venue"/>
+                        <group>
+                            <field name="home_team"/>
+                            <field name="score_home" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
+                        </group>
+                        <group>
+                            <field name="away_team" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
+                            <field name="score_away" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+
+       <record id="view_games_filter" model="ir.ui.view">
+            <field name="name">phoenix.game.search</field>
+            <field name="model">phoenix.game</field>
+            <field name="arch" type="xml">
+                <search>
+                  <field name="start_time"/>
+                  <filter name="friendly" string="Official" domain="[('game_type', '=', 'competition')]"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="phoenix_list_games">
+            <field name="name">Games</field>
+            <field name="res_model">phoenix.game</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="phoenix.view_teams_filter"/>
+            <field name="context">{'search_default_friendly':1}</field>
+            <field name="domain">[('game_type','=','competition')]</field>
+        </record>
+
+
+
+        <menuitem id="menu_games" name="Games"
+                  parent="menu_competition"
+                  action="phoenix_list_games"/>
+
+	</data>
+</openerp>
+

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_general_configuration">
+            <field name="name">base.config.settings.oauth</field>
+            <field name="model">base.config.settings</field>
+            <field name="inherit_id" ref="base_setup.view_general_configuration"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='multi_company']" position="after">
+                    <div name="phoenix_calendar_sync">
+                        <label for="xml_frbbs_calendar"/>
+                        <field name="xml_frbbs_calendar" class="oe_inline"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
