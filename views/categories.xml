@@ -3,9 +3,9 @@
     <data>
 
 
-        <record id="view_phoenix_categories_form" model="ir.ui.view">
-            <field name="name">phoenix.categories.form</field>
-            <field name="model">phoenix.categories</field>
+        <record id="view_baseball_categories_form" model="ir.ui.view">
+            <field name="name">baseball.categories.form</field>
+            <field name="model">baseball.categories</field>
             <field name="arch" type="xml">
                 <form string="Contacts">
                 <sheet>
@@ -43,6 +43,20 @@
                                 </tree>
                             </field>
                         </page>
+                        <page name="games" string="Games" >
+                            <field name="game_ids">
+                                <tree>
+				                    <field name="game_number"/>
+				                    <field name="start_time"/>
+				                    <field name="division"/>
+				                    <field name="home_team"/>
+				                    <field name="score_home"/>
+				                    <field name="away_team"/>
+				                    <field name="venue"/>
+				                    <field name="score_away"/>
+                                </tree>
+                            </field>
+                        </page>
                         <page name="category_description" string="Description">
                             <field name="description"/>
                         </page>
@@ -53,9 +67,9 @@
         </record>
 
 
-        <record id="view_phoenix_categories_tree" model="ir.ui.view">
-            <field name="name">phoenix.categories.tree</field>
-            <field name="model">phoenix.categories</field>
+        <record id="view_baseball_categories_tree" model="ir.ui.view">
+            <field name="name">baseball.categories.tree</field>
+            <field name="model">baseball.categories</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Categories">
@@ -69,9 +83,9 @@
 
 
 
-       <record id="view_phoenix_categories_filter" model="ir.ui.view">
-            <field name="name">phoenix.categories.search</field>
-            <field name="model">phoenix.categories</field>
+       <record id="view_baseball_categories_filter" model="ir.ui.view">
+            <field name="name">baseball.categories.search</field>
+            <field name="model">baseball.categories</field>
             <field name="arch" type="xml">
                 <search>
                   <field name="name"/>
@@ -79,22 +93,22 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="phoenix_categories_list">
+        <record model="ir.actions.act_window" id="baseball_categories_list">
             <field name="name">Categories</field>
-            <field name="res_model">phoenix.categories</field>
+            <field name="res_model">baseball.categories</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
         <menuitem id="menu_categories" name="Categories"
                   parent="menu_management"
-                  action="phoenix_categories_list"/>
+                  action="baseball_categories_list"/>
 
 
 
-        <record id="view_phoenix_fee_tree" model="ir.ui.view">
-            <field name="name">phoenix.fee.tree</field>
-            <field name="model">phoenix.fee</field>
+        <record id="view_baseball_fee_tree" model="ir.ui.view">
+            <field name="name">baseball.fee.tree</field>
+            <field name="model">baseball.fee</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Fees" editable="bottom">
@@ -105,16 +119,16 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="phoenix_fee_list">
+        <record model="ir.actions.act_window" id="baseball_fee_list">
             <field name="name">Cotisations</field>
-            <field name="res_model">phoenix.fee</field>
+            <field name="res_model">baseball.fee</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree</field>
         </record>
 
         <menuitem id="menu_fees" name="Fees"
                   parent="menu_management"
-                  action="phoenix_fee_list"/>
+                  action="baseball_fee_list"/>
 
 	</data>
 </openerp>

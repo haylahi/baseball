@@ -1,18 +1,18 @@
 <openerp>
     <data>
-        <record id="roles_members" model="phoenix.roles">
+        <record id="roles_members" model="baseball.roles">
             <field name="name">Member</field>
         </record>
-        <record id="roles_president" model="phoenix.roles">
+        <record id="roles_president" model="baseball.roles">
             <field name="name">President</field>
         </record>
-        <record id="roles_secretary" model="phoenix.roles">
+        <record id="roles_secretary" model="baseball.roles">
             <field name="name">Secretary</field>
         </record>
-        <record id="roles_treasurer" model="phoenix.roles">
+        <record id="roles_treasurer" model="baseball.roles">
             <field name="name">Treasurer</field>
         </record>
-            <record id="roles_administration" model="phoenix.roles">
+            <record id="roles_administration" model="baseball.roles">
             <field name="name">Administrator</field>
         </record>
 

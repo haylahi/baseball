@@ -3,9 +3,9 @@
     <data>
 
 
-        <record id="view_phoenix_roles_tree" model="ir.ui.view">
-            <field name="name">phoenix.roles.tree</field>
-            <field name="model">phoenix.roles</field>
+        <record id="view_baseball_roles_tree" model="ir.ui.view">
+            <field name="name">baseball.roles.tree</field>
+            <field name="model">baseball.roles</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Roles">
@@ -17,9 +17,9 @@
 
 
 
-        <record id="view_phoenix_roles_form" model="ir.ui.view">
-            <field name="name">phoenix.roles.form</field>
-            <field name="model">phoenix.roles</field>
+        <record id="view_baseball_roles_form" model="ir.ui.view">
+            <field name="name">baseball.roles.form</field>
+            <field name="model">baseball.roles</field>
             <field name="arch" type="xml">
                 <form string="Members">
                 <sheet>
@@ -36,8 +36,8 @@
         </record>
 
        <record id="view_roles_filter" model="ir.ui.view">
-            <field name="name">phoenix.roles.search</field>
-            <field name="model">phoenix.roles</field>
+            <field name="name">baseball.roles.search</field>
+            <field name="model">baseball.roles</field>
             <field name="arch" type="xml">
                 <search>
                   <field name="name"/>
@@ -45,9 +45,9 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="phoenix_list_roles">
+        <record model="ir.actions.act_window" id="baseball_list_roles">
             <field name="name">roles</field>
-            <field name="res_model">phoenix.roles</field>
+            <field name="res_model">baseball.roles</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
@@ -56,7 +56,7 @@
 
         <menuitem id="menu_roles_management" name="Roles"
                   parent="menu_management"
-                  action="phoenix_list_roles"
+                  action="baseball_list_roles"
                   sequence="10"
                   />
 

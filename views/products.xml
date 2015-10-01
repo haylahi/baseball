@@ -2,9 +2,9 @@
 <openerp>
     <data>
 
-        <record id="view_phoenix_jerseys_form" model="ir.ui.view">
-            <field name="name">phoenix.jerseys.form</field>
-            <field name="model">phoenix.jerseys</field>
+        <record id="view_baseball_jerseys_form" model="ir.ui.view">
+            <field name="name">baseball.jerseys.form</field>
+            <field name="model">baseball.jerseys</field>
             <field name="arch" type="xml">
                 <form>
                 <sheet>
@@ -21,7 +21,7 @@
                     </group>
                     <notebook colspan="4">
                         <page name="jerseys" string="Jerseys">
-                            <field name="jerseys_ids" context="{'form_view_ref':'phoenix.view_phoenix_jerseysitem_form'}">
+                            <field name="jerseys_ids" context="{'form_view_ref':'baseball.view_baseball_jerseysitem_form'}">
                                 <tree>
                                     <field name="number"/>
                                     <field name="size"/>
@@ -41,9 +41,9 @@
 
 
 
-        <record id="view_phoenix_jerseys_tree" model="ir.ui.view">
-            <field name="name">phoenix.jerseys.tree</field>
-            <field name="model">phoenix.jerseys</field>
+        <record id="view_baseball_jerseys_tree" model="ir.ui.view">
+            <field name="name">baseball.jerseys.tree</field>
+            <field name="model">baseball.jerseys</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
@@ -53,9 +53,9 @@
         </record>
 
 
-        <record id="view_phoenix_jerseysitem_form" model="ir.ui.view">
-            <field name="name">phoenix.jerseysitem.form</field>
-            <field name="model">phoenix.jerseysitem</field>
+        <record id="view_baseball_jerseysitem_form" model="ir.ui.view">
+            <field name="name">baseball.jerseysitem.form</field>
+            <field name="model">baseball.jerseysitem</field>
             <field name="arch" type="xml">
                 <form>
                 <sheet>
@@ -70,9 +70,9 @@
             </field>
         </record>
 
-        <record id="view_phoenix_jerseysitem_tree" model="ir.ui.view">
-            <field name="name">phoenix.jerseysitem.tree</field>
-            <field name="model">phoenix.jerseysitem</field>
+        <record id="view_baseball_jerseysitem_tree" model="ir.ui.view">
+            <field name="name">baseball.jerseysitem.tree</field>
+            <field name="model">baseball.jerseysitem</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="number"/>
@@ -83,9 +83,9 @@
             </field>
         </record>
 
-        <record id="view_phoenix_caps_form" model="ir.ui.view">
-            <field name="name">phoenix.caps.form</field>
-            <field name="model">phoenix.caps</field>
+        <record id="view_baseball_caps_form" model="ir.ui.view">
+            <field name="name">baseball.caps.form</field>
+            <field name="model">baseball.caps</field>
             <field name="arch" type="xml">
                 <form>
                 <sheet>
@@ -103,7 +103,7 @@
                     </group>
                     <notebook colspan="4">
                         <page name="caps" string="Caps">
-                            <field name="caps_size" context="{'form_view_ref':'phoenix.view_phoenix_caps_size_form'}">
+                            <field name="caps_size" context="{'form_view_ref':'baseball.view_baseball_caps_size_form'}">
                                 <tree>
                                     <field name="code"/>
                                     <field name="stock"/>
@@ -119,9 +119,9 @@
             </field>
         </record>
 
-        <record id="view_phoenix_caps_size_form" model="ir.ui.view">
-            <field name="name">phoenix.caps_size.form</field>
-            <field name="model">phoenix.caps_size</field>
+        <record id="view_baseball_caps_size_form" model="ir.ui.view">
+            <field name="name">baseball.caps_size.form</field>
+            <field name="model">baseball.caps_size</field>
             <field name="arch" type="xml">
                 <form>
                 <sheet>
@@ -134,9 +134,9 @@
             </field>
         </record>
 
-        <record id="view_phoenix_caps_size_tree" model="ir.ui.view">
-            <field name="name">phoenix.caps_size.tree</field>
-            <field name="model">phoenix.caps_size</field>
+        <record id="view_baseball_caps_size_tree" model="ir.ui.view">
+            <field name="name">baseball.caps_size.tree</field>
+            <field name="model">baseball.caps_size</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="code"/>
@@ -145,9 +145,9 @@
             </field>
         </record>
 
-       <record id="view_phoenix_product_form" model="ir.ui.view">
-            <field name="name">phoenix.product.form</field>
-            <field name="model">phoenix.product</field>
+       <record id="view_baseball_product_form" model="ir.ui.view">
+            <field name="name">baseball.product.form</field>
+            <field name="model">baseball.product</field>
             <field name="arch" type="xml">
                 <form>
                 <sheet>
@@ -174,9 +174,9 @@
             </field>
         </record>
 
-        <record id="view_phoenix_product_size_tree" model="ir.ui.view">
-            <field name="name">phoenix.product.tree</field>
-            <field name="model">phoenix.product</field>
+        <record id="view_baseball_product_size_tree" model="ir.ui.view">
+            <field name="name">baseball.product.tree</field>
+            <field name="model">baseball.product</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
@@ -186,9 +186,9 @@
             </field>
         </record>
 
-<!--         <record id="view_phoenix_categories_tree" model="ir.ui.view">
-            <field name="name">phoenix.categories.tree</field>
-            <field name="model">phoenix.categories</field>
+<!--         <record id="view_baseball_categories_tree" model="ir.ui.view">
+            <field name="name">baseball.categories.tree</field>
+            <field name="model">baseball.categories</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Categories">
@@ -202,9 +202,9 @@
 
 
 
-<!--        <record id="view_phoenix_categories_filter" model="ir.ui.view">
-            <field name="name">phoenix.categories.search</field>
-            <field name="model">phoenix.categories</field>
+<!--        <record id="view_baseball_categories_filter" model="ir.ui.view">
+            <field name="name">baseball.categories.search</field>
+            <field name="model">baseball.categories</field>
             <field name="arch" type="xml">
                 <search>
                   <field name="name"/>
@@ -212,36 +212,36 @@
             </field>
         </record> -->
 
-        <record model="ir.actions.act_window" id="phoenix_jerseys_list">
+        <record model="ir.actions.act_window" id="baseball_jerseys_list">
             <field name="name">Jerseys</field>
-            <field name="res_model">phoenix.jerseysitem</field>
+            <field name="res_model">baseball.jerseysitem</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record model="ir.actions.act_window" id="phoenix_caps_list">
+        <record model="ir.actions.act_window" id="baseball_caps_list">
             <field name="name">Caps</field>
-            <field name="res_model">phoenix.caps</field>
+            <field name="res_model">baseball.caps</field>
             <field name="view_type">form</field>
             <field name="view_mode">form,kanban,tree</field>
         </record>
 
-        <record model="ir.actions.act_window" id="phoenix_product_list">
+        <record model="ir.actions.act_window" id="baseball_product_list">
             <field name="name">Products</field>
-            <field name="res_model">phoenix.product</field>
+            <field name="res_model">baseball.product</field>
             <field name="view_type">form</field>
             <field name="view_mode">form,kanban,tree</field>
         </record>
 
         <menuitem id="menu_jerseys" name="Jerseys"
                   parent="menu_uniforms"
-                  action="phoenix_jerseys_list"/>
+                  action="baseball_jerseys_list"/>
         <menuitem id="menu_caps" name="Caps"
                   parent="menu_uniforms"
-                  action="phoenix_caps_list"/>
+                  action="baseball_caps_list"/>
         <menuitem id="menu_products" name="Other products"
                   parent="menu_uniforms"
-                  action="phoenix_product_list"/>
+                  action="baseball_product_list"/>
 
 	</data>
 </openerp>

@@ -3,9 +3,9 @@
     <data>
 
 
-        <record id="view_phoenix_season_tree" model="ir.ui.view">
-            <field name="name">phoenix.season.tree</field>
-            <field name="model">phoenix.season</field>
+        <record id="view_baseball_season_tree" model="ir.ui.view">
+            <field name="name">baseball.season.tree</field>
+            <field name="model">baseball.season</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Seasons" editable="bottom">
@@ -18,9 +18,9 @@
         </record>
 
 
-        <record model="ir.actions.act_window" id="phoenix_seasons">
+        <record model="ir.actions.act_window" id="baseball_seasons">
             <field name="name">Seasons</field>
-            <field name="res_model">phoenix.season</field>
+            <field name="res_model">baseball.season</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree</field>
         </record>
@@ -29,7 +29,7 @@
 
         <menuitem id="menu_venues_management" name="Seasons"
                   parent="menu_management"
-                  action="phoenix_seasons"
+                  action="baseball_seasons"
                   sequence="10"
                   />
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "phoenix",
-    'summary': """LLN Phoenix""",
+    'name': "baseball",
+    'summary': """Baseball club management module""",
     'description': """
 
     """,

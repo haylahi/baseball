@@ -2,7 +2,7 @@
 
 
 from openerp.osv import osv, fields
-class phoenix_config_settings(osv.TransientModel):
+class baseball_config_settings(osv.TransientModel):
     _inherit = 'base.config.settings'
 
     _columns = {

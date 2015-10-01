@@ -8,39 +8,44 @@ from datetime import datetime
 
 
 class Members(models.Model):
-    _name = 'phoenix.members'
+    _name = 'res.partner'
     _inherit = 'res.partner'
 
-    phoenix_category_ids = fields.Many2many(
-        'phoenix.categories', string="Categories", compute='_players_in_categories')
+    baseball_category_ids = fields.Many2many(
+        'baseball.categories', string="Categories", compute='_players_in_categories')
     team_ids = fields.Many2many(
-        'phoenix.teams', string="Teams", relation="team_players")
-    club_role_id = fields.Many2many('phoenix.roles', string="Roles")
+        'baseball.teams', string="Teams", relation="team_players")
+    club_role_id = fields.Many2many('baseball.roles', string="Roles")
     is_in_order = fields.Boolean(readonly=True, string="Is in order", compute='_is_in_order')
     is_registered = fields.Boolean(readonly=True, string="Licenced", compute='_is_in_order')
     is_photo = fields.Boolean(
         default=False, string="Photo", compute='_check_photo')
     licence_number = fields.Char(string="Licence")
     jerseys_ids = fields.One2many(
-        'phoenix.jerseysitem', 'member_id', string="Jerseys")
+        'baseball.jerseysitem', 'member_id', string="Jerseys")
     season_ids = fields.One2many(
-        'phoenix.registration', 'member_id', string="Seasons")
-    positions_ids = fields.Many2many('phoenix.positions', string="Positions")
+        'baseball.registration', 'member_id', string="Seasons")
+    present_games_ids = fields.Many2many(
+        'baseball.game', string="Attended Games", relation="game_attend")
+    absent_games_ids = fields.Many2many(
+        'baseball.game', string="Missed Games", relation="game_absent")
+    positions_ids = fields.Many2many('baseball.positions', string="Positions")
     personal_comments = fields.Html()
     private_comments = fields.Html()
     is_active_current_season = fields.Boolean('Active current season', default=False, compute='_is_active_this_season', store=True)
     is_certificate = fields.Boolean('Certificate', default=False, compute='_is_in_order')
     is_player = fields.Boolean('Player', default=True)
-
+    game_ids = fields.Many2many(
+        'baseball.game', string="Games", compute="_compute_games")
 
     @api.one
     @api.depends('team_ids')
     def _players_in_categories(self):
         ids = []
         for team_id in self.team_ids:
-            ids += self.env['phoenix.categories'].search(
+            ids += self.env['baseball.categories'].search(
                 [('teams_ids', 'in', team_id.id)]).ids
-        self.phoenix_category_ids = ids
+        self.baseball_category_ids = ids
 
     @api.one
     @api.depends('image')
@@ -52,31 +57,35 @@ class Members(models.Model):
     @api.one
     @api.depends('season_ids')
     def _is_active_this_season(self):
-        if self.env['phoenix.season'].get_current_season().id in self.season_ids.mapped('season_id').ids :
+        if self.env['baseball.season'].get_current_season().id in self.season_ids.mapped('season_id').ids :
             self.is_active_current_season = True
     
     @api.one
     @api.depends('is_photo','season_ids')
     def _is_in_order(self):
-        if self.env['phoenix.season'].get_current_season().id in self.season_ids.mapped('season_id').ids :
-            current_register = self.season_ids.filtered(lambda r: r.season_id == self.env['phoenix.season'].get_current_season())
+        if self.env['baseball.season'].get_current_season().id in self.season_ids.mapped('season_id').ids :
+            current_register = self.season_ids.filtered(lambda r: r.season_id == self.env['baseball.season'].get_current_season())
             self.is_certificate = current_register.is_certificate
             self.is_registered = current_register.is_registered
             self.is_in_order = all([self.is_photo,current_register.is_certificate, current_register.fee_to_pay <= current_register.fee_paid])
 
-    @api.onchange('phoenix_category_ids')
+    @api.one
+    def _compute_games(self):
+        self.game_ids = self.team_ids.mapped('game_ids').sorted(key=lambda r: r.start_time)
+
+    @api.onchange('baseball_category_ids')
     def recalculat_current_category(self):
-        current_season = self.env['phoenix.season'].get_current_season()
+        current_season = self.env['baseball.season'].get_current_season()
         current_registration_id = self.season_ids.filtered(lambda r: r.season_id == current_season)
 
-        categories = self.phoenix_category_ids.sorted(lambda r: r.cotisation)
+        categories = self.baseball_category_ids.sorted(lambda r: r.cotisation, reverse=True)
         if categories:
             category = categories[0]
 
             if current_registration_id:
                 current_registration_id.category_id = category
             else:
-                new_registration = self.env['phoenix.registration'].create({
+                new_registration = self.env['baseball.registration'].create({
                     'season_id': current_season.id,
                     'category_id': category.id
                     })
@@ -85,14 +94,14 @@ class Members(models.Model):
 class Club(models.Model):
     _inherit = 'res.company'
 
-    current_season_id = fields.Many2one('phoenix.season', string="Current season", compute='_compute_current_season')
+    current_season_id = fields.Many2one('baseball.season', string="Current season", compute='_compute_current_season')
 
     @api.one
     def _compute_current_season(self):
-        self.current_season_id = self.env['phoenix.season'].get_current_season()
+        self.current_season_id = self.env['baseball.season'].get_current_season()
 
 class Season(models.Model):
-    _name = 'phoenix.season'
+    _name = 'baseball.season'
 
     name = fields.Char('Year')
     members_qty = fields.Integer('Members quantity', compute='_compute_members_qty')
@@ -111,7 +120,7 @@ class Season(models.Model):
 
     @api.one
     def _compute_members_qty(self):
-        members_current_season = self.env['phoenix.members'].search([]).filtered(lambda r: self.id in r.season_ids.mapped('season_id').ids )
+        members_current_season = self.env['res.partner'].search([]).filtered(lambda r: self.id in r.season_ids.mapped('season_id').ids )
         self.members_qty = len(members_current_season)
 
     @api.one
@@ -120,14 +129,14 @@ class Season(models.Model):
 
     @api.model
     def get_current_season(self):
-        current_id = self.env['phoenix.season'].search([('is_current','=',True)])
+        current_id = self.env['baseball.season'].search([('is_current','=',True)])
         if not current_id:
-            current_ids = self.env['phoenix.season'].search([]).sorted(lambda r : r.name, reverse=True)
+            current_ids = self.env['baseball.season'].search([]).sorted(lambda r : r.name, reverse=True)
             if current_ids:
                 current_id = current_ids[0]
                 current_id.is_current = True
             else:
-                current_id = self.env['phoenix.season'].create({
+                current_id = self.env['baseball.season'].create({
                     'name': str(datetime.today().year),
                     'is_current': True,
                     })
@@ -135,11 +144,11 @@ class Season(models.Model):
         return current_id
 
 class Registration(models.Model):
-    _name = 'phoenix.registration'
+    _name = 'baseball.registration'
 
-    season_id = fields.Many2one("phoenix.season", string="Season")
-    category_id = fields.Many2one("phoenix.categories", string="Category")
-    member_id = fields.Many2one("phoenix.members", string="Member")
+    season_id = fields.Many2one("baseball.season", string="Season")
+    category_id = fields.Many2one("baseball.categories", string="Category")
+    member_id = fields.Many2one("res.partner", string="Member")
     is_registered = fields.Boolean(default=False, string="Licensed")
     is_certificate = fields.Boolean(default=False, string="Certificate")
     fee_to_pay = fields.Float(string="Fee", compute='_compute_fee')
@@ -148,7 +157,7 @@ class Registration(models.Model):
     @api.one
     @api.depends('category_id', 'season_id')
     def _compute_fee(self):
-        cotisation_id = self.env['phoenix.fee'].search([('category_id','=',self.category_id.id),('season_id', '=', self.season_id.id)])
+        cotisation_id = self.env['baseball.fee'].search([('category_id','=',self.category_id.id),('season_id', '=', self.season_id.id)])
         if cotisation_id:
             self.fee_to_pay = cotisation_id.fee
         else:
@@ -156,72 +165,80 @@ class Registration(models.Model):
 
 
 class Categories(models.Model):
-    _name = 'phoenix.categories'
+    _name = 'baseball.categories'
 
     name = fields.Char(string="Name", required=True)
 
     players_ids = fields.Many2many(
-        'phoenix.members', string="Players", compute='_players_in_teams')
+        'res.partner', string="Players", compute='_players_in_teams')
     description = fields.Html()
-    teams_ids = fields.Many2many('phoenix.teams', string="Teams")
+    teams_ids = fields.Many2many('baseball.teams', string="Teams")
     cotisation = fields.Float(string="Fee", compute='_compute_fee', inverse='_set_fee')
     start_date = fields.Date(string="Beginning")
     end_date = fields.Date(string="End")
     active = fields.Boolean(default=True)
+    game_ids = fields.Many2many(
+        'baseball.game', string="Games", compute="_compute_games")
+
 
     @api.one
     @api.depends('teams_ids')
     def _players_in_teams(self):
-        players_ids = self.env['phoenix.members']
+        players_ids = self.env['res.partner']
         for team_id in self.teams_ids:
              players_ids |= team_id.players_ids
         self.players_ids = players_ids
 
     @api.one
     def _set_fee(self):
-        cotisation_id = self.env['phoenix.fee'].search([('category_id','=',self.id),('season_id', '=', self.env['res.users'].browse(self._uid).company_id.current_season_id.id)])
+        cotisation_id = self.env['baseball.fee'].search([('category_id','=',self.id),('season_id', '=', self.env['res.users'].browse(self._uid).company_id.current_season_id.id)])
         if cotisation_id:
             cotisation_id.fee =  self.cotisation
         else:
-            self.env['phoenix.fee'].create({
+            self.env['baseball.fee'].create({
                 'fee': self.cotisation,
-                'season_id': self.env['phoenix.season'].get_current_season().id,
+                'season_id': self.env['baseball.season'].get_current_season().id,
                 'category_id': self.id,
                 })
         return
 
     @api.one
     def _compute_fee(self):
-        cotisation_id = self.env['phoenix.fee'].search([('category_id','=',self.id),('season_id', '=', self.env['phoenix.season'].get_current_season().id)])
+        cotisation_id = self.env['baseball.fee'].search([('category_id','=',self.id),('season_id', '=', self.env['baseball.season'].get_current_season().id)])
         if cotisation_id:
             self.cotisation = cotisation_id.fee
         else:
             self.cotisation = 0
 
+    @api.one
+    def _compute_games(self):
+        self.game_ids = self.teams_ids.mapped('game_ids').sorted(key=lambda r: r.start_time)
+
 class Fee(models.Model):
-    _name = 'phoenix.fee'
+    _name = 'baseball.fee'
 
     fee = fields.Float(string="Fee")
-    season_id = fields.Many2one("phoenix.season", string="Season")
-    category_id = fields.Many2one("phoenix.categories", string="Category")
+    season_id = fields.Many2one("baseball.season", string="Season")
+    category_id = fields.Many2one("baseball.categories", string="Category")
 
 
 class Teams(models.Model):
-    _name = 'phoenix.teams'
+    _name = 'baseball.teams'
 
     name = fields.Char(string="Name", required=True)
     name_from_federation = fields.Char(
         string="Name on federation website", required=True)
     players_ids = fields.Many2many(
-        'phoenix.members', string="Players", compute='_players_in_team')
+        'res.partner', string="Players", compute='_players_in_team')
     coaches_ids = fields.Many2many(
-        'phoenix.members', string="Coaches", relation="team_coaches")
+        'res.partner', string="Coaches", relation="team_coaches")
     responsible_ids = fields.Many2many(
-        'phoenix.members', string="Manager", relation="team_responsibles")
+        'res.partner', string="Manager", relation="team_responsibles")
     image = fields.Binary('Image')
-
+    game_ids = fields.Many2many(
+        'baseball.game', string="Games", compute="_compute_games")
     division_ids = fields.Many2many(
-        'phoenix.divisions', ondelete='set null', string="Divisions")
+        'baseball.divisions', ondelete='set null', string="Divisions")
     is_official_umpires = fields.Boolean(
         default=False, string="Official Umpires")
     is_official_scorers = fields.Boolean(
@@ -229,11 +246,17 @@ class Teams(models.Model):
     is_opponent = fields.Boolean(default=False, string='Opponent')
     active = fields.Boolean(default=True)
     multiple_teams = fields.Boolean(default=False)
-    subteams_ids = fields.Many2one('phoenix.teams', string="Multiple teams")
+    subteams_ids = fields.Many2one('baseball.teams', string="Multiple teams")
     db_name = fields.Char(string="Database name")
     description = fields.Html()
-    venue = fields.Many2one('phoenix.venue', string="Venue")
-
+    venue = fields.Many2one('baseball.venue', string="Venue")
+    result_games = fields.Float(string="G", compute="_compute_standing", digits=(4,0))
+    result_wins = fields.Float(string="W", compute="_compute_standing", digits=(4,0))
+    result_losses = fields.Float(string="L", compute="_compute_standing", digits=(4,0))
+    result_ties = fields.Float(string="T", compute="_compute_standing", digits=(4,0))
+    result_not_played = fields.Float(string="NP", compute="_compute_standing", digits=(4,0))
+    result_forfeits = fields.Float(string="FF", compute="_compute_standing", digits=(4,0))
+    result_average = fields.Float(string="AVG", compute="_compute_standing", digits=(4,3))
 
     @api.multi
     @api.depends('division_ids', 'name')
@@ -247,11 +270,28 @@ class Teams(models.Model):
 
     @api.one
     def _players_in_team(self):
-        self.players_ids = self.env['phoenix.members'].search([('team_ids','in',self.id)]).filtered(lambda r: r.is_active_current_season and r.is_player)
+        self.players_ids = self.env['res.partner'].search([('team_ids','in',self.id)]).filtered(lambda r: r.is_active_current_season and r.is_player)
 
+    @api.one
+    def _compute_games(self):
+        self.game_ids = self.env['baseball.game'].search(['|', ('home_team','=',self.id),('away_team','=',self.id)]).sorted(key=lambda r: r.start_time)
+
+    @api.one
+    def _compute_standing(self):
+        game_ids = self.game_ids.filtered(lambda r: r.score_home or r.score_away)
+        game_played = game_ids.filtered(lambda r: r.score_home.isdigit() and  r.score_away.isdigit())
+        game_forfeited = game_ids.filtered(lambda r:  'ff' in r.score_home.lower() or 'ff' in r.score_away.lower())
+
+        self.result_not_played = len(game_ids.filtered(lambda r: r.score_home == 'NP' and r.score_away == 'NP'))
+        self.result_games = len(game_ids) - self.result_not_played
+        self.result_wins = len(game_played.filtered(lambda r: ( (int(r.score_home) > int(r.score_away)) and r.home_team==self ) or ( (int(r.score_home) < int(r.score_away)) and r.away_team==self)) ) + len(game_ids.filtered(lambda r:  ('ff' in r.score_home.lower() and r.away_team==self) or ('ff' in r.score_away.lower() and r.home_team==self)) )
+        self.result_losses = len(game_played.filtered(lambda r: ( (int(r.score_home) < int(r.score_away)) and r.home_team==self) or ((int(r.score_home) > int(r.score_away)) and r.away_team==self)) )
+        self.result_ties = len(game_played.filtered(lambda r: int(r.score_home) == int(r.score_away)) )
+        self.result_forfeits = len(game_ids.filtered(lambda r:  ('ff' in r.score_home.lower() and r.home_team==self) or ('ff' in r.score_away.lower() and r.away_team==self)) )
+        self.result_average = self.result_wins/self.result_games
 
 class Venues(models.Model):
-    _name = 'phoenix.venue'
+    _name = 'baseball.venue'
 
     name = fields.Char(string="Name")
     street = fields.Char(string="Street")
@@ -263,33 +303,38 @@ class Venues(models.Model):
 
 
 class Positions(models.Model):
-    _name = 'phoenix.positions'
+    _name = 'baseball.positions'
     name = fields.Char(string="Name")
     description = fields.Html()
 
 
 class SubTeams(models.Model):
-    _inherit = 'phoenix.teams'
-    _name = 'phoenix.subteams'
+    _inherit = 'baseball.teams'
+    _name = 'baseball.subteams'
 
 
 class Divisions(models.Model):
-    _name = 'phoenix.divisions'
+    _name = 'baseball.divisions'
 
     name = fields.Char(string="Name", required=True)
     code = fields.Char(string="Code", required=True)
     description = fields.Html()
+    team_ids = fields.Many2many('baseball.teams', string="Teams", compute="_compute_order_standing")
+    # related_division_ids = fields.Many2many('baseball.divisions', relation="related_divisions", string="Related divisions")
 
+    @api.one
+    def _compute_order_standing(self):
+        self.team_ids = self.env['baseball.teams'].search([('division_ids', 'in', self.id)]).sorted(key=lambda r: r.result_average, reverse=True)
 
 class Roles(models.Model):
-    _name = 'phoenix.roles'
+    _name = 'baseball.roles'
 
     name = fields.Char(string="Title", required=True)
     description = fields.Html()
 
 
 class ProductCategory(models.Model):
-    _name = 'phoenix.product'
+    _name = 'baseball.product'
     name = fields.Char(string="Name", required=True)
     image = fields.Char()
     price = fields.Float(string="Price")
@@ -298,19 +343,19 @@ class ProductCategory(models.Model):
 
 
 class Cap(models.Model):
-    _name = 'phoenix.caps'
-    _inherit = 'phoenix.product'
-    caps_size = fields.Many2many('phoenix.caps_size', string="Caps")
+    _name = 'baseball.caps'
+    _inherit = 'baseball.product'
+    caps_size = fields.Many2many('baseball.caps_size', string="Caps")
 
 
 class Jersey(models.Model):
-    _name = 'phoenix.jerseys'
-    _inherit = 'phoenix.product'
-    jerseys_ids = fields.Many2many('phoenix.jerseysitem', string="Size")
+    _name = 'baseball.jerseys'
+    _inherit = 'baseball.product'
+    jerseys_ids = fields.Many2many('baseball.jerseysitem', string="Size")
 
 
 class JerseyItem(models.Model):
-    _name = 'phoenix.jerseysitem'
+    _name = 'baseball.jerseysitem'
 
     color = fields.Selection(
         [('navy', 'Navy'), ('orange', 'Orange')], default="navy")
@@ -332,47 +377,51 @@ class JerseyItem(models.Model):
         ('rented', "Rented"),
         ('lost', "Lost"),
     ], default='stock')
-    member_id = fields.Many2one('phoenix.members', string="Member")
+    member_id = fields.Many2one('res.partner', string="Member")
 
 
 class JerseySize(models.Model):
-    _name = 'phoenix.jerseys_size'
+    _name = 'baseball.jerseys_size'
     name = fields.Char(string="Name")
     code = fields.Char(string="Code")
 
 
 class CapSize(models.Model):
-    _name = 'phoenix.caps_size'
+    _name = 'baseball.caps_size'
     code = fields.Char(string="Size")
     stock = fields.Integer(string="Stock")
 
 
 class Game(models.Model):
-    _name = 'phoenix.game'
+    _name = 'baseball.game'
 
     name = fields.Char(string="Name")
 
     game_number = fields.Char(required=True, string="Game number")
-    division = fields.Many2one('phoenix.divisions', string="Division")
+    division = fields.Many2one('baseball.divisions', string="Division")
 
     start_time = fields.Datetime(string="Start Time")
     end_time = fields.Datetime(string="End Time")
 
-    home_team = fields.Many2one('phoenix.teams', string="Home Team")
-    away_team = fields.Many2one('phoenix.teams', string="Away Team")
+    home_team = fields.Many2one('baseball.teams', string="Home Team")
+    away_team = fields.Many2one('baseball.teams', string="Away Team")
     score_home = fields.Char(string="Score Home")
     score_away = fields.Char(string="Score Away")
 
     scorer = fields.Many2one(
-        'phoenix.members', string="Scorers", relation="game_scorer")
+        'res.partner', string="Scorers", relation="game_scorer")
     umpires = fields.Many2many(
-        'phoenix.members', string="Umpires", relation="game_umpire")
+        'res.partner', string="Umpires", relation="game_umpire")
+    present_players_ids = fields.Many2many(
+        'res.partner', string="Attendees", relation="game_attend")
+    absent_players_ids = fields.Many2many(
+        'res.partner', string="Absentees", relation="game_absent")
     game_type = fields.Selection([
         ('competition', "Competition game"),
         ('friendly', "Friendly game"),
         ('tournament', "Tournament"),
     ])
-    venue = fields.Many2one('phoenix.venue', string="Venue")
+    venue = fields.Many2one('baseball.venue', string="Venue")
 
     _sql_constraints = [
         ('game_number',
@@ -407,30 +456,30 @@ class Game(models.Model):
                 ga['away'] = game['away'].encode('utf-8')
                 ga['score'] = game['score'].encode('utf-8')
 
-                current_game = self.env['phoenix.game'].search(
+                current_game = self.env['baseball.game'].search(
                     [('game_number', '=', ga['game_number'])])
-                division = self.env['phoenix.divisions'].search(
+                division = self.env['baseball.divisions'].search(
                     [('code', '=', ga['division'])])
                 if not division:
-                    division = self.env['phoenix.divisions'].create(
+                    division = self.env['baseball.divisions'].create(
                         {'name': ga['division'], 'code': ga['division']})
 
-                home = self.env['phoenix.teams'].search(
+                home = self.env['baseball.teams'].search(
                     [('name_from_federation', '=', ga['home']), ('division_ids', 'in', division.id)])
                 if not home:
-                    home = self.env['phoenix.teams'].create({'name_from_federation': ga['home'], 'name': ga[
+                    home = self.env['baseball.teams'].create({'name_from_federation': ga['home'], 'name': ga[
                                                             'home'], 'division_ids': [(4, division.id)], 'is_opponent': True})
 
-                away = self.env['phoenix.teams'].search(
+                away = self.env['baseball.teams'].search(
                     [('name_from_federation', '=', ga['away']), ('division_ids', 'in', division.id)])
                 if not away:
-                    away = self.env['phoenix.teams'].create({'name_from_federation': ga['away'], 'name': ga[
+                    away = self.env['baseball.teams'].create({'name_from_federation': ga['away'], 'name': ga[
                                                             'away'], 'division_ids': [(4, division.id)], 'is_opponent': True})
 
-                venue = self.env['phoenix.venue'].search(
+                venue = self.env['baseball.venue'].search(
                     [('name', 'ilike', ga['venue'])])
                 if not venue:
-                    venue = self.env['phoenix.venue'].create(
+                    venue = self.env['baseball.venue'].create(
                         {'name': ga['venue']})
 
                 values = {
@@ -455,13 +504,13 @@ class Game(models.Model):
 
 
 class Tournament(models.Model):
-    _name = 'phoenix.tournament'
+    _name = 'baseball.tournament'
     _inherit = 'calendar.event'
 
     participating_team = fields.Many2one(
-        'phoenix.teams', string="Club Participant")
-    organising_team = fields.Many2one('phoenix.teams', string="Organiser")
-    away_team = fields.Many2one('phoenix.teams', string="Away Team")
+        'baseball.teams', string="Club Participant")
+    organising_team = fields.Many2one('baseball.teams', string="Organiser")
+    away_team = fields.Many2one('baseball.teams', string="Away Team")
 
 
 

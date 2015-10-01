@@ -3,9 +3,9 @@
     <data>
 
 
-        <record id="view_phoenix_game_tree" model="ir.ui.view">
-            <field name="name">phoenix.game.tree</field>
-            <field name="model">phoenix.game</field>
+        <record id="view_baseball_game_tree" model="ir.ui.view">
+            <field name="name">baseball.game.tree</field>
+            <field name="model">baseball.game</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
 
@@ -28,9 +28,9 @@
 
 
 
-        <record id="view_phoenix_game_form" model="ir.ui.view">
-            <field name="name">phoenix.game.form</field>
-            <field name="model">phoenix.game</field>
+        <record id="view_baseball_game_form" model="ir.ui.view">
+            <field name="name">baseball.game.form</field>
+            <field name="model">baseball.game</field>
             <field name="arch" type="xml">
 
                 <form string="Games">
@@ -61,6 +61,26 @@
                             <field name="score_away" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
                         </group>
                     </group>
+                    <group>
+                        <group >
+                        	<label for="present_players_ids" string="Attendees"/>
+							<newline/>
+                            <field name="present_players_ids" nolabel="1" >
+                                <tree>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+							<label for="absent_players_ids" string="Absentees"/>
+							<newline/>
+                            <field name="absent_players_ids" nolabel="1" >
+                                <tree>
+									<field name="name"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
                 </sheet>
                 </form>
             </field>
@@ -68,8 +88,8 @@
 
 
        <record id="view_games_filter" model="ir.ui.view">
-            <field name="name">phoenix.game.search</field>
-            <field name="model">phoenix.game</field>
+            <field name="name">baseball.game.search</field>
+            <field name="model">baseball.game</field>
             <field name="arch" type="xml">
                 <search>
                   <field name="start_time"/>
@@ -78,12 +98,12 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="phoenix_list_games">
+        <record model="ir.actions.act_window" id="baseball_list_games">
             <field name="name">Games</field>
-            <field name="res_model">phoenix.game</field>
+            <field name="res_model">baseball.game</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="phoenix.view_teams_filter"/>
+            <field name="search_view_id" ref="baseball.view_teams_filter"/>
             <field name="context">{'search_default_friendly':1}</field>
             <field name="domain">[('game_type','=','competition')]</field>
         </record>
@@ -92,7 +112,7 @@
 
         <menuitem id="menu_games" name="Games"
                   parent="menu_competition"
-                  action="phoenix_list_games"/>
+                  action="baseball_list_games"/>
 
 	</data>
 </openerp>

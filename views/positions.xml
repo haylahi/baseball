@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-        <record id="view_phoenix_positions_form" model="ir.ui.view">
-            <field name="name">phoenix.positions.form</field>
-            <field name="model">phoenix.positions</field>
+        <record id="view_baseball_positions_form" model="ir.ui.view">
+            <field name="name">baseball.positions.form</field>
+            <field name="model">baseball.positions</field>
             <field name="arch" type="xml">
                 <form string="Positions">
                 <sheet>

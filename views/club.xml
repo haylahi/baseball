@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-        <record id="view_phoenix_club_tree" model="ir.ui.view">
-            <field name="name">phoenix.club.tree</field>
+        <record id="view_baseball_club_tree" model="ir.ui.view">
+            <field name="name">baseball.club.tree</field>
             <field name="model">res.company</field>
             <field name="inherit_id" ref="base.view_company_tree"/>
             <field eval="8" name="priority"/>
@@ -13,8 +13,8 @@
             </field>
         </record>
 
-        <record id="view_phoenix_club_form" model="ir.ui.view">
-            <field name="name">phoenix.club.form</field>
+        <record id="view_baseball_club_form" model="ir.ui.view">
+            <field name="name">baseball.club.form</field>
             <field name="model">res.company</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field eval="8" name="priority"/>

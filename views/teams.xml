@@ -5,9 +5,9 @@
   
 
 
-        <record id="view_phoenix_teams_tree" model="ir.ui.view">
-            <field name="name">phoenix.teams.tree</field>
-            <field name="model">phoenix.teams</field>
+        <record id="view_baseball_teams_tree" model="ir.ui.view">
+            <field name="name">baseball.teams.tree</field>
+            <field name="model">baseball.teams</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Teams">
@@ -18,9 +18,9 @@
             </field>
         </record>
 
-        <record id="view_phoenix_teams_form" model="ir.ui.view">
-            <field name="name">phoenix.teams.form</field>
-            <field name="model">phoenix.teams</field>
+        <record id="view_baseball_teams_form" model="ir.ui.view">
+            <field name="name">baseball.teams.form</field>
+            <field name="model">baseball.teams</field>
             <field name="arch" type="xml">
                 <form string="Teams">
                 <sheet>
@@ -67,9 +67,24 @@
                                 </tree>
                             </field>
                         </page>
+                        <page name="games" string="Games" >
+                            <field name="game_ids">
+                                <tree>
+				                    <field name="game_number"/>
+				                    <field name="start_time"/>
+				                    <field name="division"/>
+				                    <field name="home_team"/>
+				                    <field name="score_home"/>
+				                    <field name="away_team"/>
+				                    <field name="venue"/>
+				                    <field name="score_away"/>
+                                </tree>
+                            </field>
+                        </page>
                         <page name="category_description" string="Description" >
                             <field name="description"/>
                         </page>
+
 <!--                         <page name="calendar" string="Calendar" >
                             <field name="upcoming_events_ids"/>
                         </page> -->
@@ -81,9 +96,9 @@
         </record>
 
 
-       <record id="view_phoenix_venues_form" model="ir.ui.view">
-            <field name="name">phoenix.venue.form</field>
-            <field name="model">phoenix.venue</field>
+       <record id="view_baseball_venues_form" model="ir.ui.view">
+            <field name="name">baseball.venue.form</field>
+            <field name="model">baseball.venue</field>
             <field name="arch" type="xml">
                 <form string="Venue">
                 <sheet>
@@ -113,8 +128,8 @@
 
 
        <record id="view_teams_filter" model="ir.ui.view">
-            <field name="name">phoenix.teams.search</field>
-            <field name="model">phoenix.teams</field>
+            <field name="name">baseball.teams.search</field>
+            <field name="model">baseball.teams</field>
             <field name="arch" type="xml">
                 <search>
                   <field name="name"/>
@@ -123,12 +138,12 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="phoenix_list_teams">
+        <record model="ir.actions.act_window" id="baseball_list_teams">
             <field name="name">Teams</field>
-            <field name="res_model">phoenix.teams</field>
+            <field name="res_model">baseball.teams</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="phoenix.view_teams_filter"/>
+            <field name="search_view_id" ref="baseball.view_teams_filter"/>
             <field name="context">{'search_default_is_opponent':1}</field>
         </record>
 
@@ -136,7 +151,7 @@
 
         <menuitem id="menu_teams_management" name="Teams"
                   parent="menu_management"
-                  action="phoenix_list_teams"/>
+                  action="baseball_list_teams"/>
 
     </data>
 </openerp>

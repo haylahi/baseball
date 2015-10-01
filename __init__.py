@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
 # import controllers
-import models
+import categories
+import company
+import competition
+import members
+import registration
+import teams
+import uniforms
 import config

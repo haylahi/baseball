@@ -3,9 +3,9 @@
     <data>
 
 
-        <record id="view_phoenix_divisions_tree" model="ir.ui.view">
-            <field name="name">phoenix.divisions.tree</field>
-            <field name="model">phoenix.divisions</field>
+        <record id="view_baseball_divisions_tree" model="ir.ui.view">
+            <field name="name">baseball.divisions.tree</field>
+            <field name="model">baseball.divisions</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Divisions">
@@ -18,9 +18,9 @@
 
 
 
-        <record id="view_phoenix_divisions_form" model="ir.ui.view">
-            <field name="name">phoenix.divisions.form</field>
-            <field name="model">phoenix.divisions</field>
+        <record id="view_baseball_divisions_form" model="ir.ui.view">
+            <field name="name">baseball.divisions.form</field>
+            <field name="model">baseball.divisions</field>
             <field name="arch" type="xml">
                 <form string="Divisions">
                 <sheet>
@@ -32,15 +32,33 @@
                     <group>
                         <field name="code"/>
                         <field name="description"/>
+                        <field name="parent_related_division_ids"  widget="many2many_tags"/>
+                        <field name="child_related_division_ids"  widget="many2many_tags"/>
+
                     </group>
+                    <field name="standings_ids">
+                        <tree string="Teams" fonts="bold:is_opponent==False;">
+                            <field name="is_opponent" invisible="1"/>
+                            <field name="team_id"/>
+                            <field name="result_games"/>
+                            <field name="result_wins"/>
+                            <field name="result_losses"/>
+                            <field name="result_ties"/>
+                            <field name="result_not_played"/>
+                            <field name="result_forfeits"/>
+                            <field name="result_average"/>
+
+                        </tree>
+                    </field>
+
                 </sheet>
                 </form>
             </field>
         </record>
 
        <record id="view_divisions_filter" model="ir.ui.view">
-            <field name="name">phoenix.divisions.search</field>
-            <field name="model">phoenix.divisions</field>
+            <field name="name">baseball.divisions.search</field>
+            <field name="model">baseball.divisions</field>
             <field name="arch" type="xml">
                 <search>
                   <field name="name"/>
@@ -48,9 +66,9 @@
             </field>
         </record>
 
-        <record model="ir.actions.act_window" id="phoenix_list_divisions">
+        <record model="ir.actions.act_window" id="baseball_list_divisions">
             <field name="name">Divisions</field>
-            <field name="res_model">phoenix.divisions</field>
+            <field name="res_model">baseball.divisions</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
@@ -59,7 +77,7 @@
 
         <menuitem id="menu_divisions_management" name="Divisions"
                   parent="menu_management"
-                  action="phoenix_list_divisions"/>
+                  action="baseball_list_divisions"/>
 
 	</data>
 </openerp>
