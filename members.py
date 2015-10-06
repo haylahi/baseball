@@ -36,6 +36,7 @@ class Members(models.Model):
     is_player = fields.Boolean('Player', default=True)
     game_ids = fields.Many2many(
         'baseball.game', string="Games", compute="_compute_games")
+    gender = fields.Selection([('male', 'Male'),('female', 'Female')], string="Gender")
 
     @api.one
     @api.depends('team_ids')
@@ -93,6 +94,7 @@ class Members(models.Model):
 class Positions(models.Model):
     _name = 'baseball.positions'
     name = fields.Char(string="Name")
+    code = fields.Char(string="Code")
     description = fields.Html()
 
 

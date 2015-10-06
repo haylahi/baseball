@@ -12,6 +12,9 @@
                             <field name="name" placeholder="Name" />
                         </h1>
                     </div>
+                    <group>
+                        <field name="code"/>
+                    </group>
                     <field name="description"/>
                     
                 </sheet>

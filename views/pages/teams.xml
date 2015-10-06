@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+  <template id="assets_frontend" inherit_id="website.assets_frontend" name="head team">
+    <xpath expr="." position="inside">
+        <script type="text/javascript" src="/baseball/static/src/js/team.js"></script>
+    </xpath>
+  </template>
+
+<template id="team_page" name="Team page">
+  <t t-call="website.layout">
+      <t t-set="additional_title">Team</t>
+      <div id="wrap" class="js_sale">
+        <div class="oe_structure"/>
+        <div class="container oe_website_sale">
+          <div class='row'>
+            <div class="col-lg-6">
+              <h3>Team</h3>
+              <t t-if="team.image">
+                <img class="img-responsive" t-att-src="'data:image/png;base64,'+team.image"/>
+              </t>
+              <table class="table table-condensed data_roster_table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Positions</th>
+                    <th>Nationality</th>
+                    <th>Birthdate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <t t-call="baseball.team_staff"/>
+                  <t t-call="baseball.team_roster"/>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-lg-6">
+              <t t-call="baseball.team_calendar"/>
+            </div>
+          </div>
+        </div>
+        <div class="oe_structure mb32"/>
+      </div>
+  </t>
+</template>
+
+<template id="team_roster" name="Team roster">
+  <t t-if="team.players_ids">
+      <tr>
+        <th colspan="6">Roster</th>
+      </tr>
+      <t t-foreach="team.players_ids or []" t-as="player">
+        <tr class="js_player" t-attf-id="#{player.id}" >
+          <td><span t-esc="', '.join(player.jerseys_ids.mapped(lambda r: str(r.number)))"/></td>
+          <td>
+            <t t-if="player.image">
+              <img class="maxed img img-responsive" width="50px" t-att-src="'data:image/png;base64,'+player.sudo().image_small"/>
+            </t>
+          </td>
+          <td><a href="#"><span t-field="player.name"/></a></td>
+          <td><span t-esc="', '.join(player.positions_ids.mapped('code'))"/></td>
+          <td><t t-if="player.country_id"><span t-field="player.country_id.image" t-field-options='{"widget": "image", "max_width": 25}'/></t></td>
+          <td><span t-field="player.birthdate"/></td>
+        </tr>
+      </t>
+  </t>
+</template>
+
+<template id="team_staff" name="Team Staff">
+  <t t-if="team.responsible_ids">
+    <tr>
+      <th colspan="6">Managers</th>
+    </tr>
+    <t t-foreach="team.responsible_ids or []" t-as="manager">
+      <tr class="js_player" t-attf-id="#{manager.id}" >
+        <td/>
+        <td>
+          <t t-if="manager.image">
+            <img class="maxed img img-responsive" width="50px" t-att-src="'data:image/png;base64,'+manager.sudo().image_small"/>
+          </t>
+        </td>
+        <td><a href="#"><span t-field="manager.name"/></a></td>
+        <td/>
+        <td><t t-if="manager.country_id"><span t-field="manager.country_id.image" t-field-options='{"widget": "image", "max_width": 25}'/></t></td>
+        <td><span t-field="manager.birthdate"/></td>
+      </tr>
+    </t>
+  </t>
+  <t t-if="team.coaches_ids">
+    <tr>
+      <th colspan="6">Coaches</th>
+    </tr>
+      <t t-foreach="team.coaches_ids or []" t-as="coach">
+        <tr class="js_player" t-attf-id="#{coach.id}" >
+          <td/>
+          <td>
+            <t t-if="coach.image">
+              <img class="maxed img img-responsive" width="50px" t-att-src="'data:image/png;base64,'+coach.sudo().image_small"/>
+            </t>
+          </td>
+          <td><a href="#"><span t-field="coach.name"/></a></td>
+          <td/>
+          <td><t t-if="coach.country_id"><span  t-field="coach.country_id.image" t-field-options='{"widget": "image", "max_width": 25}'/></t></td>
+          <td><span  t-field="coach.birthdate"/></td>
+        </tr>
+      </t>
+  </t>
+</template>
+
+
+<template id="team_calendar" name="Team calendar">
+  <div>
+    <h3>Competition</h3>
+    <table class="table table-condensed data_calendar_table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th/>
+          <th>Opponent</th>
+          <th>Venue</th>
+          <th>Time</th>
+          <th></th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <t t-foreach="team.game_ids or []" t-as="game">
+          <tr>
+            <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT)"/></td>
+
+            <t t-if="game.away_team == team">
+              <td class="js_game" t-attf-id="#{game.id}">
+                <t t-if="game.home_team.logo_id and game.home_team.logo_id.image" >
+                  <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.home_team.logo_id.sudo().image"/>
+                </t>
+              </td>
+              <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.home_team.name"/></td>
+            </t>
+            <t t-if="game.home_team == team">
+              <td class="js_game" t-attf-id="#{game.id}">
+                <t t-if="game.away_team.logo_id and game.away_team.logo_id.image">
+                  <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.away_team.logo_id.sudo().image"/>
+                </t>
+              </td>
+              <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.away_team.name"/></td>
+            </t>
+            <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
+            <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/></td>
+            <td>
+              <t t-if="user">
+                <t t-if="user.partner_id in game.present_players_ids">
+                  <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
+                </t>
+                <t t-if="user.partner_id not in game.present_players_ids">
+                  <i class="fa fa-check-circle-o fa-2x js_game_attend" t-attf-id="#{game.id}"/>
+                </t>
+
+                <t t-if="user.partner_id in game.absent_players_ids">
+                  <i class="fa fa-times-circle-o fa-2x text-danger js_game_absent" t-attf-id="#{game.id}" />
+                </t>                
+                <t t-if="user.partner_id not in game.absent_players_ids">
+                  <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
+                </t>
+
+              </t>
+            </td>
+          </tr>
+        </t>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+
+
+  <template id="modal_player" name="Player">
+  <div id="modal_player" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+          <h4 class="modal-title" id="myModalLabel" t-esc="player.name + ' (#' + ', '.join(player.jerseys_ids.mapped(lambda r: str(r.number))) +  ')'">Player Name</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+           <div class="col-md-3">
+            <div class="boxed right">
+            <t t-if="player_image">
+              <img class="maxed img img-responsive " t-att-src="'data:image/png;base64,'+player_image" t-att-alt="player.name"/>
+            </t>
+            </div>
+           </div>
+           <div class="col-md-9">
+            <div class="boxed right">
+              <t t-if="player.country_id"><span  t-field="player.country_id.image" t-field-options='{"widget": "image", "max_width": 25}'/></t>
+
+               <div  t-esc="'Positions: ' +', '.join(player.positions_ids.mapped('name'))" />
+               <div t-if="is_coach or is_manager">
+                 <div>Email: <a t-attf-href="mailto:#{player.email}"><span t-field="player.email"/></a></div>
+                 <div>Phone: <a t-attf-href="tel:#{player.phone}"><span t-field="player.phone"/></a></div>
+                 <div>Mobile: <a t-attf-href="tel:#{player.mobile}"><span t-field="player.mobile"/></a></div>
+               </div>
+
+              <t t-if="player.personal_comments">
+               <div t-field="player.personal_comments" />
+              </t>
+            </div>
+           </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+
+  <template id="modal_game" name="Game">
+  <div id="modal_player" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+          <h4 class="modal-title" id="myModalLabel" t-esc="game.game_number">Game number</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+           <div class="col-md-6">
+            <div class="boxed right">
+               <div  t-esc="game.home_team.name + ' @ ' + game.away_team.name" />
+               <div t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT)"/>
+               <div t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/>
+               <div  t-esc="'@ ' + game.venue.name" />
+            </div>
+           </div>
+           <div class="col-md-4">
+            <t t-if="game.venue">
+<iframe width="100%" height="200" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" t-attf-src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=#{game.venue.street} #{game.venue.street2}, #{game.venue.zip_code} #{game.venue.city}&amp;ie=UTF8&amp;z=15&amp;t=m&amp;iwloc=near&amp;output=embed"></iframe>
+            </t>
+           </div>
+          </div>
+
+
+          <div class="row" t-if="user">
+            <div class="col-md-6">
+              <h4>Attendees <i class="fa fa-check-circle-o fa-2x"></i></h4>
+                <t t-foreach="game.present_players_ids or []" t-as="attendee">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <t t-if="attendee.image">
+                        <img class="maxed img img-responsive" width="50px" t-att-src="'data:image/png;base64,'+attendee.sudo().image_small"/>
+                      </t>
+                    </div>
+                    <div class="col-md-9">
+                      <span t-field="attendee.name"/>
+                    </div>
+                  </div>
+                </t>
+
+            </div>
+            <div class="col-md-6">
+              <h4>Absentees <i class="fa fa-times-circle-o fa-2x"></i></h4>
+                <t t-foreach="game.absent_players_ids or []" t-as="absentee">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <t t-if="absentee.image">
+                        <img class="maxed img img-responsive" width="50px" t-att-src="'data:image/png;base64,'+absentee.sudo().image_small"/>
+                      </t>
+                    </div>
+                    <div class="col-md-9">
+                      <span t-field="absentee.name"/>
+                    </div>
+                  </div>
+                </t>
+            </div>
+          </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  </data>
+</openerp>

@@ -27,7 +27,7 @@
 
 
 
-        <menuitem id="menu_venues_management" name="Seasons"
+        <menuitem id="menu_season_management" name="Seasons"
                   parent="menu_management"
                   action="baseball_seasons"
                   sequence="10"

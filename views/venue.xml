@@ -58,7 +58,7 @@
         <menuitem id="menu_venues_management" name="Venues"
                   parent="menu_management"
                   action="baseball_venues"
-                  sequence="9"
+                  sequence="20"
                   />
 
 	</data>

@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="logo_1" model="baseball.logo">
+            <field name="name">afterburners</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/afterburners50.jpg"/>
+        </record>
+        <record id="logo_2" model="baseball.logo">
+            <field name="name">bears</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/bears50.jpg"/>
+        </record>
+        <record id="logo_3" model="baseball.logo">
+            <field name="name">bebops</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/bebops50.jpg"/>
+        </record>
+        <record id="logo_4" model="baseball.logo">
+            <field name="name">rickers</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/blackrickers25.jpg"/>
+        </record>
+        <record id="logo_5" model="baseball.logo">
+            <field name="name">braves</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/braves50.jpg"/>
+        </record>
+        <record id="logo_6" model="baseball.logo">
+            <field name="name">brown</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/brownboys20.jpg"/>
+        </record>
+        <record id="logo_7" model="baseball.logo">
+            <field name="name">celtics</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/celtics20.jpg"/>
+        </record>
+        <record id="logo_8" model="baseball.logo">
+            <field name="name">chicaboos</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/chicaboos50.jpg"/>
+        </record>
+        <record id="logo_9" model="baseball.logo">
+            <field name="name">crack</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/cracks50.jpg"/>
+        </record>
+        <record id="logo_10" model="baseball.logo">
+            <field name="name">eagles</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/eagles50.jpg"/>
+        </record>
+        <record id="logo_11" model="baseball.logo">
+            <field name="name">foxes</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/foxes50.jpg"/>
+        </record>
+        <record id="logo_12" model="baseball.logo">
+            <field name="name">athletics</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/frameries20.jpg"/>
+        </record>
+        <record id="logo_13" model="baseball.logo">
+            <field name="name">frogs</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/frogs50.jpg"/>
+        </record>
+        <record id="logo_14" model="baseball.logo">
+            <field name="name">frontliners</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/frontliners50.jpg"/>
+        </record>
+        <record id="logo_15" model="baseball.logo">
+            <field name="name">greys</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/greys50.jpg"/>
+        </record>
+        <record id="logo_16" model="baseball.logo">
+            <field name="name">guardian</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/guardians20.jpg"/>
+        </record>
+        <record id="logo_17" model="baseball.logo">
+            <field name="name">kangaroos</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/kangaroos20.jpg"/>
+        </record>
+        <record id="logo_18" model="baseball.logo">
+            <field name="name">knights</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/knights50.jpg"/>
+        </record>
+        <record id="logo_19" model="baseball.logo">
+            <field name="name">liège</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/liege20.jpg"/>
+        </record>
+        <record id="logo_20" model="baseball.logo">
+            <field name="name">lions</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/lions50.jpg"/>
+        </record>
+        <record id="logo_21" model="baseball.logo">
+            <field name="name">marche</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/marche50.jpg"/>
+        </record>
+        <record id="logo_22" model="baseball.logo">
+            <field name="name">cats</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/merchtem50.jpg"/>
+        </record>
+        <record id="logo_23" model="baseball.logo">
+            <field name="name">nstarts</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/nstarts50.jpg"/>
+        </record>
+        <record id="logo_24" model="baseball.logo">
+            <field name="name">phoenix</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/phoenix20.jpg"/>
+        </record>
+        <record id="logo_25" model="baseball.logo">
+            <field name="name">pioneers</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/pioneers50.jpg"/>
+        </record>
+        <record id="logo_26" model="baseball.logo">
+            <field name="name">piranhas</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/piranhas50.jpg"/>
+        </record>
+        <record id="logo_27" model="baseball.logo">
+            <field name="name">pitbulls</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/pitbulls50.jpg"/>
+        </record>
+        <record id="logo_28" model="baseball.logo">
+            <field name="name">rays</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/rays50.jpg"/>
+        </record>
+        <record id="logo_29" model="baseball.logo">
+            <field name="name">sluggers</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/sluggers50.jpg"/>
+        </record>
+        <record id="logo_30" model="baseball.logo">
+            <field name="name">snarling</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/snarlingwolves20.jpg"/>
+        </record>
+        <record id="logo_31" model="baseball.logo">
+            <field name="name">spartans</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/spartans50.jpg"/>
+        </record>
+        <record id="logo_32" model="baseball.logo">
+            <field name="name">squirrels</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/squirrels50.jpg"/>
+        </record>
+        <record id="logo_33" model="baseball.logo">
+            <field name="name">stars</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/stars50.jpg"/>
+        </record>
+        <record id="logo_34" model="baseball.logo">
+            <field name="name">briqville</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/thefoxesbriqville50.jpg"/>
+        </record>
+        <record id="logo_35" model="baseball.logo">
+            <field name="name">tigers</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/tigers50.jpg"/>
+        </record>
+        <record id="logo_36" model="baseball.logo">
+            <field name="name">titans</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/titans50.jpg"/>
+        </record>
+        <record id="logo_37" model="baseball.logo">
+            <field name="name">twins</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/twins50.jpg"/>
+        </record>
+        <record id="logo_38" model="baseball.logo">
+            <field name="name">wase</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/WBA50.jpg"/>
+        </record>
+        <record id="logo_39" model="baseball.logo">
+            <field name="name">angels</field>
+            <field name="image" type="base64" file="baseball/static/img/logos/angels20.jpg"/>
+        </record>
+    </data>
+</openerp>
+

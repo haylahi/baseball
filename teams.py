@@ -36,6 +36,7 @@ class Teams(models.Model):
     db_name = fields.Char(string="Database name")
     description = fields.Html()
     venue = fields.Many2one('baseball.venue', string="Venue")
+    logo_id = fields.Many2one('baseball.logo', string="Logo")
 
 
 
@@ -125,3 +126,9 @@ class Standings(models.TransientModel):
 
         self.result_average = self.result_wins/self.result_games if self.result_games else 0
 
+
+class Logos(models.Model):
+    _name = 'baseball.logo'
+
+    name = fields.Char(string="Name", required=True)
+    image = fields.Binary('Image')

@@ -55,6 +55,7 @@ class Game(models.Model):
          "The game number must be unique"),
     ]
 
+
     @api.multi
     def action_get_games_database(self):
 
@@ -101,7 +102,6 @@ class Game(models.Model):
                 if not home:
                     home = self.env['baseball.teams'].create({'name_from_federation': ga['home'], 'name': ga[
                                                             'home'], 'division_ids': [(4, division.id)], 'is_opponent': True})
-
                 away = self.env['baseball.teams'].search(
                     [('name_from_federation', '=', ga['away']), ('division_ids', 'in', division.id)])
                 if not away:
@@ -140,6 +140,9 @@ class Game(models.Model):
                 else:
                     current_game.create(values)
 
+        for logo_id in self.env['baseball.logo'].search([]):
+            teams_without_logo = self.env['baseball.teams'].search([('logo_id','=',False),('name_from_federation','ilike',logo_id.name)])
+            teams_without_logo.write({'logo_id': logo_id.id})
 
 class Tournament(models.Model):
     _name = 'baseball.tournament'

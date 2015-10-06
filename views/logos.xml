@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+
+        <record id="view_baseball_logos_tree" model="ir.ui.view">
+            <field name="name">baseball.logo.tree</field>
+            <field name="model">baseball.logo</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Logos">
+                    <field name="name"/>
+                    <field name="image" widget='image' class="oe_avatar oe_left" options='{ "size": [50, 50]}'/>
+
+                </tree>
+            </field>
+        </record>
+
+
+
+
+        <record id="view_baseball_logos_form" model="ir.ui.view">
+            <field name="name">baseball.logo.form</field>
+            <field name="model">baseball.logo</field>
+            <field name="arch" type="xml">
+                <form string="Logos">
+                    <field name="name"/>
+                    <field name="image" widget='image' class="oe_avatar oe_left" options='{ "size": [50, 50]}'/>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="baseball_list_logos">
+            <field name="name">logos</field>
+            <field name="res_model">baseball.logo</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+        <menuitem id="menu_logos_management" name="Logos"
+                  parent="menu_management"
+                  action="baseball_list_logos"
+                  sequence="10"
+                  />
+
+	</data>
+</openerp>
+

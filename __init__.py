@@ -8,3 +8,4 @@ import registration
 import teams
 import uniforms
 import config
+import controllers

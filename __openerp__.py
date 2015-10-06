@@ -15,11 +15,13 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'website', 'calendar'],
+    'depends': ['base', 'website', 'calendar', 'auth_signup', 'document'],
 
     # always loaded
     'data': [
         'data/initial_values.xml',
+        'data/menus.xml',
+        'data/teams.xml',
         # 'data/delete.xml',
         'security/ir.model.access.csv',
         'views/menus.xml',
@@ -28,6 +30,7 @@
         'views/teams.xml',
         'views/divisions.xml',
         'views/role.xml',
+        'views/logos.xml',
         'views/products.xml',
         'views/games.xml',
         'views/tournament.xml',
@@ -38,5 +41,7 @@
         'views/config.xml',
         'views/pages/layout.xml',
         'views/pages/homepage.xml',
+        'views/pages/signup.xml',
+        'views/pages/teams.xml',
     ],
 }
