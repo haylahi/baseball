@@ -59,6 +59,25 @@ class Game(models.Model):
     @api.multi
     def action_get_games_database(self):
 
+        def get_or_create_team(team_name, division):
+            tag_name = self.env['baseball.teams.dbname'].search([('name','=',team_name)])  
+            if not tag_name:
+                tag_name = self.env['baseball.teams.dbname'].create({'name': team_name})  
+            tag_name = tag_name[0]
+
+            team = self.env['baseball.teams'].search(
+                [('division_ids', 'in', division.id)]).filtered(lambda r: tag_name in r.name_from_federation)
+            if not team:
+                alternative_team = self.env['baseball.teams'].search([]).filtered(lambda r: tag_name in r.name_from_federation)
+                alternative_team = alternative_team.filtered(lambda r: division in r.division_ids.mapped('parent_related_division_ids') | r.division_ids.mapped('parent_related_division_ids').mapped('child_related_division_ids') | r.division_ids.mapped('child_related_division_ids') )
+                if alternative_team: 
+                    alternative_team.write({'division_ids': [(4, division.id)]})
+                    team = alternative_team
+            if not team:
+                team = self.env['baseball.teams'].create({'name_from_federation': [(4,tag_name.id)], 'name': team_name, 'division_ids': [(4, division.id)], 'is_opponent': True})
+            return team
+
+
         xml_frbbs_calendar = self.env['ir.config_parameter'].get_param('xml_frbbs_calendar')
         # "http://www.frbbs.be/xmlGames.php?token=ed54@dAff5d!f6gDH%28T54sdF6-fJ5:9hvF!b"
         file = urllib2.urlopen(xml_frbbs_calendar)
@@ -91,28 +110,8 @@ class Game(models.Model):
                     division = self.env['baseball.divisions'].create(
                         {'name': ga['division'], 'code': ga['division']})
 
-                home = self.env['baseball.teams'].search(
-                    [('name_from_federation', '=', ga['home']), ('division_ids', 'in', division.id)])
-                if not home:
-                    alternative_home = self.env['baseball.teams'].search([('name_from_federation', '=', ga['home'])])
-                    alternative_home = alternative_home.filtered(lambda r: division in r.division_ids.mapped('parent_related_division_ids') | r.division_ids.mapped('parent_related_division_ids').mapped('child_related_division_ids') | r.division_ids.mapped('child_related_division_ids') )
-                    if alternative_home: 
-                        alternative_home.write({'division_ids': [(4, division.id)]})
-                        home = alternative_home
-                if not home:
-                    home = self.env['baseball.teams'].create({'name_from_federation': ga['home'], 'name': ga[
-                                                            'home'], 'division_ids': [(4, division.id)], 'is_opponent': True})
-                away = self.env['baseball.teams'].search(
-                    [('name_from_federation', '=', ga['away']), ('division_ids', 'in', division.id)])
-                if not away:
-                    alternative_away = self.env['baseball.teams'].search([('name_from_federation', '=', ga['away'])])
-                    alternative_away = alternative_away.filtered(lambda r: division in r.division_ids.mapped('parent_related_division_ids') | r.division_ids.mapped('parent_related_division_ids').mapped('child_related_division_ids') | r.division_ids.mapped('child_related_division_ids') )
-                    if alternative_away: 
-                        alternative_away.write({'division_ids': [(4, division.id)]})
-                        away = alternative_away
-                if not away:
-                    away = self.env['baseball.teams'].create({'name_from_federation': ga['away'], 'name': ga[
-                                                            'away'], 'division_ids': [(4, division.id)], 'is_opponent': True})
+                home = get_or_create_team(ga['home'], division) 
+                away = get_or_create_team(ga['away'], division) 
 
                 venue = self.env['baseball.venue'].search(
                     [('name', 'ilike', ga['venue'])])

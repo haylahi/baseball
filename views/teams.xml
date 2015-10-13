@@ -11,6 +11,7 @@
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Teams">
+                    <field name="sequence" widget="handle" />
                     <field name="name"/>
                     <field name="division_ids"/>
                     <field name="active"/>
@@ -29,7 +30,7 @@
                         <h1>
                             <field name="name" placeholder="Name" />
                         </h1>
-                        <field name="name_from_federation" placeholder="Name on federation website" />
+                        <field name="name_from_federation" widget="many2many_tags" />
                     </div>
 
                     <group>
@@ -71,14 +72,25 @@
                         <page name="games" string="Games" >
                             <field name="game_ids">
                                 <tree>
-				                    <field name="game_number"/>
-				                    <field name="start_time"/>
-				                    <field name="division"/>
-				                    <field name="home_team"/>
-				                    <field name="score_home"/>
-				                    <field name="away_team"/>
-				                    <field name="venue"/>
-				                    <field name="score_away"/>
+                                    <field name="game_number"/>
+                                    <field name="start_time"/>
+                                    <field name="division"/>
+                                    <field name="home_team"/>
+                                    <field name="score_home"/>
+                                    <field name="away_team"/>
+                                    <field name="venue"/>
+                                    <field name="score_away"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="practices" string="Practices" >
+                            <field name="practices_ids">
+                                <tree editable="top">
+				                    <field name="dayofweek"/>
+				                    <field name="hour_from" widget="float_time"/>
+				                    <field name="hour_to" widget="float_time"/>
+				                    <field name="season"/>
+				                    <field name="venue_id"/>
                                 </tree>
                             </field>
                         </page>
@@ -153,6 +165,37 @@
         <menuitem id="menu_teams_management" name="Teams"
                   parent="menu_management"
                   action="baseball_list_teams"/>
+
+
+        <record id="view_baseball_practices_tree" model="ir.ui.view">
+            <field name="name">baseball.teams.practice.tree</field>
+            <field name="model">baseball.teams.practice</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Practices" editable="top">
+                    <field name="team_ids" widget="many2many_tags"/>
+                    <field name="dayofweek"/>
+                    <field name="hour_from" widget="float_time"/>
+                    <field name="hour_to" widget="float_time"/>
+                    <field name="season"/>
+                    <field name="venue_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_practices">
+            <field name="name">Practices</field>
+            <field name="res_model">baseball.teams.practice</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+
+
+        <menuitem id="menu_practices" name="Practices"
+                  parent="menu_management"
+                  action="action_practices"/>
+
 
     </data>
 </openerp>

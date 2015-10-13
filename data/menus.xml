@@ -3,16 +3,9 @@
     <data>
         <record id="teams_menu" model="website.menu">
             <field name="name">Teams</field>
-            <field name="url">/teams</field>
+            <field name="url">/page/teams</field>
             <field name="parent_id" ref="website.main_menu" />
             <field name="sequence" type="int">10</field>
         </record>
-        <record id="team_menu" model="website.menu">
-            <field name="name">Team</field>
-            <field name="url">/teams/17</field>
-            <field name="parent_id" ref="teams_menu" />
-            <field name="sequence" type="int">20</field>
-        </record>
-
     </data>
 </openerp>

@@ -22,7 +22,7 @@
         'data/initial_values.xml',
         'data/menus.xml',
         'data/teams.xml',
-        # 'data/delete.xml',
+        'data/delete.xml',
         'security/ir.model.access.csv',
         'views/menus.xml',
         'views/members.xml',

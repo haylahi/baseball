@@ -126,7 +126,7 @@ class baseball_auth_signup(AuthSignupHome):
 
 class baseball_club(http.Controller):
 
-    @http.route(['/teams/<int:team_id>'], type='http', auth="public", website=True)
+    @http.route(['/page/teams/<int:team_id>'], type='http', auth="public", website=True)
     def team(self, team_id, **post):
         env, uid = request.env, request.uid
         team = env['baseball.teams'].sudo().browse(team_id)
@@ -142,7 +142,7 @@ class baseball_club(http.Controller):
         return request.render('baseball.team_page', values)
 
     @http.route(['/player'], type='json', auth="public", methods=['POST'], website=True)
-    def modal_gdf(self, player_id, **kw):
+    def modal_player(self, player_id, **kw):
         context, env = request.context, request.env
 
         website_context = kw.get('kwargs', {}).get('context', {})
@@ -163,7 +163,7 @@ class baseball_club(http.Controller):
 
 
     @http.route(['/game'], type='json', auth="public", methods=['POST'], website=True)
-    def modal_gdf(self, game_id, **kw):
+    def modal_game(self, game_id, **kw):
         context, env, uid= request.context, request.env, request.uid
 
         website_context = kw.get('kwargs', {}).get('context', {})

@@ -9,6 +9,7 @@ from datetime import datetime
 
 class Categories(models.Model):
     _name = 'baseball.categories'
+    _order = 'sequence'
 
     name = fields.Char(string="Name", required=True)
 
@@ -17,11 +18,12 @@ class Categories(models.Model):
     description = fields.Html()
     teams_ids = fields.Many2many('baseball.teams', string="Teams")
     cotisation = fields.Float(string="Fee", compute='_compute_fee', inverse='_set_fee')
-    start_date = fields.Date(string="Beginning")
-    end_date = fields.Date(string="End")
+    start_date = fields.Integer(string="Beginning (year)")
+    end_date = fields.Integer(string="End (year)")
     active = fields.Boolean(default=True)
     game_ids = fields.Many2many(
         'baseball.game', string="Games", compute="_compute_games")
+    sequence = fields.Integer(string='Sequence')
 
 
     @api.one

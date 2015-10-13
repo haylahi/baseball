@@ -1,3 +1,59 @@
+#header_top_bar {
+    text-align: center;
+    /*font-size: 72px;*/
+    /*line-height: 108px;*/
+    height: 50px;
+    background-position: left top;
+
+    // set animation
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+}
+
+div #header_top_bar.sticky {
+    position: fixed;
+    top: 0px;
+    height: 50px; 
+    width: 100%;
+    text-align: center;
+    z-index: 10000;
+}
+
+div #header_top_bar_alias.sticky {
+    height: 50px; 
+
+}
+
+
+#header_secondary_bar {
+    height: 50px;
+    background-position: left bottom;
+    z-index: -1;
+
+}
+
+#logo_header {
+    float: left;
+    position: relative;
+    top: -50px;
+    left: -5px;
+    height: 150px;
+    width: 150px;
+    z-index: 10000;
+
+}
+#logo_header.sticky {
+    float: left;
+    position: relative;
+    top: 0px;
+    left: -5px;
+    height: 100px;
+    width: 100px;
+}
+
+.modal-dialog {
+    top: 50px;
+}
 
 .header_banner {
     width: 100%;
@@ -17,6 +73,11 @@
 	-webkit-animation:  shake 0.5s 7s, slideIn 1.5s 5.5s;
     -moz-animation: shake 0.5s 7s, slideIn 1.5s 5.5s;
     -o-animation: shake 0.5s 7s, slideIn 1.5s 5.5s;
+    animation: wait 5s;
+    -webkit-animation:  wait 5s;
+    -moz-animation: wait 5s;
+    /*-o-animation: wait 5s;*/
+    /*animation-iteration-count:infinite;*/
 }
 
 
@@ -30,7 +91,13 @@
 	-webkit-animation: bounceleftright 1s 5s; 
     -moz-animation: bounceleftright 1s 5s;
     -o-animation:   bounceleftright 1s 5s;
+    animation: wait 5s;
+    -webkit-animation:  wait 5s;
+    -moz-animation: wait 5s;
+    /*-o-animation: wait 5s;*/
+    /*animation-iteration-count:infinite;*/
 	z-index: 0;
+
 }
 
 #header-frappeur {
@@ -43,6 +110,11 @@
 	-webkit-animation: bouncerightleft 1s 6s;
     -moz-animation: bouncerightleft 1s 6s;
     -o-animation:   bouncerightleft 1s 6s;
+    animation: wait 5s;
+    -webkit-animation:  wait 5s;
+    -moz-animation: wait 5s;
+    /*-o-animation: wait 5s;*/
+    /*animation-iteration-count:infinite;*/
 	z-index: 0;
 }
 
@@ -56,6 +128,11 @@
 	-webkit-animation: bounceupdown 1s 7s;
     -moz-animation: bbounceupdown 1s 7s;
     -o-animation:   bounceupdown 1s 7s;
+    animation: wait 5s;
+    -webkit-animation:  wait 5s;
+    -moz-animation: wait 5s;
+    /*-o-animation: wait 5s;*/
+    /*animation-iteration-count:infinite;*/
 	z-index: 0;
 }
 
@@ -69,6 +146,11 @@
 	-webkit-animation: fadeIn 2s 6s linear;
     -moz-animation:fadeIn 2s 6s linear;
     -o-animation:   fadeIn 2s 6s linear;
+    animation: wait 5s;
+    -webkit-animation:  wait 5s;
+    -moz-animation: wait 5s;
+    /*-o-animation: wait 5s;*/
+    /*animation-iteration-count:infinite;*/
 
 }
 
@@ -129,6 +211,10 @@
     -webkit-animation-fill-mode:forwards;
 } 
 
+/*@-webkit-keyframes wait { 
+    100% {-webkit-transform: translateY(0px);} 
+} */
+
 /* 
 	Animation Definitions 
 */
@@ -174,7 +260,10 @@
     100% {opacity: 0;} 
     -moz-animation-fill-mode:forwards;
 } 
-
+/*@-moz-keyframes wait { 
+    100% {-moz-transform: translateY(0px);} 
+} 
+*/
 /* 
 	Animation Definitions 
 */
@@ -221,6 +310,9 @@
     -o-animation-fill-mode:forwards;
 } 
 
+/*@-o-keyframes wait { 
+    100% {-o-transform: translateY(0px);} 
+} */
 
 /* 
 	Animation Definitions 
@@ -269,3 +361,7 @@
     animation-fill-mode:forwards; 
 
 } 
+
+/*@keyframes wait { 
+    100% {-o-transform: translateY(0px);} 
+} */

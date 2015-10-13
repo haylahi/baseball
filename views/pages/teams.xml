@@ -8,6 +8,118 @@
     </xpath>
   </template>
 
+<template id="website.teams" name="Teams page">                
+  <t t-set="categories" t-value="request.env['baseball.categories'].sudo().search([])"/>
+
+  <t t-call="website.layout">
+      <t t-set="additional_title">Teams</t>
+      <div id="wrap" class="js_sale">
+        <div class="oe_structure"/>
+          <div class="container">
+            <div class='row'>
+              <div class="col-lg-4">
+                <t t-call="baseball.categories"/>
+              </div>
+              <div class="col-lg-7">
+                <t t-call="baseball.practices"/>
+              </div>
+            </div>
+          </div>
+        <div class="oe_structure mb32"/>
+      </div>
+  </t>
+</template>
+
+<template id="categories" name="Categories">
+  <div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Categories</h3></div>
+    <div class="panel-body">
+      <table class="table table-condensed data_roster_table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Age</th>
+            <th>Fee</th>
+          </tr>
+        </thead>
+        <tbody>
+          <t t-foreach="categories or []" t-as="category">
+            <tr>
+              <td><span t-field="category.name"/></td>
+              <td><span t-field="category.start_date"/><i class="fa fa-long-arrow-right"></i><span t-field="category.end_date"/></td>
+              <td><span t-field="category.cotisation"/></td>
+            </tr>
+          </t>
+        </tbody>
+      </table>
+    </div>
+  </div>  
+
+</template>
+
+<template id="practices" name="Practices">
+  <div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Practices</h3></div>
+      <div class="panel-body">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#summer_practice" role="tab" data-toggle="tab">
+              Summer
+            </a>
+        </li>
+        <li>
+            <a href="#winter_practice" role="tab" data-toggle="tab">
+              Winter
+            </a>
+        </li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane fade active in" id="summer_practice">
+          <t t-set="season" t-value="'summer'"/>
+          <t t-call="baseball.week_practices"/>
+        </div>
+        <div class="tab-pane fade" id="winter_practice">
+          <t t-set="season" t-value="'winter'"/>
+          <t t-call="baseball.week_practices"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="week_practices" name="Weekly Practices">
+  <t t-set="practices" t-value="request.env['baseball.teams.practice'].sudo().search([('season','=',season)])"/>
+  <t t-set="days" t-value="list(set(practices.mapped('dayofweek')))"/>
+  <t t-set="times" t-value="list(set(practices.mapped('hour_from')))"/>
+    <table class="table table-condensed data_roster_table">
+      <thead>
+        <tr>
+          <th></th>
+          <t t-foreach="days or []" t-as="day">
+            <t t-set="practice" t-value="practices.filtered(lambda r,day=day: r.dayofweek == day)[0]"/>
+            <th><span t-field="practice.dayofweek"/></th>
+          </t>
+        </tr>
+      </thead>
+      <tbody>
+        <t t-foreach="times" t-as="time">
+          <tr>  
+            <t t-set="practice" t-value="practices.filtered(lambda r,time=time: r.hour_from == time)[0]"/>
+            <td><span t-esc="str(int(practice.hour_from))+'h'+str(int(60*(practice.hour_from - int(practice.hour_from) )) if (practice.hour_from - int(practice.hour_from)) else '') + ' - ' + str(int(practice.hour_to))+'h'+str(int(60*(practice.hour_to - int(practice.hour_to) )) if (practice.hour_to - int(practice.hour_to)) else '')"/></td>
+            <t t-foreach="days" t-as="day">
+                <t t-set="practice" t-value="practices.filtered(lambda r,day=day,time=time: r.dayofweek == day and r.hour_from == time)"/>
+                <td><span t-esc="', '.join(practice.team_ids.mapped('name'))"/></td>
+            </t>
+
+          </tr>
+        </t>
+      </tbody>
+    </table>
+</template>
+
+
 <template id="team_page" name="Team page">
   <t t-call="website.layout">
       <t t-set="additional_title">Team</t>
@@ -16,26 +128,30 @@
         <div class="container oe_website_sale">
           <div class='row'>
             <div class="col-lg-6">
-              <h3>Team</h3>
-              <t t-if="team.image">
-                <img class="img-responsive" t-att-src="'data:image/png;base64,'+team.image"/>
-              </t>
-              <table class="table table-condensed data_roster_table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Positions</th>
-                    <th>Nationality</th>
-                    <th>Birthdate</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <t t-call="baseball.team_staff"/>
-                  <t t-call="baseball.team_roster"/>
-                </tbody>
-              </table>
+              <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">Team</h3></div>
+                <div class="panel-body">
+                  <t t-if="team.image">
+                    <img class="img-responsive" t-att-src="'data:image/png;base64,'+team.image"/>
+                  </t>
+                  <table class="table table-condensed data_roster_table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Positions</th>
+                        <th>Nationality</th>
+                        <th>Birthdate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <t t-call="baseball.team_staff"/>
+                      <t t-call="baseball.team_roster"/>
+                    </tbody>
+                  </table>
+                </div>
+                </div>
             </div>
             <div class="col-lg-6">
               <t t-call="baseball.team_calendar"/>
@@ -112,65 +228,67 @@
 
 
 <template id="team_calendar" name="Team calendar">
-  <div>
-    <h3>Competition</h3>
-    <table class="table table-condensed data_calendar_table">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th/>
-          <th>Opponent</th>
-          <th>Venue</th>
-          <th>Time</th>
-          <th></th>
-
-        </tr>
-      </thead>
-      <tbody>
-        <t t-foreach="team.game_ids or []" t-as="game">
+  <div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title">Competition</h3></div>
+    <div class="panel-body">
+      <table class="table table-condensed data_calendar_table">
+        <thead>
           <tr>
-            <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT)"/></td>
+            <th>Date</th>
+            <th/>
+            <th>Opponent</th>
+            <th>Venue</th>
+            <th>Time</th>
+            <th></th>
 
-            <t t-if="game.away_team == team">
-              <td class="js_game" t-attf-id="#{game.id}">
-                <t t-if="game.home_team.logo_id and game.home_team.logo_id.image" >
-                  <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.home_team.logo_id.sudo().image"/>
-                </t>
-              </td>
-              <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.home_team.name"/></td>
-            </t>
-            <t t-if="game.home_team == team">
-              <td class="js_game" t-attf-id="#{game.id}">
-                <t t-if="game.away_team.logo_id and game.away_team.logo_id.image">
-                  <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.away_team.logo_id.sudo().image"/>
-                </t>
-              </td>
-              <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.away_team.name"/></td>
-            </t>
-            <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
-            <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/></td>
-            <td>
-              <t t-if="user">
-                <t t-if="user.partner_id in game.present_players_ids">
-                  <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
-                </t>
-                <t t-if="user.partner_id not in game.present_players_ids">
-                  <i class="fa fa-check-circle-o fa-2x js_game_attend" t-attf-id="#{game.id}"/>
-                </t>
-
-                <t t-if="user.partner_id in game.absent_players_ids">
-                  <i class="fa fa-times-circle-o fa-2x text-danger js_game_absent" t-attf-id="#{game.id}" />
-                </t>                
-                <t t-if="user.partner_id not in game.absent_players_ids">
-                  <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
-                </t>
-
-              </t>
-            </td>
           </tr>
-        </t>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <t t-foreach="team.game_ids or []" t-as="game">
+            <tr>
+              <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT)"/></td>
+
+              <t t-if="game.away_team == team">
+                <td class="js_game" t-attf-id="#{game.id}">
+                  <t t-if="game.home_team.logo_id and game.home_team.logo_id.image" >
+                    <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.home_team.logo_id.sudo().image"/>
+                  </t>
+                </td>
+                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.home_team.name"/></td>
+              </t>
+              <t t-if="game.home_team == team">
+                <td class="js_game" t-attf-id="#{game.id}">
+                  <t t-if="game.away_team.logo_id and game.away_team.logo_id.image">
+                    <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.away_team.logo_id.sudo().image"/>
+                  </t>
+                </td>
+                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.away_team.name"/></td>
+              </t>
+              <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
+              <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/></td>
+              <td>
+                <t t-if="user">
+                  <t t-if="user.partner_id in game.present_players_ids">
+                    <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
+                  </t>
+                  <t t-if="user.partner_id not in game.present_players_ids">
+                    <i class="fa fa-check-circle-o fa-2x js_game_attend" t-attf-id="#{game.id}"/>
+                  </t>
+
+                  <t t-if="user.partner_id in game.absent_players_ids">
+                    <i class="fa fa-times-circle-o fa-2x text-danger js_game_absent" t-attf-id="#{game.id}" />
+                  </t>                
+                  <t t-if="user.partner_id not in game.absent_players_ids">
+                    <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
+                  </t>
+
+                </t>
+              </td>
+            </tr>
+          </t>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -282,6 +400,9 @@
       </div>
     </div>
   </template>
+
+
+
 
   </data>
 </openerp>

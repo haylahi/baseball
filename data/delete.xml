@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
   <data>
-    <delete id="website.layout_logo_show" model="ir.ui.view" />
-    <delete id="website.layout_footer_copyright" model="ir.ui.view" />
+    layout_logo_show
+    <!-- <delete id="website.layout_logo_show" model="ir.ui.view" /> -->
+<!--     <delete id="website.layout_footer_copyright" model="ir.ui.view" />
     <delete id="website_blog.header_footer_custom" model="ir.ui.view" />
     <delete id="website_forum.header_footer_custom" model="ir.ui.view" />
     <delete id="website_forum_doc.header_footer_custom" model="ir.ui.view" />
@@ -16,10 +17,9 @@
     <delete model="ir.ui.view" id="website_sale.continue_shopping" />
     <delete model="ir.ui.view" id="website_sale.product_attributes" />
     <delete id="website_blog.assets_editor" model="ir.ui.view" />
-    <!-- <delete id="website_blog.index_right" model="ir.ui.view" /> -->
+    <delete id="website_blog.index_right" model="ir.ui.view" />
     <delete id="website_blog.opt_blog_post_select_to_tweet" model="ir.ui.view" />
 
-    <!-- menu entry -->
     <delete model="website.menu" id="website_gdf.gdf-service" />
     <delete model="website.menu" id="website.menu_homepage" />
     <delete model="website.menu" id="website.menu_contactus" />
@@ -27,6 +27,6 @@
     <delete model="website.menu" id="website_event.menu_events" />
     <delete model="website.menu" id="website_forum.menu_questions" />
     <delete model="website.menu" id="website_blog.menu_news" />
-    <delete model="website.menu" id="website_forum_doc.menu_questions" />
+    <delete model="website.menu" id="website_forum_doc.menu_questions" /> -->
   </data>
 </openerp>

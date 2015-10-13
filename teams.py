@@ -10,10 +10,11 @@ from datetime import datetime
 
 class Teams(models.Model):
     _name = 'baseball.teams'
-
+    _order = 'sequence'
+    
     name = fields.Char(string="Name", required=True)
-    name_from_federation = fields.Char(
-        string="Name on federation website", required=True)
+    name_from_federation = fields.Many2many('baseball.teams.dbname', string="Name on federation website", required=True)
+
     players_ids = fields.Many2many(
         'res.partner', string="Players", compute='_players_in_team')
     coaches_ids = fields.Many2many(
@@ -37,6 +38,9 @@ class Teams(models.Model):
     description = fields.Html()
     venue = fields.Many2one('baseball.venue', string="Venue")
     logo_id = fields.Many2one('baseball.logo', string="Logo")
+    sequence = fields.Integer(string='Sequence')
+    practices_ids = fields.Many2many(
+        'baseball.teams.practice', string="Practices", relation="team_practices_rel")
 
 
 
@@ -126,9 +130,26 @@ class Standings(models.TransientModel):
 
         self.result_average = self.result_wins/self.result_games if self.result_games else 0
 
+class Teams_dbname(models.Model):
+    _name = 'baseball.teams.dbname'
+    
+    name = fields.Char(string="Name", required=True)
 
 class Logos(models.Model):
     _name = 'baseball.logo'
 
     name = fields.Char(string="Name", required=True)
     image = fields.Binary('Image')
+
+class Practices(models.Model):
+    _name = 'baseball.teams.practice'
+    _order = "dayofweek, hour_from"
+
+    dayofweek = fields.Selection([('0','Monday'),('1','Tuesday'),('2','Wednesday'),('3','Thursday'),('4','Friday'),('5','Saturday'),('6','Sunday')], 'Day of Week', required=True, select=True)
+    hour_from = fields.Float("Start")
+    hour_to = fields.Float("End")
+    team_ids = fields.Many2many(
+        'baseball.teams', string="Teams", relation="team_practices_rel", domain="[('is_opponent','=',False)]")
+    season = fields.Selection([('summer','Summer'),('winter','Winter')], default='summer')
+    venue_id = fields.Many2one('baseball.venue', string="Venue")
+

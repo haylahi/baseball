@@ -1,0 +1,34 @@
+.panel {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+    border-radius: 20px;
+}
+
+.panel-heading {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.top_menu {
+	width: 100%;
+}
+
+.secondary_menu {
+	width: 100%;
+}
+
+.top_navbar {
+    border-radius: 20px;
+    margin: 20px;
+}
+
+.stitching {
+  background: #eeeeee;
+  color: #c50322;
+  border: 4px dashed #c50322;
+  border-radius: 20px;
+  box-shadow: 0 0 0 5px #dddddd;
+  font-weight: bold; 
+  padding: 5px 5px;
+}

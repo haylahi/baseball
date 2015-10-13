@@ -5,48 +5,153 @@
   <template id="assets_frontend_layout" inherit_id="website.assets_frontend" name="head team">
     <xpath expr="." position="inside">
         <script type="text/javascript" src="/baseball/static/src/js/jquery.backstretch.min.js"></script>
+        <script type="text/javascript" src="/baseball/static/src/js/sticky_header.js"></script>
         <script type="text/javascript">
           $("body").backstretch('/baseball/static/img/background/background5.jpg');
         </script>
     </xpath>
   </template>
 
-
-
-<!--     <template id="theme" name="theme" inherit_id="website.theme">
+    <template id="theme" name="theme" inherit_id="website.theme">
       <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" href="/baseball/static/src/css/custom_bootstrap.css" type="text/css"/>
         <link href="/baseball/static/src/css/banner.css" rel="stylesheet" type="text/css" />
       </xpath>
     </template>
 
+  <template id="footer" inherit_id="website.footer_default" name="footer">
+    <xpath expr="//div[@class='row']" position="attributes">
+        <attribute name="class">row panel panel-default</attribute>
+    </xpath>
+  </template>
+
+
+
+
 
     <template id="layout" inherit_id="website.layout">
-      <xpath expr="//div[@class='navbar navbar-default navbar-static-top']" position="before">
-          <div class="row">
-              <div class="col-md-2">
-                  <center>
-                    <img src="baseball/static/src/img/logo2.png" class="img img-responsive" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
-                  </center>
+    <xpath expr="//header" position="replace">
+        <div class="row">
+
+              <div class="header_banner">
+                <center>
+                  <img src='/baseball/static/src/img/banner3_lanceuse.png' id='header-lanceuse'/>
+                  <img src='/baseball/static/src/img/banner3_frappeur.png' id='header-frappeur'/>
+                  <img src='/baseball/static/src/img/banner3_catcher.png' id='header-catcher'/>
+                  <img src='/baseball/static/src/img/banner3_fond.png' id='fond'/>
+                  <img src='/baseball/static/src/img/banner3_trace.png' id='header-trace'/>
+                  <img src='/baseball/static/src/img/banner3_balle.png' id='balle'/>
+                </center>
               </div>
-              <div class="col-md-8">
-                <div class="header_banner">
-                  <center>
-                    <img src='/baseball/static/src/img/banner3_lanceuse.png' id='header-lanceuse'/>
-                    <img src='/baseball/static/src/img/banner3_frappeur.png' id='header-frappeur'/>
-                    <img src='/baseball/static/src/img/banner3_catcher.png' id='header-catcher'/>
-                    <img src='/baseball/static/src/img/banner3_fond.png' id='fond'/>
-                    <img src='/baseball/static/src/img/banner3_trace.png' id='header-trace'/>
-                    <img src='/baseball/static/src/img/banner3_balle.png' id='balle'/>
-                  </center>
+
+        </div>
+      <header>
+        
+        <t t-set="parent_menu" t-value="request.env['website.menu'].search([('url','=',request.httprequest.path)])"/>
+        <t t-if="not parent_menu and request.env.ref('baseball.teams_menu').url in request.httprequest.path">
+          <t t-set="parent_menu" t-value="request.env.ref('baseball.teams_menu')"/>
+        </t>
+        <t t-if="parent_menu in website.menu_id.child_id.mapped('child_id')" >
+          <t t-set="parent_menu" t-value="parent_menu.parent_id"/>
+        </t>
+        <div class="navbar navbar-default navbar-static-top" id="header_top_bar" style="background-image: url('/baseball/static/src/css/img/stiches3.png');">
+            <div class="container">
+                <div class="navbar-header col-md-2">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-top-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                  <img src="/baseball/static/src/img/logo2.png" id="logo_header" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                </div>
+                <div class="collapse navbar-collapse navbar-top-collapse col-md-10">
+                    <ul class="nav navbar-nav navbar-right" id="top_menu">
+                        <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                            <t t-call="website.submenu"/>
+                        </t>
+                        <li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>
+                        <li class="dropdown" t-ignore="true" t-if="website.user_id != user_id">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <b>
+                                    <span t-esc="user_id.name"/>
+                                    <span class="caret"></span>
+                                </b>
+                            </a>
+                            <ul class="dropdown-menu js_usermenu" role="menu">
+                                <li><a href="/web" role="menuitem">My Account</a></li>
+                                <li class="divider"/>
+                                <li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+              </div>
+        </div>
+        <div id="header_top_bar_alias"/>
+
+        <t t-if="parent_menu.id == request.env.ref('baseball.teams_menu').id">
+          <div class="navbar navbar-default navbar-static-top" id="header_secondary_bar" style="background-image: url('/baseball/static/src/css/img/stiches3.png');">
+                <t t-set="current_menu" t-value="request.env['website.menu'].sudo().search([('url','=',request.httprequest.path)])"/>
+                <div class="container">
+                  <div class="navbar-header">
+                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-top-collapse">
+                          <span class="sr-only">Toggle navigation</span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                      </button>
+                  </div>
+                  <div class="collapse navbar-collapse navbar-top-collapse">
+                      <ul class="nav navbar-nav navbar-right" id="secondary_menu">
+                        <t t-call="website.childmenu"/>
+                      </ul>
                 </div>
               </div>
-              <div class="col-md-2">
-
-              </div>
           </div>
-      </xpath>
+        </t>
+      </header>
+    </xpath>
     </template>
- -->
+
+
+<template id="website.submenu" name="Submenu">
+    <li t-att-class="
+        'active' if (submenu.url and submenu.url != '/' and request.httprequest.path == submenu.url.replace('/page/website.', '/page/')) or (parent_menu == submenu) else None
+        ">
+        <a t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url" t-ignore="true" t-att-target="'_blank' if submenu.new_window else None">
+            <span t-field="submenu.name"/>
+        </a>
+    </li>
+</template>
+
+
+<template id="website.childmenu" name="Childmenu">
+  <t t-if="parent_menu.id != request.env.ref('baseball.teams_menu').id">
+    <t t-foreach="parent_menu.child_id" t-as="submenu">  
+      <li t-att-class="
+          'active' if submenu.url and submenu.url != '/' and request.httprequest.path == submenu.url.replace('/page/website.', '/page/') else None
+          ">
+          <a t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url" t-ignore="true" t-att-target="'_blank' if submenu.new_window else None">
+              <span t-field="submenu.name"/>
+          </a>
+      </li>
+    </t>
+  </t>
+  <t t-if="parent_menu.id == request.env.ref('baseball.teams_menu').id">
+    <t t-foreach="request.env['baseball.teams'].sudo().search([('is_opponent','=',False)])" t-as="team">
+        <li t-att-class="
+        'active' if request.httprequest.path == (parent_menu.url + '/' + str(team.id)) else None
+        ">
+          <a t-att-href="parent_menu.url + '/' + str(team.id) ">
+              <span t-field="team.name"/>
+          </a>
+        </li>  
+    </t>
+  </t>
+</template>
+
 
   </data>
 </openerp>

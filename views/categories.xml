@@ -73,6 +73,7 @@
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Categories">
+                    <field name="sequence" widget="handle" />
                     <field name="name"/>
                     <field name="cotisation"/>
                     <field name="teams_ids"/>

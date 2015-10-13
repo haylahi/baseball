@@ -19,7 +19,7 @@
         </record>
         <record id="logo_5" model="baseball.logo">
             <field name="name">braves</field>
-            <field name="image" type="base64" file="baseball/static/img/logos/braves50.jpg"/>
+            <field name="image" type="base64" file="baseball/static/img/logos/braves50.JPG"/>
         </record>
         <record id="logo_6" model="baseball.logo">
             <field name="name">brown</field>
