@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<template id="website.baseball" name="Baseball page">                
+  <t t-call="website.layout">
+      <t t-set="additional_title">Baseball</t>
+      <div id="wrap">
+        <div class="oe_structure"/>
+          <div class="container">
+            <div class='row'>
+              <div class="col-lg-12 panel panel-default">
+                <h2>Le Baseball</h2>
+
+                <p>Le baseball est un sport collectif dérivé des mêmes racines que le cricket. Il se joue avec des battes pour frapper une balle lancée, et des gants pour rattraper la balle. Il y a beaucoup de débats sur l'origine du baseball, mais il est indiscutable que les premières règles modernes (les « Knickerbocker Rules ») ont été codifiées en 1845.</p>
+                
+                <h3>Le Jeu</h3>
+                
+                <p>Une rencontre de baseball se joue avec deux équipes de 9 joueurs qui alternent en défense et en attaque, une partie se joue en 9 manches. Une demi-manche prend fin quand trois batteurs sont éliminés, l'équipe en défense passe ensuite à l'attaque. Le but de la défense est d'empêcher l'attaque adverse de progresser sur les bases et d'aller vers le marbre marquer des points. Le but du batteur est, le plus souvent, de frapper un coup sûr afin de progresser sur les bases. Un point est marqué quand un joueur d'attaque arrive au marbre (quatrième base). L'équipe gagnante est celle ayant marquée le plus de points. En cas d'égalité après neuf manches, on joue d'autres manches pour départager les deux équipes.</p>
+
+                <div data-src="http://www.ffbsc.org/imgs/docu/BB.swf" style="margin: 0 auto; width: 560px; height:315px; padding-bottom:0;" class="media_iframe_video">
+                    <iframe src="http://www.ffbsc.org/imgs/docu/BB.swf" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+
+                </div>
+                <h3>Le Terrain</h3>
+
+                <p>Le terrain est divisé en trois parties : le champ intérieur (l'infield), le champ extérieur (l'outfield) et le territoire des fausses balles. Bien que les dimensions du terrain varient d'un terrain à l'autre, seul le champ intérieur doit respecter certaines règles. La première base se trouve à 90 pieds (27,432 m) de la deuxième base et ainsi de suite jusqu'au marbre, formant un carré que l'on nomme « diamant ». La bute, où le lanceur effectue ses lancers vers le marbre, se trouve à 60 pieds et 6 pouces (19,202 m) du marbre, aligné sur l'axe du marbre et de la deuxième base. Le champ extérieur comprend l'espace entre les bases et la clôture. La distance à laquelle se trouve la clôture varie d'un stade à l'autre, mais également à l'intérieur même d'un stade. Par exemple, la clôture sur la ligne de la première base (champ droit) peut se trouver à 320 pieds (97,536 m) du marbre, celle de la troisième base (champ gauche) à 340 pieds (103,632 m) et celle du champ centre à 400 pieds (121,92 m).</p>
+
+                <h3>L'explication de Disney</h3>
+                <div data-src="http://www.youtube.com/embed/P9dT9eWMIU0" style="margin: 0 auto; width: 425px; height:350px; padding-bottom:0;" class="media_iframe_video">
+                    <iframe src="http://www.youtube.com/embed/P9dT9eWMIU0" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        <div class="oe_structure mb32"/>
+      </div>
+  </t>
+</template>
+
+
+  </data>
+</openerp>

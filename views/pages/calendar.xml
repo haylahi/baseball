@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+  <template id="assets_frontend" inherit_id="website.assets_frontend" name="head team">
+    <xpath expr="." position="inside">
+        <script type="text/javascript" src="/baseball/static/src/js/team.js"></script>
+        <script type="text/javascript" src="/baseball/static/src/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="/baseball/static/src/js/full_calendar.js"></script>
+        <script type="text/javascript" src="/baseball/static/src/js/officials.js"></script>
+    </xpath>
+  </template>
+
+
+
+
+<template id="upcoming_schedule" name="Upcoming calendar">
+  <t t-call="website.layout">
+      <t t-set="additional_title">Team</t>
+      <div id="wrap" class="js_sale">
+        <div class="oe_structure"/>
+        <div class="container oe_website_sale">
+          <div class='row'>
+            <div class="col-lg-12">
+              <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">Competition</h3></div>
+                <div class="panel-body">
+                  <t t-call="baseball.upcoming_schedule_table"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="oe_structure mb32"/>
+      </div>
+  </t>
+</template>
+
+<template id="upcoming_schedule_table" name="Upcoming calendar table">
+      <table class="table table-condensed data_calendar_table data_full_calendar_table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Categorie</th>
+            <th>Division</th>
+            <th>Home</th>
+            <th/>
+            <th/>
+            <th>Away</th>
+            <th>Venue</th>
+            <th>Time</th>
+            <th>Scorer</th>
+            <th>Umpire</th>
+          </tr>
+        </thead>
+        <tbody>
+          <t t-foreach="games" t-as="game">
+            <t t-if="game.game_type != 'tournament'">
+              <tr t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
+                <td><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT)"/></td>
+                <td><t t-if="((game.home_team | game.away_team).mapped('category_ids'))" ><span t-esc="(game.home_team | game.away_team).mapped('category_ids').sorted(lambda r: r.sequence)[0].name"/></t></td>
+                <td><span t-field="game.division.name"/></td>
+                <td><span t-field="game.home_team.name"/></td>
+                <td>
+                  <t t-if="game.home_team.logo_id and game.home_team.logo_id.image" >
+                    <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.home_team.logo_id.sudo().image"/>
+                  </t>
+                </td>
+                <td>
+                  <t t-if="game.away_team.logo_id and game.away_team.logo_id.image" >
+                    <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.away_team.logo_id.sudo().image"/>
+                  </t>
+                </td>          
+                <td><span t-field="game.away_team.name"/></td>
+                <td><span t-field="game.venue.name"/></td>
+                <td><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/></td>
+                <td>
+                  <span t-if="game.scorer" t-field="game.scorer.name"/>
+                  <t t-if="not game.scorer and user">
+                    <button type="button" class="btn btn-primary js_game_score" t-attf-id="#{game.id}">I'll Score</button>
+                  </t>
+                </td>
+                <td>
+                  <span t-if="game.umpires" t-esc="', '.join(game.umpires.mapped('name'))"/>
+                  <t t-if="not game.umpires and user">
+                    <button type="button" class="btn btn-primary js_game_umpire" t-attf-id="#{game.id}">I'll Umpire</button>
+                  </t>
+                </td>                
+              </tr>
+            </t>
+          </t>
+        </tbody>
+      </table>
+</template>
+
+  </data>
+</openerp>

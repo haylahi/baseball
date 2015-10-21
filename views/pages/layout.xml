@@ -6,9 +6,9 @@
     <xpath expr="." position="inside">
         <script type="text/javascript" src="/baseball/static/src/js/jquery.backstretch.min.js"></script>
         <script type="text/javascript" src="/baseball/static/src/js/sticky_header.js"></script>
-        <script type="text/javascript">
+<!--         <script type="text/javascript">
           $("body").backstretch('/baseball/static/img/background/background5.jpg');
-        </script>
+        </script> -->
     </xpath>
   </template>
 
@@ -21,7 +21,12 @@
 
   <template id="footer" inherit_id="website.footer_default" name="footer">
     <xpath expr="//div[@class='row']" position="attributes">
-        <attribute name="class">row panel panel-default</attribute>
+        <attribute name="class">row panel panel-default</attribute>        
+    </xpath>
+
+
+    <xpath expr="//div[@class='container hidden-print']" position="after">
+      <div style="left: 0px; top: 0px; overflow: hidden; margin: 0px; padding: 0px; height: 100%; width: 100%; z-index: -999999; position: fixed; background-image: url('/baseball/static/img/background/background5.jpg'); background-size:cover;"></div>    
     </xpath>
   </template>
 
@@ -54,63 +59,57 @@
         <t t-if="parent_menu in website.menu_id.child_id.mapped('child_id')" >
           <t t-set="parent_menu" t-value="parent_menu.parent_id"/>
         </t>
-        <div class="navbar navbar-default navbar-static-top" id="header_top_bar" style="background-image: url('/baseball/static/src/css/img/stiches3.png');">
-            <div class="container">
-                <div class="navbar-header col-md-2">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-top-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                  <img src="/baseball/static/src/img/logo2.png" id="logo_header" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
-                </div>
-                <div class="collapse navbar-collapse navbar-top-collapse col-md-10">
-                    <ul class="nav navbar-nav navbar-right" id="top_menu">
-                        <t t-foreach="website.menu_id.child_id" t-as="submenu">
-                            <t t-call="website.submenu"/>
-                        </t>
-                        <li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>
-                        <li class="dropdown" t-ignore="true" t-if="website.user_id != user_id">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <b>
-                                    <span t-esc="user_id.name"/>
-                                    <span class="caret"></span>
-                                </b>
-                            </a>
-                            <ul class="dropdown-menu js_usermenu" role="menu">
-                                <li><a href="/web" role="menuitem">My Account</a></li>
-                                <li class="divider"/>
-                                <li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                
+        <t t-set="double_menu_bar" t-value="parent_menu.child_id or (parent_menu.id == request.env.ref('baseball.teams_menu').id)"/>
+        <div class="navbar navbar-default navbar-static-top" t-att-id="'header_top_bar' if double_menu_bar else 'header_top_bar_single'" style="background-image: url('/baseball/static/src/css/img/stiches3.png');">
+          <div class="container">
+            <div class="col-md-2">
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-top-collapse">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
+                <img src="/baseball/static/src/img/logo2.png" id="logo_header" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
               </div>
-        </div>
-        <div id="header_top_bar_alias"/>
+            </div>
+            <div class="col-md-10">
+              <div class="collapse navbar-collapse navbar-top-collapse col-md-12" style="width:100%;">
+                  <ul class="nav navbar-nav navbar-right" id="top_menu">
+                      <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                          <t t-call="website.submenu"/>
+                      </t>
+                      <li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>
+                      <li class="dropdown" t-ignore="true" t-if="website.user_id != user_id">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                              <b>
+                                  <span t-esc="user_id.name"/>
+                                  <span class="caret"></span>
+                              </b>
+                          </a>
+                          <ul class="dropdown-menu js_usermenu" role="menu">
+                              <li><a href="/web" role="menuitem">My Account</a></li>
+                              <li class="divider"/>
+                              <li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>
+                          </ul>
+                      </li>
+                  </ul>
+              </div>
+              <div class="collapse navbar-collapse navbar-top-collapse col-md-12" style="width:100%;">
 
-        <t t-if="parent_menu.id == request.env.ref('baseball.teams_menu').id">
-          <div class="navbar navbar-default navbar-static-top" id="header_secondary_bar" style="background-image: url('/baseball/static/src/css/img/stiches3.png');">
-                <t t-set="current_menu" t-value="request.env['website.menu'].sudo().search([('url','=',request.httprequest.path)])"/>
-                <div class="container">
-                  <div class="navbar-header">
-                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-top-collapse">
-                          <span class="sr-only">Toggle navigation</span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                      </button>
-                  </div>
-                  <div class="collapse navbar-collapse navbar-top-collapse">
-                      <ul class="nav navbar-nav navbar-right" id="secondary_menu">
-                        <t t-call="website.childmenu"/>
-                      </ul>
-                </div>
+                  <!-- <t t-if="parent_menu.id == request.env.ref('baseball.teams_menu').id"> -->
+                    <t t-set="current_menu" t-value="request.env['website.menu'].sudo().search([('url','=',request.httprequest.path)])"/>
+                    <ul class="nav navbar-nav navbar-right" id="secondary_menu">
+                      <t t-call="website.childmenu"/>
+                    </ul>
+                  <!-- </t> -->
               </div>
+            </div>
           </div>
-        </t>
+        </div>
+        <div t-att-id="'header_top_bar_alias' if double_menu_bar else 'header_top_bar_alias_single'"/>
+
+
       </header>
     </xpath>
     </template>
@@ -151,6 +150,14 @@
     </t>
   </t>
 </template>
+
+
+  <template id="contactus" inherit_id="website.contactus">
+    <xpath expr="//div[@class='container']" position="attributes">
+        <attribute name="class">container panel panel-default</attribute>        
+    </xpath>
+  </template>
+
 
 
   </data>

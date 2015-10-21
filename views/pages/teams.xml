@@ -34,7 +34,7 @@
   <div class="panel panel-default">
     <div class="panel-heading"><h3 class="panel-title">Categories</h3></div>
     <div class="panel-body">
-      <table class="table table-condensed data_roster_table">
+      <table class="table table-condensed">
         <thead>
           <tr>
             <th></th>
@@ -93,7 +93,7 @@
   <t t-set="practices" t-value="request.env['baseball.teams.practice'].sudo().search([('season','=',season)])"/>
   <t t-set="days" t-value="list(set(practices.mapped('dayofweek')))"/>
   <t t-set="times" t-value="list(set(practices.mapped('hour_from')))"/>
-    <table class="table table-condensed data_roster_table">
+    <table class="table table-condensed">
       <thead>
         <tr>
           <th></th>
@@ -245,46 +245,78 @@
         </thead>
         <tbody>
           <t t-foreach="team.game_ids or []" t-as="game">
-            <tr>
-              <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT)"/></td>
+            <t t-if="game.game_type != 'tournament'">
+              <tr t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
+                <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT) "/></td>
 
-              <t t-if="game.away_team == team">
-                <td class="js_game" t-attf-id="#{game.id}">
-                  <t t-if="game.home_team.logo_id and game.home_team.logo_id.image" >
-                    <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.home_team.logo_id.sudo().image"/>
-                  </t>
-                </td>
-                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.home_team.name"/></td>
-              </t>
-              <t t-if="game.home_team == team">
-                <td class="js_game" t-attf-id="#{game.id}">
-                  <t t-if="game.away_team.logo_id and game.away_team.logo_id.image">
-                    <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.away_team.logo_id.sudo().image"/>
-                  </t>
-                </td>
-                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.away_team.name"/></td>
-              </t>
-              <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
-              <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/></td>
-              <td>
-                <t t-if="user">
-                  <t t-if="user.partner_id in game.present_players_ids">
-                    <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
-                  </t>
-                  <t t-if="user.partner_id not in game.present_players_ids">
-                    <i class="fa fa-check-circle-o fa-2x js_game_attend" t-attf-id="#{game.id}"/>
-                  </t>
-
-                  <t t-if="user.partner_id in game.absent_players_ids">
-                    <i class="fa fa-times-circle-o fa-2x text-danger js_game_absent" t-attf-id="#{game.id}" />
-                  </t>                
-                  <t t-if="user.partner_id not in game.absent_players_ids">
-                    <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
-                  </t>
-
+                <t t-if="game.away_team == team">
+                  <td class="js_game" t-attf-id="#{game.id}">
+                    <t t-if="game.home_team.logo_id and game.home_team.logo_id.image" >
+                      <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.home_team.logo_id.sudo().image"/>
+                    </t>
+                  </td>
+                  <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.home_team.name"/></td>
                 </t>
-              </td>
-            </tr>
+                <t t-if="game.home_team == team">
+                  <td class="js_game" t-attf-id="#{game.id}">
+                    <t t-if="game.away_team.logo_id and game.away_team.logo_id.image">
+                      <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.away_team.logo_id.sudo().image"/>
+                    </t>
+                  </td>
+                  <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.away_team.name"/></td>
+                </t>
+                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
+                <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/></td>
+                <td>
+                  <t t-if="user">
+                    <t t-if="user.partner_id in game.present_players_ids">
+                      <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
+                    </t>
+                    <t t-if="user.partner_id not in game.present_players_ids">
+                      <i class="fa fa-check-circle-o fa-2x js_game_attend" t-attf-id="#{game.id}"/>
+                    </t>
+
+                    <t t-if="user.partner_id in game.absent_players_ids">
+                      <i class="fa fa-times-circle-o fa-2x text-danger js_game_absent" t-attf-id="#{game.id}" />
+                    </t>                
+                    <t t-if="user.partner_id not in game.absent_players_ids">
+                      <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
+                    </t>
+
+                  </t>
+                </td>
+              </tr>
+            </t>
+            <t t-if="game.game_type == 'tournament'">
+              <tr t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
+                <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT) "/></td>
+                <td/>
+                <td class="js_game" t-attf-id="#{game.id}" style="font-weight: bold;">
+                Tournament</td>
+
+
+                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
+                <td class="js_game" t-attf-id="#{game.id}"/>
+                <td>
+                  <t t-if="user">
+                    <t t-if="user.partner_id in game.present_players_ids">
+                      <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
+                    </t>
+                    <t t-if="user.partner_id not in game.present_players_ids">
+                      <i class="fa fa-check-circle-o fa-2x js_game_attend" t-attf-id="#{game.id}"/>
+                    </t>
+
+                    <t t-if="user.partner_id in game.absent_players_ids">
+                      <i class="fa fa-times-circle-o fa-2x text-danger js_game_absent" t-attf-id="#{game.id}" />
+                    </t>                
+                    <t t-if="user.partner_id not in game.absent_players_ids">
+                      <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
+                    </t>
+
+                  </t>
+                </td>
+              </tr>
+            </t>
           </t>
         </tbody>
       </table>
@@ -341,16 +373,26 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-          <h4 class="modal-title" id="myModalLabel" t-esc="game.game_number">Game number</h4>
+          <t t-if="game.game_type == 'tournament'">
+            <h4 class="modal-title" id="myModalLabel" t-esc="'Tournament @' + game.venue.name">Game number</h4>
+          </t>
+          <t t-if="game.game_type != 'tournament'">
+            <h4 class="modal-title" id="myModalLabel" t-esc="game.game_number if game.game_type == 'competition' else 'Friendly Game'">Game number</h4>
+          </t>
         </div>
         <div class="modal-body">
           <div class="row">
            <div class="col-md-6">
             <div class="boxed right">
-               <div  t-esc="game.home_team.name + ' @ ' + game.away_team.name" />
-               <div t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT)"/>
-               <div t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/>
-               <div  t-esc="'@ ' + game.venue.name" />
+              <t t-if="game.game_type == 'tournament'">
+                 <div t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT) + ' ' +datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT) + ' - ' + datetime.datetime.strptime(game.end_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT) + ' ' +datetime.datetime.strptime(game.end_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/>
+              </t>
+              <t t-if="game.game_type != 'tournament'">
+                 <div t-esc="game.home_team.name + ' @ ' + game.away_team.name" />
+                 <div t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT)"/>
+                 <div t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/>
+                 <div  t-esc="'@ ' + game.venue.name" />
+              </t>
             </div>
            </div>
            <div class="col-md-4">

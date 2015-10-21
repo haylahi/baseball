@@ -23,6 +23,7 @@
         'data/menus.xml',
         'data/teams.xml',
         'data/delete.xml',
+        'data/partners.xml',
         'security/ir.model.access.csv',
         'views/menus.xml',
         'views/members.xml',
@@ -43,5 +44,10 @@
         'views/pages/homepage.xml',
         'views/pages/signup.xml',
         'views/pages/teams.xml',
+        'views/pages/baseball.xml',
+        'views/pages/club.xml',
+        'views/pages/calendar.xml',
+        'views/snippets.xml',
+        'views/pages/snippets/test.xml',
     ],
 }

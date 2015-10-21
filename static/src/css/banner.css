@@ -1,4 +1,4 @@
-#header_top_bar {
+#header_top_bar_single {
     text-align: center;
     /*font-size: 72px;*/
     /*line-height: 108px;*/
@@ -10,7 +10,7 @@
     transition: all 0.4s ease;
 }
 
-div #header_top_bar.sticky {
+div #header_top_bar_single.sticky {
     position: fixed;
     top: 0px;
     height: 50px; 
@@ -19,8 +19,32 @@ div #header_top_bar.sticky {
     z-index: 10000;
 }
 
+div #header_top_bar_alias_single.sticky {
+    height: 150px; 
+
+}
+
+#header_top_bar {
+    text-align: center;
+    /*font-size: 72px;*/
+    /*line-height: 108px;*/
+    height: 100px;
+    background-position: left top;
+
+}
+
+div #header_top_bar.sticky {
+    position: fixed;
+    top: 0px;
+    height: 100px; 
+    width: 100%;
+    text-align: center;
+    z-index: 10000;
+    opacity: 0.9;
+}
+
 div #header_top_bar_alias.sticky {
-    height: 50px; 
+    height: 100px; 
 
 }
 
@@ -36,6 +60,7 @@ div #header_top_bar_alias.sticky {
     float: left;
     position: relative;
     top: -50px;
+    margin-bottom: -50px;
     left: -5px;
     height: 150px;
     width: 150px;
@@ -52,7 +77,7 @@ div #header_top_bar_alias.sticky {
 }
 
 .modal-dialog {
-    top: 50px;
+    top: 100px;
 }
 
 .header_banner {
@@ -62,6 +87,15 @@ div #header_top_bar_alias.sticky {
 	position: relative;
     margin: auto;
 }
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: red;
+  background-color: rgba(0, 0, 0, 0);
+  font-weight: bold;
+}
+
 
 #balle {
 	width: 100%;
@@ -361,6 +395,16 @@ div #header_top_bar_alias.sticky {
     animation-fill-mode:forwards; 
 
 } 
+
+.data_roster_table > tbody > tr > td {
+    padding: 0px;
+    vertical-align: middle;
+}
+
+.table-contact > tbody > tr > td {
+    vertical-align: middle;
+}
+
 
 /*@keyframes wait { 
     100% {-o-transform: translateY(0px);} 

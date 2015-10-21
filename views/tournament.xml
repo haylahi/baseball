@@ -19,6 +19,51 @@
             </field>
         </record>
 
+        <record id="view_baseball_tournament_form" model="ir.ui.view">
+            <field name="name">baseball.game.form</field>
+            <field name="model">baseball.game</field>
+            <field name="arch" type="xml">
+
+                <form string="Tournament">
+                <sheet>
+                    <div class="oe_title oe_left">
+                        <h1>
+                            <field name="game_number" placeholder="Game number"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="game_type" invisible="1"/>
+                        <field name="start_time"/>
+                        <field name="end_time"/>
+                        <label for="home_team" string="Team"/>
+                        <field name="home_team" nolabel="1" domain="[('is_opponent','=',False)]"/>
+                        <field name="venue"/>
+                    </group>
+                    <group>
+                        <group >
+                            <label for="present_players_ids" string="Attendees"/>
+                            <newline/>
+                            <field name="present_players_ids" nolabel="1" >
+                                <tree>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <label for="absent_players_ids" string="Absentees"/>
+                            <newline/>
+                            <field name="absent_players_ids" nolabel="1" >
+                                <tree>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+
 
        <record id="view_tournament_filter" model="ir.ui.view">
             <field name="name">baseball.game.search</field>
@@ -26,7 +71,7 @@
             <field name="arch" type="xml">
                 <search>
                   <field name="start_time"/>
-                  <filter name="game_type" string="Official" domain="[('game_type', '=', 'tournament')]"/>
+                  <filter name="game_type" string="Tournament" domain="[('game_type', '=', 'tournament')]"/>
                 </search>
             </field>
         </record>
@@ -36,10 +81,21 @@
             <field name="res_model">baseball.game</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_baseball_tournament_tree"/>
-            <field name="search_view_id" ref="baseball.view_teams_filter"/>
-            <field name="context">{'search_default_game_type':'tournament'}</field>
+            <!-- <field name="view_id" ref="view_baseball_tournament_tree"/> -->
+            <field name="search_view_id" ref="view_tournament_filter"/>
+            <field name="context">{'search_default_game_type':'tournament', 'game_type':'tournament'}</field>
             <field name="domain">[('game_type','=','tournament')]</field>
+            <field name="view_ids" eval="[
+                (5, 0, 0),
+                (0, 0, {
+                    'view_mode': 'tree',
+                    'view_id': ref('view_baseball_tournament_tree'),
+                    }),
+                (0, 0, {
+                    'view_mode': 'form',
+                    'view_id': ref('view_baseball_tournament_form'),
+                    }),
+                ]"/>
         </record>
 
 

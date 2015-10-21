@@ -3,7 +3,8 @@ from openerp import http
 from openerp.http import request
 from openerp import models, fields, api, exceptions, tools
 from openerp.addons.auth_signup.controllers.main import AuthSignupHome
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
+from datetime import datetime
 
 DATE_FORMAT = "%d/%m/%Y"
 TIME_FORMAT = "%H:%M"
@@ -165,7 +166,6 @@ class baseball_club(http.Controller):
     @http.route(['/game'], type='json', auth="public", methods=['POST'], website=True)
     def modal_game(self, game_id, **kw):
         context, env, uid= request.context, request.env, request.uid
-
         website_context = kw.get('kwargs', {}).get('context', {})
         context = dict(context or {}, **website_context)
 
@@ -209,3 +209,52 @@ class baseball_club(http.Controller):
 
         value = {'attending': False}  
         return value
+
+    @http.route(['/game/score'], type='json', auth="public", methods=['POST'], website=True)
+    def game_score(self, game_id, **kw):
+        env, uid = request.env, request.uid
+
+        user_id = env['res.users'].sudo().browse(uid)
+        game_id = env['baseball.game'].sudo().browse(int(game_id))
+        game_id.scorer = user_id.partner_id 
+
+
+        value = {
+            'scoring': True,
+            'scorer': user_id.partner_id.name,
+            }  
+        return value
+
+
+    @http.route(['/game/umpire'], type='json', auth="public", methods=['POST'], website=True)
+    def game_umpire(self, game_id, **kw):
+        env, uid = request.env, request.uid
+
+        user_id = env['res.users'].sudo().browse(uid)
+        game_id = env['baseball.game'].sudo().browse(int(game_id))
+
+        game_id.umpires = user_id.partner_id 
+
+        value = {
+            'umpiring': True,
+            'umpire': user_id.partner_id.name,
+        }  
+        return value
+
+    @http.route(['/page/upcoming_games'], type='http', auth="public", website=True)
+    def upcoming_games(self, **kw):
+        env, uid = request.env, request.uid
+
+        today = datetime.strftime(datetime.today(),DEFAULT_SERVER_DATE_FORMAT)
+        games = env['baseball.game'].sudo().search([('start_time','>=',today), '|', ('home_team.is_opponent','=',False), ('away_team.is_opponent','=',False)])
+        user = env['res.users'].sudo().browse(uid) if uid != env.ref('base.public_user').id else False
+        values = {
+            'games' : games,
+            'user': user,
+            'DATE_FORMAT' : DATE_FORMAT,
+            'TIME_FORMAT': TIME_FORMAT,
+            'DEFAULT_SERVER_DATETIME_FORMAT': DEFAULT_SERVER_DATETIME_FORMAT,
+        }
+
+        return request.render('baseball.upcoming_schedule', values)
+        

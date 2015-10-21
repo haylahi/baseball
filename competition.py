@@ -20,24 +20,27 @@ class Venues(models.Model):
 
 class Game(models.Model):
     _name = 'baseball.game'
+    _order = "start_time"
+
+
+    @api.model
+    def _default_game_type(self):
+        return self.env.context.get('game_type', 'competition')
+
 
     name = fields.Char(string="Name")
-
     game_number = fields.Char(required=True, string="Game number")
     division = fields.Many2one('baseball.divisions', string="Division")
-
     start_time = fields.Datetime(string="Start Time")
     end_time = fields.Datetime(string="End Time")
-
     home_team = fields.Many2one('baseball.teams', string="Home Team")
     away_team = fields.Many2one('baseball.teams', string="Away Team")
     score_home = fields.Char(string="Score Home")
     score_away = fields.Char(string="Score Away")
-
     scorer = fields.Many2one(
-        'res.partner', string="Scorers", relation="game_scorer")
-    umpires = fields.Many2many(
-        'res.partner', string="Umpires", relation="game_umpire")
+        'res.partner', string="Scorers", compute="_get_scorer", inverse="_set_official", store=True)
+    umpires = fields.Many2one(
+        'res.partner', string="Umpires", compute="_get_umpires", inverse="_set_official", store=True)
     present_players_ids = fields.Many2many(
         'res.partner', string="Attendees", relation="game_attend")
     absent_players_ids = fields.Many2many(
@@ -46,8 +49,9 @@ class Game(models.Model):
         ('competition', "Competition game"),
         ('friendly', "Friendly game"),
         ('tournament', "Tournament"),
-    ])
+    ], default=_default_game_type)
     venue = fields.Many2one('baseball.venue', string="Venue")
+    is_opponent = fields.Boolean(string="Opponent", compute="_get_is_opponent", store=True)
 
     _sql_constraints = [
         ('game_number',
@@ -55,6 +59,27 @@ class Game(models.Model):
          "The game number must be unique"),
     ]
 
+
+    @api.one
+    def _set_official(self):
+        return
+
+    @api.one
+    @api.depends('home_team.is_opponent', 'away_team.is_opponent')
+    def _get_is_opponent(self):
+        self.is_opponent = self.home_team.is_opponent and self.away_team.is_opponent
+
+    @api.one
+    @api.depends('home_team.is_official_umpires', 'away_team.is_official_umpires', 'game_type')
+    def _get_umpires(self):
+        if (self.home_team.is_official_umpires or self.away_team.is_official_umpires) and self.game_type == 'competition':
+            self.umpires = self.env.ref('baseball.partner_frbbs_official')
+
+    @api.one
+    @api.depends('home_team.is_official_scorers', 'away_team.is_official_scorers', 'game_type')
+    def _get_scorer(self):
+        if (self.home_team.is_official_scorers or self.away_team.is_official_scorers) and self.game_type == 'competition':
+            self.scorer = self.env.ref('baseball.partner_frbbs_official')
 
     @api.multi
     def action_get_games_database(self):

@@ -46,18 +46,18 @@
                         </h1>
                     </div>
                     <group>
-                        <field name="game_type" invisible="1"/>
+                        <field name="game_type"/>
                         <field name="start_time"/>
                         <field name="division" attrs="{'invisible': [('game_type','=', 'tournament')]}"/>
                         <field name="scorer" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
-                        <field name="umpires" widget="many2many_tags" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
+                        <field name="umpires" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
                         <field name="venue"/>
                         <group>
                             <field name="home_team"/>
                             <field name="score_home" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
                         </group>
                         <group>
-                            <field name="away_team" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
+                            <field name="away_team" attrs="{'invisible': [('game_type','=', 'tournament')]}"/>
                             <field name="score_away" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
                         </group>
                     </group>
@@ -92,8 +92,13 @@
             <field name="model">baseball.game</field>
             <field name="arch" type="xml">
                 <search>
+                  <field name="game_number"/>
                   <field name="start_time"/>
-                  <filter name="friendly" string="Official" domain="[('game_type', '=', 'competition')]"/>
+                  <field name="division"/>
+                  <field name="venue"/>
+                  <filter name="official" string="Official" domain="[('game_type', '=', 'competition')]"/>
+                  <filter name="friendly" string="Friendly" domain="[('game_type', '=', 'friendly')]"/>
+                  <filter name="club_teams" string="Club Teams" domain="[('is_opponent', '=', False)]"/>
                 </search>
             </field>
         </record>
@@ -103,9 +108,20 @@
             <field name="res_model">baseball.game</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="baseball.view_teams_filter"/>
-            <field name="context">{'search_default_friendly':1}</field>
-            <field name="domain">[('game_type','=','competition')]</field>
+            <field name="search_view_id" ref="view_games_filter"/>
+            <field name="context">{'search_default_official':1, 'search_default_club_teams':1, 'game_type':'friendly'}</field>
+            <field name="domain">['|',('game_type','=','competition'),('game_type','=','friendly')]</field>
+            <field name="view_ids" eval="[
+                (5, 0, 0),
+                (0, 0, {
+                    'view_mode': 'tree',
+                    'view_id': ref('view_baseball_game_tree'),
+                    }),
+                (0, 0, {
+                    'view_mode': 'form',
+                    'view_id': ref('view_baseball_game_form'),
+                    }),
+                ]"/>
         </record>
 
 

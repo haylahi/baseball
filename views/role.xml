@@ -9,6 +9,7 @@
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Roles">
+                    <field name="sequence" widget="handle" />
                     <field name="name"/>
                 </tree>
             </field>
@@ -28,6 +29,10 @@
                             <field name="name" placeholder="Name" />
                         </h1>
                     </div>
+                    <group>
+                        <field name="published"/>
+                        <field name="address_website"/>
+                    </group>
                     <field name="description"/>
                     
                 </sheet>

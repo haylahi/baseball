@@ -15,6 +15,7 @@ class Members(models.Model):
     team_ids = fields.Many2many(
         'baseball.teams', string="Teams", relation="team_players")
     club_role_id = fields.Many2many('baseball.roles', string="Roles")
+    main_club_role_id = fields.Many2one('baseball.roles', string="Main Role", compute='_compute_main_role', store=True)
     is_in_order = fields.Boolean(readonly=True, string="Is in order", compute='_is_in_order')
     is_registered = fields.Boolean(readonly=True, string="Licenced", compute='_is_in_order')
     is_photo = fields.Boolean(
@@ -72,6 +73,13 @@ class Members(models.Model):
     @api.one
     def _compute_games(self):
         self.game_ids = self.team_ids.mapped('game_ids').sorted(key=lambda r: r.start_time)
+
+    @api.one
+    @api.depends('club_role_id')
+    def _compute_main_role(self):
+        if self.club_role_id:
+            self.main_club_role_id = self.club_role_id[0]
+
 
     @api.onchange('baseball_category_ids')
     def recalculat_current_category(self):

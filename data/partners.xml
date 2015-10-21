@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="partner_frbbs_official" model="res.partner">
+            <field name="name">FRBBS official</field>
+            <field name="active" eval="0"/>
+        </record>
+
+    </data>
+</openerp>

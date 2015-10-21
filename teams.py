@@ -24,6 +24,8 @@ class Teams(models.Model):
     image = fields.Binary('Image')
     game_ids = fields.Many2many(
         'baseball.game', string="Games", compute="_compute_games")
+    category_ids = fields.Many2many('baseball.categories', string="Categories")
+
     division_ids = fields.Many2many(
         'baseball.divisions', ondelete='set null', string="Divisions")
     is_official_umpires = fields.Boolean(

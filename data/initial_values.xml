@@ -1,19 +1,34 @@
 <openerp>
     <data>
-        <record id="roles_members" model="baseball.roles">
-            <field name="name">Member</field>
-        </record>
         <record id="roles_president" model="baseball.roles">
             <field name="name">President</field>
+            <field name="published" eval="1"/>
+            <field name="address_website" eval="0"/>
+            <field name="sequence" type="int">1</field>
         </record>
         <record id="roles_secretary" model="baseball.roles">
             <field name="name">Secretary</field>
+            <field name="published" eval="1"/>
+            <field name="address_website" eval="1"/>
+            <field name="sequence" type="int">2</field>
         </record>
         <record id="roles_treasurer" model="baseball.roles">
             <field name="name">Treasurer</field>
+            <field name="published" eval="1"/>
+            <field name="address_website" eval="0"/>
+            <field name="sequence" type="int">3</field>
         </record>
             <record id="roles_administration" model="baseball.roles">
             <field name="name">Administrator</field>
+            <field name="published" eval="1"/>
+            <field name="address_website" eval="0"/>
+            <field name="sequence" type="int">4</field>
+        </record>
+        <record id="roles_members" model="baseball.roles">
+            <field name="name">Member</field>
+            <field name="published" eval="0"/>
+            <field name="address_website" eval="0"/>
+            <field name="sequence" type="int">10</field>
         </record>
 
 

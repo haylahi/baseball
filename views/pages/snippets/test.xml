@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<template id="custom-snippet-video" inherit_id="baseball.custom-snippets">
+			<xpath expr="//div[@id='custom_snipets']" position="inside">
+
+                <!-- VIDEO SNIPPET -->
+                <div data-snippet-id="custom-snippet-video"
+                     data-selector-children=".oe_structure, [data-oe-type=html]">
+                    
+                     <!-- SNIPPET THUMBNAIL IN THE MENUBAR -->
+                    <div class="oe_snippet_thumbnail">
+                        <img class="oe_snippet_thumbnail_img" src="/baseball/static/src/img/stiches3.png" />
+                        <span class="oe_snippet_thumbnail_title">Video</span>
+                    </div>
+
+                    <!-- SNIPPET BODY -->
+                    <section class="oe_snippet_body aj-video" style="height: 240px; overflow: hidden;">
+                        <div data-src="https://www.youtube.com/embed/SG1p2I9-1qg" style="margin: 0 auto" class="media_iframe_video">
+                            <iframe src="https://www.youtube.com/embed/SG1p2I9-1qg" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- SNIPPET OPTIONS -->
+                <div data-snippet-option-id="custom-snippet-video"
+                     data-selector=".aj-video">
+                    <li class="oe_snippet_options dropdown-submenu">
+                        <a tabindex="-1" href="#">Video</a>
+                        <ul class="dropdown-menu aj-video-dropdown">
+                            <li data-value="" data-class="snippet-video-action-add-overlay"><a>Add overlay</a></li>
+                            <li data-value="" data-class="snippet-video-action-remove-overlay"><a>Remove overlay</a></li>
+                        </ul>
+                    </li>
+                </div>
+
+            </xpath>
+        </template>
+    </data>
+</openerp>

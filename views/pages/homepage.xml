@@ -6,7 +6,7 @@
     <template id="homepage" name="Homepage" inherit_id="website.homepage">
     <xpath expr="//div[@id='wrap']" position="after">
     <div class="oe_structure">
-      TEST
+      
     </div>
     <!-- END SNIPPET PLACEHOLDER -->
   </xpath>
