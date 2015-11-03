@@ -5,6 +5,8 @@ import urllib2
 import xmltodict
 from openerp.exceptions import ValidationError
 from datetime import datetime
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
+
 
 
 class Venues(models.Model):
@@ -80,6 +82,11 @@ class Game(models.Model):
     def _get_scorer(self):
         if (self.home_team.is_official_scorers or self.away_team.is_official_scorers) and self.game_type == 'competition':
             self.scorer = self.env.ref('baseball.partner_frbbs_official')
+
+    @api.model
+    def _get_upcoming_games(self, limit=None):
+        today = datetime.strftime(datetime.today(),DEFAULT_SERVER_DATE_FORMAT)
+        return self.search([('start_time','>=',today), '|', ('home_team.is_opponent','=',False), ('away_team.is_opponent','=',False)], limit=limit)
 
     @api.multi
     def action_get_games_database(self):

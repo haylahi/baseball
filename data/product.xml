@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="product_attribute_color" model="product.attribute">
+            <field name="name">Color</field>
+        </record>
+        <record id="product_attribute_value_navy" model="product.attribute.value">
+            <field name="name">Navy</field>
+            <field name="attribute_id" ref="product_attribute_color"/>
+        </record>
+        <record id="product_attribute_value_orange" model="product.attribute.value">
+            <field name="name">Orange</field>
+            <field name="attribute_id" ref="product_attribute_color"/>
+        </record>
+
+        <record id="product_attribute_size" model="product.attribute">
+            <field name="name">Size</field>
+        </record>
+        <record id="product_attribute_value_1" model="product.attribute.value">
+            <field name="name">yS</field>
+            <field name="attribute_id" ref="product_attribute_size"/>
+        </record>
+        <record id="product_attribute_value_2" model="product.attribute.value">
+            <field name="name">yM</field>
+            <field name="attribute_id" ref="product_attribute_size"/>
+        </record>
+        <record id="product_attribute_value_3" model="product.attribute.value">
+            <field name="name">yL</field>
+            <field name="attribute_id" ref="product_attribute_size"/>
+        </record>
+        <record id="product_attribute_value_4" model="product.attribute.value">
+            <field name="name">S</field>
+            <field name="attribute_id" ref="product_attribute_size"/>
+        </record>
+        <record id="product_attribute_value_5" model="product.attribute.value">
+            <field name="name">M</field>
+            <field name="attribute_id" ref="product_attribute_size"/>
+        </record>
+        <record id="product_attribute_value_6" model="product.attribute.value">
+            <field name="name">L</field>
+            <field name="attribute_id" ref="product_attribute_size"/>
+        </record>
+        <record id="product_attribute_value_7" model="product.attribute.value">
+            <field name="name">XL</field>
+            <field name="attribute_id" ref="product_attribute_size"/>
+        </record>
+        <record id="product_attribute_value_8" model="product.attribute.value">
+            <field name="name">XXL</field>
+            <field name="attribute_id" ref="product_attribute_size"/>
+        </record>
+        <record id="product_attribute_value_9" model="product.attribute.value">
+            <field name="name">XXXL</field>
+            <field name="attribute_id" ref="product_attribute_size"/>
+        </record>
+
+
+        <record id="product_template_jersey" model="product.template">
+            <field name="name">Jersey</field>
+        </record>
+
+
+        <record id="product_attribute_line_size" model="product.attribute.line">
+            <field name="product_tmpl_id" ref="product_template_jersey"/>
+            <field name="attribute_id" ref="product_attribute_size"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_1'), ref('product_attribute_value_2'), ref('product_attribute_value_3'), ref('product_attribute_value_4'), ref('product_attribute_value_5'), ref('product_attribute_value_6'), ref('product_attribute_value_7'), ref('product_attribute_value_8')])]"/>
+        </record>
+        <record id="product_attribute_line_color" model="product.attribute.line">
+            <field name="product_tmpl_id" ref="product_template_jersey"/>
+            <field name="attribute_id" ref="product_attribute_size"/>
+            <field name="value_ids" eval="[(6,0,[ref('product_attribute_value_navy'), ref('product_attribute_value_orange')])]"/>
+        </record>
+    </data>
+</openerp>
+

@@ -10,6 +10,11 @@
     border-top-right-radius: 20px;
 }
 
+.panel-footer {
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
 .top_menu {
 	width: 100%;
 }

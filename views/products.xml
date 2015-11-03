@@ -2,6 +2,47 @@
 <openerp>
     <data>
 
+        <record model="ir.ui.view" id="product_template_only_form_view">
+            <field name="name">product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <page name="variants" position="after">
+                    <page name="jersey_ids" string="Jerseys">
+                        <field name="jersey_ids">
+                            <tree string="Jerseys">
+                                <field name="number"/>
+                                <field name="size"/>
+                                <field name="color" />
+                                <field name="state"/>
+                                <field name="member_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+
+        <record id="product_normal_form_view" model="ir.ui.view">
+            <field name="name">product.product.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <page string="Information" position="after">
+                    <page name="jersey_ids" string="Jerseys">
+                        <field name="jersey_ids">
+                            <tree string="Jerseys">
+                                <field name="number"/>
+                                <field name="state"/>
+                                <field name="member_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+            </field>
+        </record>
+
         <record id="view_baseball_jerseys_form" model="ir.ui.view">
             <field name="name">baseball.jerseys.form</field>
             <field name="model">baseball.jerseys</field>
@@ -24,7 +65,8 @@
                             <field name="jerseys_ids" context="{'form_view_ref':'baseball.view_baseball_jerseysitem_form'}">
                                 <tree>
                                     <field name="number"/>
-                                    <field name="size"/>
+                                    <field name="size" />
+                                    <field name="color" />
                                     <field name="state"/>
                                     <field name="member_id"/>
                                 </tree>
@@ -61,9 +103,12 @@
                 <sheet>
                     <group>
                         <field name="number"/>
-                        <field name="size" />
+                        <field name="size" domain="[('attribute_id','=',%(product_attribute_size)d)]"/>
+                        <field name="color" domain="[('attribute_id','=',%(product_attribute_color)d)]"/>
                         <field name="state"/>
                         <field name="member_id"/>
+                        <field name="product_id" domain="[('attribute_value_ids','in',size),('attribute_value_ids','in',color)]"/>
+
                     </group>                
                 </sheet>
                 </form>
@@ -77,6 +122,7 @@
                 <tree>
                     <field name="number"/>
                     <field name="size"/>
+                    <field name="color"/>
                     <field name="state"/>
                     <field name="member_id"/>
                 </tree>
@@ -219,29 +265,14 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record model="ir.actions.act_window" id="baseball_caps_list">
-            <field name="name">Caps</field>
-            <field name="res_model">baseball.caps</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">form,kanban,tree</field>
-        </record>
 
-        <record model="ir.actions.act_window" id="baseball_product_list">
-            <field name="name">Products</field>
-            <field name="res_model">baseball.product</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">form,kanban,tree</field>
-        </record>
 
         <menuitem id="menu_jerseys" name="Jerseys"
                   parent="menu_uniforms"
                   action="baseball_jerseys_list"/>
-        <menuitem id="menu_caps" name="Caps"
+        <menuitem id="menu_products" name="Products"
                   parent="menu_uniforms"
-                  action="baseball_caps_list"/>
-        <menuitem id="menu_products" name="Other products"
-                  parent="menu_uniforms"
-                  action="baseball_product_list"/>
+                  action="product.product_template_action"/>
 
 	</data>
 </openerp>

@@ -79,7 +79,7 @@
                       <t t-foreach="website.menu_id.child_id" t-as="submenu">
                           <t t-call="website.submenu"/>
                       </t>
-                      <li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>
+                      <li class="divider" t-ignore="true"/>
                       <li class="dropdown" t-ignore="true" t-if="website.user_id != user_id">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                               <b>
@@ -93,7 +93,11 @@
                               <li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>
                           </ul>
                       </li>
+                      <li t-if="website.user_id == user_id">
+                        <a href="/web/login">Sign in</a>
+                      </li>
                   </ul>
+
               </div>
               <div class="collapse navbar-collapse navbar-top-collapse col-md-12" style="width:100%;">
 

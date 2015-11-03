@@ -15,15 +15,16 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'website', 'calendar', 'auth_signup', 'document'],
+    'depends': ['base', 'website', 'calendar', 'auth_signup', 'document', 'website_blog', 'sale'],
 
     # always loaded
     'data': [
+        'data/partners.xml',
         'data/initial_values.xml',
         'data/menus.xml',
         'data/teams.xml',
         'data/delete.xml',
-        'data/partners.xml',
+        'data/product.xml',
         'security/ir.model.access.csv',
         'views/menus.xml',
         'views/members.xml',
@@ -47,6 +48,7 @@
         'views/pages/baseball.xml',
         'views/pages/club.xml',
         'views/pages/calendar.xml',
+        'views/pages/blog.xml',
         'views/snippets.xml',
         'views/pages/snippets/test.xml',
     ],

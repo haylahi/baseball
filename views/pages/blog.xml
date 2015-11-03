@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+  <template id="blog_assets_frontend" inherit_id="website.assets_frontend" name="blog assets">
+    <xpath expr="." position="inside">
+        <script type="text/javascript" src="/baseball/static/src/js/blog.js"></script>
+    </xpath>
+  </template>
+
+<!-- Blog Post List: Displaying a list of Blog Posts -->
+<template id="website_blog.blog_post_short" name="Blog Posts">
+    <t t-call="website_blog.index">
+        <div class="oe_structure">
+          <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    <t t-call="website.pager" >
+                        <t t-set="classname">pull-right</t>
+                    </t>
+                    <h1 class="panel-title" t-field="blog.name"/>
+                </div>
+                <div class="panel-body" t-ignore="True" id="main_column">
+
+                  <div t-if="not blog_posts" class="container mb64">
+                    <p class="css_editable_hidden">
+                      <h1>No blog post yet.</h1>
+                    </p>
+                    <p groups="base.group_document_user">
+                      Click on "Content" on the top menu to write your first blog post.
+                    </p>
+                  </div>
+
+                  <div t-foreach="blog_posts" t-as="blog_post" class="row mb16">
+                        <div class="col-md-6">
+                          <a t-attf-href="/blog/#{ slug(blog_post.blog_id) }/post/#{ slug(blog_post) }">
+                            <h4 t-field="blog_post.name" class="mb4"/>
+                          </a>
+                          <div class="text-muted mb0" style="font-size: smaller;">
+                              <h4
+                                t-field="blog_post.subtitle"
+                                class="mb4 mt4"/>
+                                 <span t-field="blog_post.author_id" style="display: inline-block;" t-field-options='{
+                                        "widget": "contact",
+                                        "fields": ["name"]
+                                    }'/>
+                                &#5760; <span t-field="blog_post.create_date" t-field-options='{"format": "MMMM yyyy"}'/>
+                                <span t-if="not blog_post.website_published" class="label label-danger">not published</span>
+                          </div>
+                        </div>
+                        <div class="col-md-4" style="font-size: smaller;" name="blog_post_data"/>
+                        <div class="col-md-2 pull-right">
+                           <span t-field="blog_post.author_avatar" t-field-options='{"widget": "image", "class": "img-circle mt16 media-object img-avatar"}' />
+                        </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </t>
+</template>
+
+
+
+<!-- Blog Post Complete -->
+<template id="website_blog.blog_post_complete" name="Blog Post">
+  <t t-call="website_blog.index">
+      <div class="text-right">
+        <div class="cover-storage oe_hidden"></div>
+        <t t-call="website.publish_management">
+            <t t-set="object" t-value="blog_post"/>
+            <t t-set="publish_edit" t-value="True"/>
+            <li>
+                <form class="duplicate hidden" action="/blogpost/duplicate">
+                    <input name="blog_post_id" t-att-value="blog_post.id"/>
+                </form>
+                <a href="#" class="duplicate" onclick="$(this).prev('form').submit()">Duplicate</a>
+            </li>
+        </t>
+      </div>
+    <div class="container">
+      <div class="panel panel-default" id="title"  t-ignore="True">
+          <div class="panel-heading text-center">
+              <h3 class="panel-title" t-field="blog_post.name" id="blog_post_name" t-att-data-blog-id="blog_post.id"/>
+          </div>
+          <div class="panel-body">
+            <h3 class="panel-title text-center" t-field="blog_post.subtitle"/>
+              <p class="post-meta text-muted text-center" name="blog_post_data"/>
+              <div>
+                  <span t-field="blog_post.author_avatar" t-field-options='{"widget": "image", "class": "img-circle", "style":"width: 30px; margin-right: 10px; display:inline"}' />
+                  <span t-field="blog_post.author_id" style="display: inline-block;" t-field-options='{
+                      "widget": "contact",
+                      "fields": ["name"]
+                  }'/>
+              </div>
+            <div id="blog_content" t-field="blog_post.content" class="mt32"/>
+          </div>
+        <t t-if="next_post">
+            <div class="panel-footer blog_footer mb0 text-center" t-ignore="True">
+              <a class="hidden js_next" t-attf-href="/blog/#{ slug(next_post.blog_id) }/post/#{ slug(next_post) }"/>
+              <h1 class="panel-title" t-field="next_post.name"/>
+              <p>Read Next <span class="fa fa-long-arrow-right"/></p>
+            </div>
+        </t>
+      </div>
+    </div>
+
+
+  </t>
+</template>
+
+  </data>
+</openerp>

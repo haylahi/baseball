@@ -58,7 +58,7 @@ class Members(models.Model):
     @api.one
     @api.depends('season_ids')
     def _is_active_this_season(self):
-        if self.env['baseball.season'].get_current_season().id in self.season_ids.mapped('season_id').ids :
+        if self.env['baseball.season'].get_current_season() and self.env['baseball.season'].get_current_season().id in self.season_ids.mapped('season_id').ids :
             self.is_active_current_season = True
     
     @api.one

@@ -70,10 +70,11 @@
                     </group>
                     <group col="3" attrs="{'invisible': [('is_player','=',False)]}">
                         <group colspan="1">
-                            <field name="jerseys_ids"  nolabel="1" context="{'form_view_ref':'baseball.view_baseball_jerseysitem_form'}">
+                            <field name="jerseys_ids"  nolabel="1" context="{'form_view_ref':'baseball.view_baseball_jerseysitem_form', 'default_member_id': id}">
                                 <tree>
                                     <field name="number"/>
                                     <field name="size"/>
+                                    <field name="color"/>
                                     <field name="state"/>
                                 </tree>
                             </field>

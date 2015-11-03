@@ -244,9 +244,7 @@ class baseball_club(http.Controller):
     @http.route(['/page/upcoming_games'], type='http', auth="public", website=True)
     def upcoming_games(self, **kw):
         env, uid = request.env, request.uid
-
-        today = datetime.strftime(datetime.today(),DEFAULT_SERVER_DATE_FORMAT)
-        games = env['baseball.game'].sudo().search([('start_time','>=',today), '|', ('home_team.is_opponent','=',False), ('away_team.is_opponent','=',False)])
+        games = env['baseball.game'].sudo()._get_upcoming_games()
         user = env['res.users'].sudo().browse(uid) if uid != env.ref('base.public_user').id else False
         values = {
             'games' : games,

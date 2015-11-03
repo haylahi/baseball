@@ -3,6 +3,13 @@
   <data>
 
 
+
+<template id="login_layout" name="Signup" inherit_id="website.login_layout">
+  <xpath expr="//div[@class='oe_website_login_container']" position="attributes">
+    <attribute name="class">oe_website_login_container panel</attribute>
+  </xpath>
+</template>
+
 <template id="auth_signup.update_profile" name="Update profile">
     <t t-call="web.login_layout">
         <form class="oe_signup_form" role="form" method="post" t-if="not message">

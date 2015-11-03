@@ -20,7 +20,7 @@ div #header_top_bar_single.sticky {
 }
 
 div #header_top_bar_alias_single.sticky {
-    height: 150px; 
+    height: 100px; 
 
 }
 
@@ -74,6 +74,7 @@ div #header_top_bar_alias.sticky {
     left: -5px;
     height: 100px;
     width: 100px;
+    margin-bottom: 0px;
 }
 
 .modal-dialog {
@@ -406,6 +407,16 @@ div #header_top_bar_alias.sticky {
 }
 
 
-/*@keyframes wait { 
-    100% {-o-transform: translateY(0px);} 
-} */
+.oe_website_login_container {
+  width: 50%;
+  min-width: 500px;
+  padding: 20px;
+}
+
+.img-avatar {
+    max-width: 30px;
+}
+
+.blog_footer {
+    cursor: pointer;
+}
