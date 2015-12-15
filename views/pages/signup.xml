@@ -38,6 +38,11 @@
   </xpath>
 </template>
 
+<template id="login" name="Sign up - Reset Password" inherit_id="auth_signup.login">
+  <xpath expr="//a[@t-attf-href='/web/signup?{{ keep_query() }}']" position="attributes">
+    <attribute name="t-attf-href">/web/signup?redirect=/</attribute>
+  </xpath>
+</template>
 
 <template id="auth_signup.fields" name="Auth Signup/ResetPassword form fields">
   <t t-call="web.database_select"/>

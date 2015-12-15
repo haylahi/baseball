@@ -88,13 +88,13 @@
                               </b>
                           </a>
                           <ul class="dropdown-menu js_usermenu" role="menu">
-                              <li><a href="/web" role="menuitem">My Account</a></li>
+                              <li><a href="/profile" role="menuitem">My Profile</a></li>
                               <li class="divider"/>
                               <li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>
                           </ul>
                       </li>
                       <li t-if="website.user_id == user_id">
-                        <a href="/web/login">Sign in</a>
+                        <a href="/web/login?redirect=/">Sign in</a>
                       </li>
                   </ul>
 
@@ -116,8 +116,10 @@
 
       </header>
     </xpath>
+    <xpath expr="//head//title" position="after">
+        <link rel="shortcut icon" href="/baseball/static/src/img/favicon.ico" type="image/x-icon"/>
+    </xpath>
     </template>
-
 
 <template id="website.submenu" name="Submenu">
     <li t-att-class="

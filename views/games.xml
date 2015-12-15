@@ -49,8 +49,10 @@
                         <field name="game_type"/>
                         <field name="start_time"/>
                         <field name="division" attrs="{'invisible': [('game_type','=', 'tournament')]}"/>
-                        <field name="scorer" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
-                        <field name="umpires" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}"/>
+                        <field name="scorer" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}" context="{
+'form_view_ref':'baseball.view_baseball_members_form'}"/>
+                        <field name="umpires" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}" context="{
+'form_view_ref':'baseball.view_baseball_members_form'}"/>
                         <field name="venue"/>
                         <group>
                             <field name="home_team"/>
@@ -65,16 +67,18 @@
                         <group >
                         	<label for="present_players_ids" string="Attendees"/>
 							<newline/>
-                            <field name="present_players_ids" nolabel="1" >
+                            <field name="present_players_ids" nolabel="1" context="{
+'form_view_ref':'baseball.view_baseball_members_form'}">
                                 <tree>
                                     <field name="name"/>
                                 </tree>
                             </field>
                         </group>
                         <group>
-							<label for="absent_players_ids" string="Absentees"/>
+							<label for="absent_players_ids" string="Absentees" />
 							<newline/>
-                            <field name="absent_players_ids" nolabel="1" >
+                            <field name="absent_players_ids" nolabel="1" context="{
+'form_view_ref':'baseball.view_baseball_members_form'}">
                                 <tree>
 									<field name="name"/>
                                 </tree>

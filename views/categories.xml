@@ -29,7 +29,8 @@
                     </group>
                     <notebook colspan="4">
                         <page name="members" string="Members">
-                            <field name="players_ids" readonly="1">
+                            <field name="players_ids" readonly="1" context="{
+'form_view_ref':'baseball.view_baseball_members_form'}">
                                 <tree colors="red: is_in_order==False; blue: is_in_order==True and is_registered==False">
                                     <field name="name"/>
                                     <field name="phone"/>

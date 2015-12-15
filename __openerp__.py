@@ -41,6 +41,7 @@
         'views/season.xml',
         'views/club.xml',
         'views/config.xml',
+        'views/facebook_settings_view.xml',
         'views/pages/layout.xml',
         'views/pages/homepage.xml',
         'views/pages/signup.xml',
@@ -51,5 +52,7 @@
         'views/pages/blog.xml',
         'views/snippets.xml',
         'views/pages/snippets/test.xml',
+        'views/pages/profile.xml',
+
     ],
 }

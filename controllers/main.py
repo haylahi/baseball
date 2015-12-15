@@ -5,6 +5,8 @@ from openerp import models, fields, api, exceptions, tools
 from openerp.addons.auth_signup.controllers.main import AuthSignupHome
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
 from datetime import datetime
+from openerp.addons.website_blog.controllers.main import WebsiteBlog
+
 
 DATE_FORMAT = "%d/%m/%Y"
 TIME_FORMAT = "%H:%M"
@@ -255,4 +257,35 @@ class baseball_club(http.Controller):
         }
 
         return request.render('baseball.upcoming_schedule', values)
+
+    @http.route(['/profile'], type='http', auth="public", website=True)
+    def get_profile(self, **kw):
+        env, uid = request.env, request.uid
+        if uid != env.ref('base.public_user').id:
+            user = env['res.users'].sudo().browse(uid)
+            values = {
+                'user': user,
+                'DATE_FORMAT' : DATE_FORMAT,
+                'TIME_FORMAT': TIME_FORMAT,
+                'DEFAULT_SERVER_DATETIME_FORMAT': DEFAULT_SERVER_DATETIME_FORMAT,
+            }
+
+            return request.render('baseball.profile', values)
+
+
+class WebsiteBlog(WebsiteBlog):
+
+    @http.route([
+        """/blog/<model('blog.blog'):blog>/post/"""
+        """<model('blog.post', '[("blog_id","=", "blog[0]")]'):blog_post>"""],
+        type='http', auth="public", website=True)
+    def blog_post(self, blog, blog_post,
+                  tag_id=None, page=1, enable_editor=None, **post):
+        response = super(WebsiteBlog, self).blog_post(
+            blog, blog_post, tag_id=None, page=1, enable_editor=None, **post)
+        response.qcontext['appId'] = request.website.facebook_appid
+        response.qcontext['lang'] = request.context['lang']
+        response.qcontext['numposts'] = request.website.facebook_numposts
+        response.qcontext['base_url'] = request.httprequest.url
+        return response
         

@@ -94,6 +94,20 @@
                   }'/>
               </div>
             <div id="blog_content" t-field="blog_post.content" class="mt32"/>
+            <t t-if="appId">
+                <div id="comments_facebook" class="read_width">
+                    <div id="fb-root"></div>
+                    <script>(function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = "//connect.facebook.net/<t t-raw='lang'/>/sdk.js#xfbml=1&amp;version=v2.3&amp;appId=<t t-raw='appId'/>";
+                      fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));</script>
+                    <section class="fb-comments read_width" t-att-data-href="base_url" t-att-data-numposts="numposts">
+                    </section>
+                </div>
+              </t>
           </div>
         <t t-if="next_post">
             <div class="panel-footer blog_footer mb0 text-center" t-ignore="True">
@@ -108,6 +122,5 @@
 
   </t>
 </template>
-
   </data>
 </openerp>

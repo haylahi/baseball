@@ -406,6 +406,10 @@ div #header_top_bar_alias.sticky {
     vertical-align: middle;
 }
 
+.table-profile > tbody > tr > td {
+    border-top: 0px;
+}
+
 
 .oe_website_login_container {
   width: 50%;
@@ -420,3 +424,4 @@ div #header_top_bar_alias.sticky {
 .blog_footer {
     cursor: pointer;
 }
+.fa-comment-o{display: none;}

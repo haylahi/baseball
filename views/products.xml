@@ -15,7 +15,8 @@
                                 <field name="size"/>
                                 <field name="color" />
                                 <field name="state"/>
-                                <field name="member_id"/>
+                                <field name="member_id" context="{
+'form_view_ref':'baseball.view_baseball_members_form'}"/>
                             </tree>
                         </field>
                     </page>
@@ -35,7 +36,8 @@
                             <tree string="Jerseys">
                                 <field name="number"/>
                                 <field name="state"/>
-                                <field name="member_id"/>
+                                <field name="member_id" context="{
+'form_view_ref':'baseball.view_baseball_members_form'}"/>
                             </tree>
                         </field>
                     </page>
@@ -54,7 +56,8 @@
                         <field name="size" domain="[('attribute_id','=',%(product_attribute_size)d)]"/>
                         <field name="color" domain="[('attribute_id','=',%(product_attribute_color)d)]"/>
                         <field name="state"/>
-                        <field name="member_id"/>
+                        <field name="member_id" context="{
+'form_view_ref':'baseball.view_baseball_members_form'}"/>
                         <field name="product_id" domain="[('attribute_value_ids','in',size),('attribute_value_ids','in',color)]"/>
 
                     </group>                
@@ -72,7 +75,8 @@
                     <field name="size"/>
                     <field name="color"/>
                     <field name="state"/>
-                    <field name="member_id"/>
+                    <field name="member_id" context="{
+'form_view_ref':'baseball.view_baseball_members_form'}"/>
                 </tree>
             </field>
         </record>
