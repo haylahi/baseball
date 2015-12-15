@@ -60,6 +60,8 @@ class Members(models.Model):
     def _is_active_this_season(self):
         if self.env['baseball.season'].get_current_season() and self.env['baseball.season'].get_current_season().id in self.season_ids.mapped('season_id').ids :
             self.is_active_current_season = True
+        else:
+            self.is_active_current_season = False
     
     @api.one
     @api.depends('is_photo','season_ids')

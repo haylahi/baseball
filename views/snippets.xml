@@ -2,14 +2,6 @@
 <openerp>
 	<data>
 		<template id="custom-snippets" inherit_id="website.snippets">
-			
-			<!-- CUSTOM SNUPPETS MENU ITEM -->
-			<xpath expr="//ul[@class='nav navbar-nav nav-tabs']" position="inside">
-				<li>
-					<a href="#custom_snipets" data-toggle="tab">Custom</a>
-				</li>
-			</xpath>
-
 			<!-- CUSTOM SNIPPETS TAB -->
 			<xpath expr="//div[@id='snippet_effect']" position="after">
 				<div id="custom_snipets" class="tab-pane fade">
@@ -17,24 +9,5 @@
 			</xpath>
 		</template>
 
-		<template id="snippet_options" inherit_id="website.snippet_options">
-			<xpath expr="//div[2]/li[1]/ul[1]/li[1]/ul" position="inside">
-                <li data-value='aj_color_orange'><a>LAJ Orange #1</a></li>
-                <li data-value='aj_orange'><a>LAJ Orange #2</a></li>
-                <li data-value='aj_light_orange'><a>LAJ Light Orange</a></li>
-                <li data-value='aj_dark_blue'><a>LAJ Dark Blue</a></li>
-                <li data-value='aj_darker_blue'><a>LAJ Darker Blue</a></li>
-                <li data-value='aj_light_blue'><a>LAJ Light Blue</a></li>
-                <li data-value='aj_very_light_blue'><a>LAJ Very Light Blue</a></li>
-                <li data-value='aj_green'><a>LAJ Green</a></li>
-                <li data-value='aj_light_green'><a>LAJ Light Green</a></li>
-                <li data-value='aj_dark_green'><a>LAJ Dark Green</a></li>
-                <li data-value='aj_black'><a>LAJ Black</a></li>
-                <li data-value='aj_violet'><a>LAJ Violet</a></li>
-                <li data-value='aj_red'><a>LAJ Red</a></li>
-                <li data-value='aj_grey'><a>LAJ Grey</a></li>
-                <li data-value='aj_light_grey'><a>LAJ Light Grey</a></li>
-			</xpath>
-		</template>
 	</data>
 </openerp>

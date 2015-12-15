@@ -30,7 +30,7 @@
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
-                <page string="Information" position="after">
+                <notebook position="inside">
                     <page name="jersey_ids" string="Jerseys">
                         <field name="jersey_ids">
                             <tree string="Jerseys">
@@ -41,7 +41,7 @@
                             </tree>
                         </field>
                     </page>
-                </page>
+                </notebook>
             </field>
         </record>
 

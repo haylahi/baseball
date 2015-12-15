@@ -9,15 +9,15 @@
 <!--         <script type="text/javascript">
           $("body").backstretch('/baseball/static/img/background/background5.jpg');
         </script> -->
+        <link rel="stylesheet" href="/baseball/static/src/css/custom_bootstrap.css" type="text/css"/>
+        <link href="/baseball/static/src/css/banner.css" rel="stylesheet" type="text/css" />
     </xpath>
   </template>
 
-    <template id="theme" name="theme" inherit_id="website.theme">
+<!--     <template id="theme" name="theme" inherit_id="website.theme">
       <xpath expr="//link[last()]" position="after">
-        <link rel="stylesheet" href="/baseball/static/src/css/custom_bootstrap.css" type="text/css"/>
-        <link href="/baseball/static/src/css/banner.css" rel="stylesheet" type="text/css" />
       </xpath>
-    </template>
+    </template> -->
 
   <template id="footer" inherit_id="website.footer_default" name="footer">
     <xpath expr="//div[@class='row']" position="attributes">
