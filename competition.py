@@ -88,9 +88,8 @@ class Game(models.Model):
         today = datetime.strftime(datetime.today(),DEFAULT_SERVER_DATE_FORMAT)
         return self.search([('start_time','>=',today), '|', ('home_team.is_opponent','=',False), ('away_team.is_opponent','=',False)], limit=limit)
 
-    @api.multi
+    @api.model
     def action_get_games_database(self):
-
         def get_or_create_team(team_name, division):
             tag_name = self.env['baseball.teams.dbname'].search([('name','=',team_name)])  
             if not tag_name:
@@ -111,16 +110,21 @@ class Game(models.Model):
 
 
         xml_frbbs_calendar = self.env['ir.config_parameter'].get_param('xml_frbbs_calendar')
+        if not xml_frbbs_calendar:
+            return
         # "http://www.frbbs.be/xmlGames.php?token=ed54@dAff5d!f6gDH%28T54sdF6-fJ5:9hvF!b"
         file = urllib2.urlopen(xml_frbbs_calendar)
         data = file.read()
         file.close()
 
+        if not data:
+            return
         data = xmltodict.parse(data)
 
         # games = []
         for k, v in data.items():
             for game in v['GameInfo']:
+
                 ga = {}
 
                 ga['game_number'] = game['game'].encode('utf-8')

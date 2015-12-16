@@ -25,6 +25,7 @@
         'data/teams.xml',
         'data/delete.xml',
         'data/product.xml',
+        'data/cron.xml',
         'security/ir.model.access.csv',
         'views/menus.xml',
         'views/members.xml',

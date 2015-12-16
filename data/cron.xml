@@ -7,11 +7,11 @@
             <field eval="True" name="active" />
             <field name="user_id" ref="base.user_root" />
             <field name="interval_number">1</field>
-            <field name="interval_type">weeks</field>
+            <field name="interval_type">days</field>
             <field name="numbercall">-1</field>
             <field eval="False" name="doall" />
             <field eval="'baseball.game'" name="model" />
-            <field eval="'get_games_database'" name="function" />
+            <field eval="'action_get_games_database'" name="function" />
             <!--<field eval="'(False,)'" name="args" />-->
         </record>
     </data>
