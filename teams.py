@@ -77,6 +77,7 @@ class Divisions(models.Model):
     code = fields.Char(string="Code", required=True)
     description = fields.Html()
     team_ids = fields.Many2many('baseball.teams', string="Teams")
+    average_duration = fields.Float(string="Average length")
     standings_ids = fields.Many2many('baseball.standings', string="Teams", compute="_compute_order_standing")
     parent_related_division_ids = fields.Many2many(
         comodel_name='baseball.divisions',

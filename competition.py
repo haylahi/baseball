@@ -34,7 +34,7 @@ class Game(models.Model):
     game_number = fields.Char(required=True, string="Game number")
     division = fields.Many2one('baseball.divisions', string="Division")
     start_time = fields.Datetime(string="Start Time")
-    end_time = fields.Datetime(string="End Time")
+    end_time = fields.Datetime(string="End Time", compute="_compute_end_time")
     home_team = fields.Many2one('baseball.teams', string="Home Team")
     away_team = fields.Many2one('baseball.teams', string="Away Team")
     score_home = fields.Char(string="Score Home")
@@ -82,6 +82,16 @@ class Game(models.Model):
     def _get_scorer(self):
         if (self.home_team.is_official_scorers or self.away_team.is_official_scorers) and self.game_type == 'competition':
             self.scorer = self.env.ref('baseball.partner_frbbs_official')
+    
+    @api.one
+    @api.depends('start_time', 'division.average_duration')
+    def _compute_end_time(self):
+        if not self.division.average_duration:
+            duration = timedelta(hours=1)
+        else:
+            duration = timedelta(hours=self.division.average_duration)
+        start = fields.Datetime.from_string(self.start_time)
+        self.end_time = start + duration
 
     @api.model
     def _get_upcoming_games(self, limit=None):

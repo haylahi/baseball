@@ -48,6 +48,7 @@
                     <group>
                         <field name="game_type"/>
                         <field name="start_time"/>
+                        <field name="end_time"/>
                         <field name="division" attrs="{'invisible': [('game_type','=', 'tournament')]}"/>
                         <field name="scorer" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}" context="{
 'form_view_ref':'baseball.view_baseball_members_form'}"/>
@@ -96,25 +97,14 @@
         <field name="arch" type="xml">
             <calendar string="Session Calendar"
                       date_start="start_time"
+                      date_stop="end_time"
                       color="division">
                 <field name="game_number"/>
-                <field name="division" />
+                <field name="away_team" />
+                <field name="home_team" />
             </calendar>
         </field>
     </record>
-
-
-    <record id="view_baseball_game_gantt" model="ir.ui.view">
-        <field name="name">baseball.game.gantt</field>
-        <field name="model">baseball.game</field>
-        <field name="arch" type="xml">
-          <gantt 
-                 date_start="start_date"
-                 >
-          </gantt>
-        </field>
-    </record>
-
 
 
        <record id="view_games_filter" model="ir.ui.view">
@@ -137,7 +127,7 @@
             <field name="name">Games</field>
             <field name="res_model">baseball.game</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form,calendar,gantt</field>
+            <field name="view_mode">tree,form,calendar</field>
             <field name="search_view_id" ref="view_games_filter"/>
             <field name="context">{'search_default_club_teams':1, 'game_type':'friendly'}</field>
             <field name="domain">['|',('game_type','=','competition'),('game_type','=','friendly')]</field>
