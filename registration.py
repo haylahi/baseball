@@ -32,7 +32,8 @@ class Season(models.Model):
 
     @api.one
     def _compute_to_collect(self):
-        self.amount_left_to_collect = 0
+        registration_ids = self.env['baseball.registration'].search([('season_id','=',self.id)])
+        self.amount_left_to_collect = sum(registration_ids.mapped(lambda r: r.fee_to_pay - r.fee_paid))
 
     @api.model
     def get_current_season(self):
@@ -58,17 +59,21 @@ class Registration(models.Model):
     member_id = fields.Many2one("res.partner", string="Member")
     is_registered = fields.Boolean(default=False, string="Licensed")
     is_certificate = fields.Boolean(default=False, string="Certificate")
-    fee_to_pay = fields.Float(string="Fee", compute='_compute_fee')
+    fee_to_pay = fields.Float(string="Fee", compute='_compute_fee', inverse="_set_fee", store=True)
     fee_paid = fields.Float(string="Paid")
 
     @api.one
-    @api.depends('category_id', 'season_id')
+    @api.depends('category_id.cotisation', 'season_id')
     def _compute_fee(self):
         cotisation_id = self.env['baseball.fee'].search([('category_id','=',self.category_id.id),('season_id', '=', self.season_id.id)])
         if cotisation_id:
             self.fee_to_pay = cotisation_id.fee
         else:
             self.fee_to_pay = 0
+
+    @api.one
+    def _set_fee(self):
+        return
 
 class Fee(models.Model):
     _name = 'baseball.fee'

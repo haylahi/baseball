@@ -38,6 +38,9 @@ class Members(models.Model):
     game_ids = fields.Many2many(
         'baseball.game', string="Games", compute="_compute_games")
     gender = fields.Selection([('male', 'Male'),('female', 'Female')], string="Gender")
+    debt = fields.Float(string="Debt", compute='_compute_debt', store=True)
+
+
 
     @api.one
     @api.depends('team_ids')
@@ -82,6 +85,10 @@ class Members(models.Model):
         if self.club_role_id:
             self.main_club_role_id = self.club_role_id[0]
 
+    @api.one
+    @api.depends('season_ids.fee_to_pay','season_ids.fee_paid')
+    def _compute_debt(self):
+        self.debt = round(sum(self.season_ids.mapped(lambda r: r.fee_to_pay - r.fee_paid)),2)
 
     @api.onchange('baseball_category_ids')
     def recalculat_current_category(self):
