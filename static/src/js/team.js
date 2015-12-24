@@ -1,14 +1,19 @@
+odoo.define('website.editor', function (require) {
+'use strict';
+
+var ajax = require('web.ajax');
+var website = require('website.website');
+
+
 $(document).ready(function () {
+
 
     $('.js_player')
         .off('click')
         .click(function (event) {
             var player_id = parseInt(this.attributes.id.value);
-            openerp.jsonRpc("/player", 'call', {
+            ajax.jsonRpc("/player", 'call', {
                     'player_id': player_id,
-                    kwargs: {
-                       context: openerp.website.get_context()
-                    },
                 }).then(function (modal) {
                     var $modal = $(modal);
                     $modal.modal()
@@ -23,11 +28,8 @@ $(document).ready(function () {
         .off('click')
         .click(function (event) {
             var game_id = parseInt(this.attributes.id.value);
-            openerp.jsonRpc("/game", 'call', {
+            ajax.jsonRpc("/game", 'call', {
                     'game_id': game_id,
-                    kwargs: {
-                       context: openerp.website.get_context()
-                    },
                 }).then(function (modal) {
                     var $modal = $(modal);
                     $modal.modal()
@@ -43,11 +45,8 @@ $(document).ready(function () {
         .click(function (event) {
             var item = this
             var game_id = parseInt(this.attributes.id.value);
-            openerp.jsonRpc("/game/attend", 'call', {
+            ajax.jsonRpc("/game/attend", 'call', {
                     'game_id': game_id,
-                    kwargs: {
-                       context: openerp.website.get_context()
-                    },
                 }).then(function (value) {
                     if (value.attending== true){
                         $(item).parent().find('.js_game_absent').removeClass( "text-danger");
@@ -62,11 +61,8 @@ $(document).ready(function () {
         .click(function (event) {
             var item = this
             var game_id = parseInt(this.attributes.id.value);
-            openerp.jsonRpc("/game/absent", 'call', {
+            ajax.jsonRpc("/game/absent", 'call', {
                     'game_id': game_id,
-                    kwargs: {
-                       context: openerp.website.get_context()
-                    },
                 }).then(function (value) {
                     if (value.attending == false){
                         $(item).parent().find('.js_game_attend').removeClass( "text-success");
@@ -75,6 +71,8 @@ $(document).ready(function () {
                 });
             return false;
         });
+});
+
 });
 
 

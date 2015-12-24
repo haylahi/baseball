@@ -21,8 +21,8 @@ class Venues(models.Model):
     country_id = fields.Many2one("res.country", string="Country")
 
 class Game(models.Model):
-    _name = 'baseball.game'
-    _order = "start_time"
+    _inherit = 'calendar.event'
+    _order = "start_datetime"
 
 
     @api.model
@@ -30,11 +30,11 @@ class Game(models.Model):
         return self.env.context.get('game_type', 'competition')
 
 
-    name = fields.Char(string="Name")
+    # name = fields.Char(string="Name")
     game_number = fields.Char(required=True, string="Game number")
     division = fields.Many2one('baseball.divisions', string="Division")
-    start_time = fields.Datetime(string="Start Time")
-    end_time = fields.Datetime(string="End Time", compute="_compute_end_time")
+    # start_datetime = fields.Datetime(string="Start Time")
+    # stop_datetime = fields.Datetime(string="End Time", compute="_compute_stop_datetime")
     home_team = fields.Many2one('baseball.teams', string="Home Team")
     away_team = fields.Many2one('baseball.teams', string="Away Team")
     score_home = fields.Char(string="Score Home")
@@ -84,19 +84,21 @@ class Game(models.Model):
             self.scorer = self.env.ref('baseball.partner_frbbs_official')
     
     @api.one
-    @api.depends('start_time', 'division.average_duration')
-    def _compute_end_time(self):
+    @api.depends('start_datetime', 'division.average_duration')
+    def _compute_stop_datetime(self):
         if not self.division.average_duration:
             duration = timedelta(hours=1)
         else:
             duration = timedelta(hours=self.division.average_duration)
-        start = fields.Datetime.from_string(self.start_time)
-        self.end_time = start + duration
+        start = fields.Datetime.from_string(self.start_datetime)
+        self.stop_datetime = start + duration
 
     @api.model
     def _get_upcoming_games(self, limit=None):
+        # import ipdb; ipdb.set_trace()
         today = datetime.strftime(datetime.today(),DEFAULT_SERVER_DATE_FORMAT)
-        return self.search([('start_time','>=',today), '|', ('home_team.is_opponent','=',False), ('away_team.is_opponent','=',False)], limit=limit)
+        today = '2014-12-12'
+        return self.search([('start_datetime','>=',today), '|', ('home_team.is_opponent','=',False), ('away_team.is_opponent','=',False)], limit=limit)
 
     @api.model
     def action_get_games_database(self):
@@ -148,13 +150,19 @@ class Game(models.Model):
                 ga['away'] = game['away'].encode('utf-8')
                 ga['score'] = game['score'].encode('utf-8')
 
-                current_game = self.env['baseball.game'].search(
+                current_game = self.env['calendar.event'].search(
                     [('game_number', '=', ga['game_number'])])
                 division = self.env['baseball.divisions'].search(
                     [('code', '=', ga['division'])])
                 if not division:
                     division = self.env['baseball.divisions'].create(
-                        {'name': ga['division'], 'code': ga['division']})
+                        {
+                        'name': ga['division'], 
+                        'code': ga['division'],
+                        'average_duration': 2.00
+                        })
+
+
 
                 home = get_or_create_team(ga['home'], division) 
                 away = get_or_create_team(ga['away'], division) 
@@ -165,10 +173,18 @@ class Game(models.Model):
                     venue = self.env['baseball.venue'].create(
                         {'name': ga['venue']})
 
+
+                duration = timedelta(hours=division.average_duration)
+                start = fields.Datetime.from_string((game['date'] + ' ' + game['time']).encode('utf-8'))
+                stop_datetime = fields.Datetime.to_string(start + duration)
+
+
                 values = {
+                    'name': ga['game_number'],
                     'game_number': ga['game_number'],
                     'division': division.id,
-                    'start_time': (game['date'] + ' ' + game['time']).encode('utf-8'),
+                    'start_datetime': (game['date'] + ' ' + game['time']).encode('utf-8'),
+                    'stop_datetime': stop_datetime,
                     'home_team': home.id,
                     'away_team': away.id,
                     'venue': venue.id,

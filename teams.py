@@ -23,7 +23,7 @@ class Teams(models.Model):
         'res.partner', string="Manager", relation="team_responsibles")
     image = fields.Binary('Image')
     game_ids = fields.Many2many(
-        'baseball.game', string="Games", compute="_compute_games")
+        'calendar.event', string="Games", compute="_compute_games")
     category_ids = fields.Many2many('baseball.categories', string="Categories")
 
     division_ids = fields.Many2many(
@@ -62,7 +62,7 @@ class Teams(models.Model):
 
     @api.one
     def _compute_games(self):
-        self.game_ids = self.env['baseball.game'].search(['|', ('home_team','=',self.id),('away_team','=',self.id)]).sorted(key=lambda r: r.start_time)
+        self.game_ids = self.env['calendar.event'].search(['|', ('home_team','=',self.id),('away_team','=',self.id)]).sorted(key=lambda r: r.start_datetime)
 
 
 class SubTeams(models.Model):

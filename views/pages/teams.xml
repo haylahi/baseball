@@ -247,7 +247,7 @@
           <t t-foreach="team.game_ids or []" t-as="game">
             <t t-if="game.game_type != 'tournament'">
               <tr t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
-                <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT) "/></td>
+                <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_datetime, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT) "/></td>
 
                 <t t-if="game.away_team == team">
                   <td class="js_game" t-attf-id="#{game.id}">
@@ -266,7 +266,7 @@
                   <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.away_team.name"/></td>
                 </t>
                 <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
-                <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/></td>
+                <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_datetime, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/></td>
                 <td>
                   <t t-if="user">
                     <t t-if="user.partner_id in game.present_players_ids">
@@ -289,7 +289,7 @@
             </t>
             <t t-if="game.game_type == 'tournament'">
               <tr t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
-                <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT) "/></td>
+                <td class="js_game" t-attf-id="#{game.id}"><span t-esc="datetime.datetime.strptime(game.start_datetime, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT) "/></td>
                 <td/>
                 <td class="js_game" t-attf-id="#{game.id}" style="font-weight: bold;">
                 Tournament</td>
@@ -385,12 +385,12 @@
            <div class="col-md-6">
             <div class="boxed right">
               <t t-if="game.game_type == 'tournament'">
-                 <div t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT) + ' ' +datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT) + ' - ' + datetime.datetime.strptime(game.end_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT) + ' ' +datetime.datetime.strptime(game.end_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/>
+                 <div t-esc="datetime.datetime.strptime(game.start_datetime, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT) + ' ' +datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT) + ' - ' + datetime.datetime.strptime(game.end_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT) + ' ' +datetime.datetime.strptime(game.end_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/>
               </t>
               <t t-if="game.game_type != 'tournament'">
                  <div t-esc="game.home_team.name + ' @ ' + game.away_team.name" />
-                 <div t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT)"/>
-                 <div t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/>
+                 <div t-esc="datetime.datetime.strptime(game.start_datetime, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT)"/>
+                 <div t-esc="datetime.datetime.strptime(game.start_datetime, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/>
                  <div  t-esc="'@ ' + game.venue.name" />
               </t>
             </div>

@@ -4,14 +4,14 @@
 
 
         <record id="view_baseball_game_tree" model="ir.ui.view">
-            <field name="name">baseball.game.tree</field>
-            <field name="model">baseball.game</field>
+            <field name="name">calendar.event.tree</field>
+            <field name="model">calendar.event</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
 
                 <tree string="Games">
                     <field name="game_number"/>
-                    <field name="start_time"/>
+                    <field name="start_datetime"/>
                     <field name="division"/>
                     <field name="home_team"/>
                     <field name="score_home"/>
@@ -29,16 +29,13 @@
 
 
         <record id="view_baseball_game_form" model="ir.ui.view">
-            <field name="name">baseball.game.form</field>
-            <field name="model">baseball.game</field>
+            <field name="name">calendar.event.form</field>
+            <field name="model">calendar.event</field>
             <field name="arch" type="xml">
-
                 <form string="Games">
                     <header>
                         <button string="Update games" type="object" name="action_get_games_database"/>
                     </header>
-
-
                 <sheet>
                     <div class="oe_title oe_left">
                         <h1>
@@ -47,8 +44,8 @@
                     </div>
                     <group>
                         <field name="game_type"/>
-                        <field name="start_time"/>
-                        <field name="end_time"/>
+                        <field name="start_datetime"/>
+                        <field name="stop_datetime"/>
                         <field name="division" attrs="{'invisible': [('game_type','=', 'tournament')]}"/>
                         <field name="scorer" attrs="{'invisible': ['|',('game_type','=', 'tournament'),('game_type','=', 'friendly')]}" context="{
 'form_view_ref':'baseball.view_baseball_members_form'}"/>
@@ -92,12 +89,12 @@
         </record>
 
     <record model="ir.ui.view" id="view_baseball_game_calendar">
-        <field name="name">baseball.game.calendar</field>
-        <field name="model">baseball.game</field>
+        <field name="name">calendar.event.calendar</field>
+        <field name="model">calendar.event</field>
         <field name="arch" type="xml">
             <calendar string="Session Calendar"
-                      date_start="start_time"
-                      date_stop="end_time"
+                      date_start="start_datetime"
+                      date_stop="stop_datetime"
                       color="division">
                 <field name="game_number"/>
                 <field name="away_team" />
@@ -108,12 +105,12 @@
 
 
        <record id="view_games_filter" model="ir.ui.view">
-            <field name="name">baseball.game.search</field>
-            <field name="model">baseball.game</field>
+            <field name="name">calendar.event.search</field>
+            <field name="model">calendar.event</field>
             <field name="arch" type="xml">
                 <search>
                   <field name="game_number"/>
-                  <field name="start_time"/>
+                  <field name="start_datetime"/>
                   <field name="division"/>
                   <field name="venue"/>
                   <filter name="official" string="Official" domain="[('game_type', '=', 'competition')]"/>
@@ -125,7 +122,7 @@
 
         <record model="ir.actions.act_window" id="baseball_list_games">
             <field name="name">Games</field>
-            <field name="res_model">baseball.game</field>
+            <field name="res_model">calendar.event</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar</field>
             <field name="search_view_id" ref="view_games_filter"/>

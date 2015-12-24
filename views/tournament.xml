@@ -5,13 +5,13 @@
 
         <record id="view_baseball_tournament_tree" model="ir.ui.view">
             <field name="name">baseball.tournament.tree</field>
-            <field name="model">baseball.game</field>
+            <field name="model">calendar.event</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
 
                 <tree string="Games">
-                    <field name="start_time"/>
-                    <field name="end_time"/>
+                    <field name="start_datetime"/>
+                    <field name="stop_datetime"/>
                     <field name="division"/>
                     <field name="home_team"/>
                     <field name="venue"/>
@@ -20,8 +20,8 @@
         </record>
 
         <record id="view_baseball_tournament_form" model="ir.ui.view">
-            <field name="name">baseball.game.form</field>
-            <field name="model">baseball.game</field>
+            <field name="name">calendar.event.form</field>
+            <field name="model">calendar.event</field>
             <field name="arch" type="xml">
 
                 <form string="Tournament">
@@ -33,8 +33,8 @@
                     </div>
                     <group>
                         <field name="game_type" invisible="1"/>
-                        <field name="start_time"/>
-                        <field name="end_time"/>
+                        <field name="start_datetime"/>
+                        <field name="stop_datetime"/>
                         <label for="home_team" string="Team"/>
                         <field name="home_team" nolabel="1" domain="[('is_opponent','=',False)]"/>
                         <field name="venue"/>
@@ -66,11 +66,11 @@
 
 
        <record id="view_tournament_filter" model="ir.ui.view">
-            <field name="name">baseball.game.search</field>
-            <field name="model">baseball.game</field>
+            <field name="name">calendar.event.search</field>
+            <field name="model">calendar.event</field>
             <field name="arch" type="xml">
                 <search>
-                  <field name="start_time"/>
+                  <field name="start_datetime"/>
                   <filter name="game_type" string="Tournament" domain="[('game_type', '=', 'tournament')]"/>
                 </search>
             </field>
@@ -78,7 +78,7 @@
 
         <record model="ir.actions.act_window" id="baseball_list_tournaments">
             <field name="name">Tournaments</field>
-            <field name="res_model">baseball.game</field>
+            <field name="res_model">calendar.event</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <!-- <field name="view_id" ref="view_baseball_tournament_tree"/> -->

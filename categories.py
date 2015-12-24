@@ -22,7 +22,7 @@ class Categories(models.Model):
     end_date = fields.Integer(string="End (year)")
     active = fields.Boolean(default=True)
     game_ids = fields.Many2many(
-        'baseball.game', string="Games", compute="_compute_games")
+        'calendar.event', string="Games", compute="_compute_games")
     sequence = fields.Integer(string='Sequence')
 
 
@@ -57,4 +57,4 @@ class Categories(models.Model):
 
     @api.one
     def _compute_games(self):
-        self.game_ids = self.teams_ids.mapped('game_ids').sorted(key=lambda r: r.start_time)
+        self.game_ids = self.teams_ids.mapped('game_ids').sorted(key=lambda r: r.start_datetime)

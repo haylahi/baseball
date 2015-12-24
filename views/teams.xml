@@ -74,7 +74,7 @@
                             <field name="game_ids">
                                 <tree>
                                     <field name="game_number"/>
-                                    <field name="start_time"/>
+                                    <field name="start_datetime"/>
                                     <field name="division"/>
                                     <field name="home_team"/>
                                     <field name="score_home"/>

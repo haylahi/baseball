@@ -26,9 +26,9 @@ class Members(models.Model):
     season_ids = fields.One2many(
         'baseball.registration', 'member_id', string="Seasons")
     present_games_ids = fields.Many2many(
-        'baseball.game', string="Attended Games", relation="game_attend")
+        'calendar.event', string="Attended Games", relation="game_attend")
     absent_games_ids = fields.Many2many(
-        'baseball.game', string="Missed Games", relation="game_absent")
+        'calendar.event', string="Missed Games", relation="game_absent")
     positions_ids = fields.Many2many('baseball.positions', string="Positions")
     personal_comments = fields.Html()
     private_comments = fields.Html()
@@ -36,7 +36,7 @@ class Members(models.Model):
     is_certificate = fields.Boolean('Certificate', default=False, compute='_is_in_order')
     is_player = fields.Boolean('Player', default=True)
     game_ids = fields.Many2many(
-        'baseball.game', string="Games", compute="_compute_games")
+        'calendar.event', string="Games", compute="_compute_games")
     gender = fields.Selection([('male', 'Male'),('female', 'Female')], string="Gender")
 
     @api.one
@@ -74,7 +74,7 @@ class Members(models.Model):
 
     @api.one
     def _compute_games(self):
-        self.game_ids = self.team_ids.mapped('game_ids').sorted(key=lambda r: r.start_time)
+        self.game_ids = self.team_ids.mapped('game_ids').sorted(key=lambda r: r.start_datetime)
 
     @api.one
     @api.depends('club_role_id')

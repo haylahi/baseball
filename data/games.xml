@@ -1,0 +1,10 @@
+<openerp>
+    <data>
+        <record id="event_type_game" model="calendar.event.type">
+            <field name="name">Game</field>
+        </record>
+        <record id="event_type_tournament" model="calendar.event.type">
+            <field name="name">Tournament</field>
+        </record>
+    </data>
+</openerp>

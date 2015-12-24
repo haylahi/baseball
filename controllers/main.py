@@ -171,7 +171,7 @@ class baseball_club(http.Controller):
         website_context = kw.get('kwargs', {}).get('context', {})
         context = dict(context or {}, **website_context)
 
-        game = env['baseball.game'].sudo().browse(int(game_id))
+        game = env['calendar.event'].sudo().browse(int(game_id))
         request.website = request.website.with_context(context)
 
         user = env['res.users'].sudo().browse(uid) if uid != env.ref('base.public_user').id else False
@@ -190,7 +190,7 @@ class baseball_club(http.Controller):
         env, uid = request.env, request.uid
 
         user_id = env['res.users'].sudo().browse(uid)
-        game_id = env['baseball.game'].sudo().browse(int(game_id))
+        game_id = env['calendar.event'].sudo().browse(int(game_id))
 
         game_id.present_players_ids |= user_id.partner_id 
         game_id.absent_players_ids -= user_id.partner_id 
@@ -204,7 +204,7 @@ class baseball_club(http.Controller):
         env, uid = request.env, request.uid
 
         user_id = env['res.users'].sudo().browse(uid)
-        game_id = env['baseball.game'].sudo().browse(int(game_id))
+        game_id = env['calendar.event'].sudo().browse(int(game_id))
 
         game_id.present_players_ids -= user_id.partner_id 
         game_id.absent_players_ids |= user_id.partner_id 
@@ -217,7 +217,7 @@ class baseball_club(http.Controller):
         env, uid = request.env, request.uid
 
         user_id = env['res.users'].sudo().browse(uid)
-        game_id = env['baseball.game'].sudo().browse(int(game_id))
+        game_id = env['calendar.event'].sudo().browse(int(game_id))
         game_id.scorer = user_id.partner_id 
 
 
@@ -233,7 +233,7 @@ class baseball_club(http.Controller):
         env, uid = request.env, request.uid
 
         user_id = env['res.users'].sudo().browse(uid)
-        game_id = env['baseball.game'].sudo().browse(int(game_id))
+        game_id = env['calendar.event'].sudo().browse(int(game_id))
 
         game_id.umpires = user_id.partner_id 
 
@@ -246,7 +246,7 @@ class baseball_club(http.Controller):
     @http.route(['/page/upcoming_games'], type='http', auth="public", website=True)
     def upcoming_games(self, **kw):
         env, uid = request.env, request.uid
-        games = env['baseball.game'].sudo()._get_upcoming_games()
+        games = env['calendar.event'].sudo()._get_upcoming_games()
         user = env['res.users'].sudo().browse(uid) if uid != env.ref('base.public_user').id else False
         values = {
             'games' : games,
