@@ -70,7 +70,7 @@
           <t t-foreach="games" t-as="game">
             <t t-if="game.game_type != 'tournament'">
               <tr class="js_game" t-attf-id="#{game.id}" t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
-                <td><span t-esc="datetime.datetime.strptime(game.start_time, '%Y-%m-%d %H:%M:%S').strftime('%d/%m/%y')"/></td>
+                <td><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
                 <td><span t-field="game.division.name"/></td>
                 <!-- <td><span t-field="game.home_team.name"/></td> -->
                 <td>
@@ -84,7 +84,7 @@
                   </t>
                 </td>          
                 <!-- <td><span t-field="game.away_team.name"/></td> -->
-                <td><span t-esc="datetime.datetime.strptime(game.start_time, '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>               
+                <td><span t-field="game.start_time" t-field-options='{"format": "HH:mm"}'/></td>               
               </tr>
             </t>
           </t>

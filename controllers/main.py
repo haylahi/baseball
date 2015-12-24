@@ -3,13 +3,9 @@ from openerp import http
 from openerp.http import request
 from openerp import models, fields, api, exceptions, tools
 from openerp.addons.auth_signup.controllers.main import AuthSignupHome
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
 from datetime import datetime
 from openerp.addons.website_blog.controllers.main import WebsiteBlog
 
-
-DATE_FORMAT = "%d/%m/%Y"
-TIME_FORMAT = "%H:%M"
 
 class baseball_auth_signup(AuthSignupHome):
 
@@ -137,9 +133,6 @@ class baseball_club(http.Controller):
         values = {
             'team' : team,
             'user': user,
-            'DATE_FORMAT' : DATE_FORMAT,
-            'TIME_FORMAT': TIME_FORMAT,
-            'DEFAULT_SERVER_DATETIME_FORMAT': DEFAULT_SERVER_DATETIME_FORMAT,
         }
 
         return request.render('baseball.team_page', values)
@@ -179,9 +172,6 @@ class baseball_club(http.Controller):
         return request.website._render("baseball.modal_game", {
                 'game': game,
                 'user': user,
-                'DATE_FORMAT' : DATE_FORMAT,
-                'TIME_FORMAT': TIME_FORMAT,
-                'DEFAULT_SERVER_DATETIME_FORMAT': DEFAULT_SERVER_DATETIME_FORMAT,                
             })
 
 
@@ -269,9 +259,6 @@ class baseball_club(http.Controller):
         values = {
             'games' : games,
             'user': user,
-            'DATE_FORMAT' : DATE_FORMAT,
-            'TIME_FORMAT': TIME_FORMAT,
-            'DEFAULT_SERVER_DATETIME_FORMAT': DEFAULT_SERVER_DATETIME_FORMAT,
         }
 
         return request.render('baseball.upcoming_schedule', values)
@@ -283,9 +270,6 @@ class baseball_club(http.Controller):
             user = env['res.users'].sudo().browse(uid)
             values = {
                 'user': user,
-                'DATE_FORMAT' : DATE_FORMAT,
-                'TIME_FORMAT': TIME_FORMAT,
-                'DEFAULT_SERVER_DATETIME_FORMAT': DEFAULT_SERVER_DATETIME_FORMAT,
             }
 
             return request.render('baseball.profile', values)
