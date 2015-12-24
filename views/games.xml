@@ -86,6 +86,14 @@
                             </field>
                         </group>
                     </group>
+<!--                     <field name="invitation_ids">
+                        <tree editable="top">
+                            <field name="partner_id"/>
+                            <field name="game_id"/>
+                            <field name="state"/>
+                            <field name="token"/>
+                        </tree>
+                    </field> -->
                 </sheet>
                 </form>
             </field>

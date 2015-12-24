@@ -4,8 +4,9 @@ from openerp import models, fields, api, exceptions, tools
 import urllib2
 import xmltodict
 from openerp.exceptions import ValidationError
-from datetime import datetime
+from datetime import datetime, timedelta
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
+import uuid
 
 
 
@@ -34,6 +35,8 @@ class Game(models.Model):
     game_number = fields.Char(required=True, string="Game number")
     division = fields.Many2one('baseball.divisions', string="Division")
     start_time = fields.Datetime(string="Start Time")
+    start_date = fields.Char(string="Start Date", compute="_compute_end_time")
+    start_hour = fields.Char(string="Start Hour", compute="_compute_end_time")
     end_time = fields.Datetime(string="End Time", compute="_compute_end_time")
     home_team = fields.Many2one('baseball.teams', string="Home Team")
     away_team = fields.Many2one('baseball.teams', string="Away Team")
@@ -47,6 +50,8 @@ class Game(models.Model):
         'res.partner', string="Attendees", relation="game_attend")
     absent_players_ids = fields.Many2many(
         'res.partner', string="Absentees", relation="game_absent")
+    invitation_ids = fields.One2many(
+        'baseball.game.invitation', 'game_id', string="Invitations")
     game_type = fields.Selection([
         ('competition', "Competition game"),
         ('friendly', "Friendly game"),
@@ -93,10 +98,42 @@ class Game(models.Model):
         start = fields.Datetime.from_string(self.start_time)
         self.end_time = start + duration
 
+        self.start_date = start.strftime("%d/%m/%Y")
+        self.start_hour = start.strftime("%H:%M")
+
     @api.model
     def _get_upcoming_games(self, limit=None):
         today = datetime.strftime(datetime.today(),DEFAULT_SERVER_DATE_FORMAT)
         return self.search([('start_time','>=',today), '|', ('home_team.is_opponent','=',False), ('away_team.is_opponent','=',False)], limit=limit)
+
+    @api.multi
+    @api.depends('game_number', 'home_team', 'away_team')
+    def name_get(self):
+        result = []
+        for game in self:
+            result.append(
+                (game.id, '[%s] %s @ %s' % (game.game_number, game.away_team.name, game.home_team.name)))
+        return result
+
+    @api.one
+    def invite_team(self):
+        team = (self.home_team + self.away_team).filtered(lambda r: not r.is_opponent)
+        player_ids = team.players_ids.filtered(lambda r: r not in self.invitation_ids.mapped('partner_id') and r not in self.absent_players_ids and r not in self.present_players_ids)
+        for player_id in player_ids:
+            invite_id = self.env['baseball.game.invitation'].create({
+                    'partner_id': player_id.id,
+                    'game_id': self.id
+                })
+            invite_id._send_mail_to_attendees()
+
+    @api.model
+    def invite_upcoming(self, days=7):
+        now = fields.Datetime.to_string(datetime.now())
+        later = fields.Datetime.to_string(datetime.now()+timedelta(days=days))
+        games = self.env['baseball.game'].search([('start_time','>',now),('start_time','<',later)])
+        games = games.filtered(lambda r: not r.is_opponent)
+        games.invite_team()
+
 
     @api.model
     def action_get_games_database(self):
@@ -199,4 +236,41 @@ class Tournament(models.Model):
     away_team = fields.Many2one('baseball.teams', string="Away Team")
 
 
+class Invitation(models.Model):
+    _name = 'baseball.game.invitation'
 
+    partner_id = fields.Many2one('res.partner', string="Player", required=True)
+    game_id = fields.Many2one(
+        'baseball.game', string="Game")
+    state = fields.Selection([
+        ('accepted', "Accepted"),
+        ('declined', "Declined"),
+    ], string="Answer")
+    token = fields.Char('Token', readonly=True)
+    is_sent = fields.Boolean('Is sent')
+
+
+    @api.model
+    def create(self, values):
+        values['token'] = uuid.uuid4().hex
+        return super(Invitation, self).create(values)
+    
+    @api.multi
+    def write(self, vals):
+        result = super(Invitation, self).write(vals)
+        if vals.get('state') and result:
+            for record in self:
+                if record.state == 'accepted':
+                    record.game_id.present_players_ids |= record.partner_id
+                    record.game_id.absent_players_ids -= record.partner_id
+                if record.state == 'declined':
+                    record.game_id.present_players_ids -= record.partner_id
+                    record.game_id.absent_players_ids |= record.partner_id
+        return result
+
+    @api.one
+    def _send_mail_to_attendees(self, template_xmlid='baseball.mail_template_game_invitation'):
+        template_id = self.env.ref(template_xmlid)
+        mail_id = template_id.send_mail(self.id)
+        self.is_sent = True
+        return mail_id

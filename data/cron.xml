@@ -14,5 +14,20 @@
             <field eval="'action_get_games_database'" name="function" />
             <!--<field eval="'(False,)'" name="args" />-->
         </record>
+
+        <record forcecreate="True" id="ir_cron_invite_players" model="ir.cron">
+            <field name="name">Create invitation</field>
+            <field eval="True" name="active" />
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall" />
+            <field eval="'baseball.game'" name="model" />
+            <field eval="'invite_upcoming'" name="function" />
+            <field eval="'(7,)'" name="args" />
+        </record>
+
+
     </data>
 </openerp>

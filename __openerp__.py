@@ -26,6 +26,7 @@
         'data/delete.xml',
         'data/product.xml',
         'data/cron.xml',
+        'data/mails.xml',
         'security/ir.model.access.csv',
         'views/menus.xml',
         'views/members.xml',

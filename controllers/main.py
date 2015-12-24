@@ -189,6 +189,8 @@ class baseball_club(http.Controller):
     def game_attend(self, game_id, **kw):
         env, uid = request.env, request.uid
 
+        if uid == env.ref('base.public_user').id:
+            return
         user_id = env['res.users'].sudo().browse(uid)
         game_id = env['baseball.game'].sudo().browse(int(game_id))
 
@@ -203,7 +205,9 @@ class baseball_club(http.Controller):
     def game_absent(self, game_id, **kw):
         env, uid = request.env, request.uid
 
-        user_id = env['res.users'].sudo().browse(uid)
+        if uid == env.ref('base.public_user').id:
+            return
+        user_id = env['res.users'].sudo().browse(uid)        
         game_id = env['baseball.game'].sudo().browse(int(game_id))
 
         game_id.present_players_ids -= user_id.partner_id 
@@ -212,6 +216,22 @@ class baseball_club(http.Controller):
         value = {'attending': False}  
         return value
 
+    @http.route('/game/invitation/accept', type='http', auth='public', website=True)
+    def game_invite_accept(self, token, invite_id, **kwargs):
+        env, uid = request.env, request.uid
+
+        invitation_id = env['baseball.game.invitation'].sudo().search([('token','=',token), ('id','=',invite_id)])
+        if invitation_id:
+            invitation_id.state = 'accepted'
+
+    @http.route('/game/invitation/decline', type='http', auth='public', website=True)
+    def game_invite_decline(self, token, invite_id, **kwargs):
+        env, uid = request.env, request.uid
+
+        invitation_id = env['baseball.game.invitation'].sudo().search([('token','=',token), ('id','=',invite_id)])
+        if invitation_id:
+            invitation_id.state = 'declined'
+
     @http.route(['/game/score'], type='json', auth="public", methods=['POST'], website=True)
     def game_score(self, game_id, **kw):
         env, uid = request.env, request.uid
@@ -219,8 +239,6 @@ class baseball_club(http.Controller):
         user_id = env['res.users'].sudo().browse(uid)
         game_id = env['baseball.game'].sudo().browse(int(game_id))
         game_id.scorer = user_id.partner_id 
-
-
         value = {
             'scoring': True,
             'scorer': user_id.partner_id.name,
