@@ -22,6 +22,7 @@ class Teams(models.Model):
     responsible_ids = fields.Many2many(
         'res.partner', string="Manager", relation="team_responsibles")
     image = fields.Binary('Image')
+    photo = fields.Binary('Photo')
     game_ids = fields.Many2many(
         'baseball.game', string="Games", compute="_compute_games")
     category_ids = fields.Many2many('baseball.categories', string="Categories")

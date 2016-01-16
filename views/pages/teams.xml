@@ -131,16 +131,19 @@
               <div class="panel panel-default">
                 <div class="panel-heading"><h3 class="panel-title">Team</h3></div>
                 <div class="panel-body">
-                  <div class="col-lg-6">
+                  <t t-if="team.photo">
+                    <img class="img-responsive" t-att-src="'data:image/png;base64,'+team.photo"/>
+                  </t>
+                  <div class="col-lg-3">
                     <t t-if="team.image">
                       <img class="img-responsive" t-att-src="'data:image/png;base64,'+team.image"/>
                     </t>
                   </div>
-                  <div class="col-lg-6">
-                    <div class="row">
+                  <div class="col-lg-9">
+<!--                     <div class="row">
                       <H4>Divisions</H4>
                       <p t-esc="', '.join(team.division_ids.mapped('name'))"/>
-                    </div>
+                    </div> -->
                     <div class="row">
                       <H4>Practices</H4>
                       <table class="table table-condensed data_roster_table">
