@@ -57,7 +57,7 @@
           <t t-foreach="games" t-as="game">
             <t t-if="game.game_type != 'tournament'">
               <tr class="js_game" t-attf-id="#{game.id}" t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
-                <td><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(DATE_FORMAT)"/></td>
+                <td><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
                 <td><t t-if="((game.home_team | game.away_team).mapped('category_ids'))" ><span t-esc="(game.home_team | game.away_team).mapped('category_ids').sorted(lambda r: r.sequence)[0].name"/></t></td>
                 <td><span t-field="game.division.name"/></td>
                 <td><span t-field="game.home_team.name"/></td>
@@ -73,7 +73,7 @@
                 </td>          
                 <td><span t-field="game.away_team.name"/></td>
                 <td><span t-field="game.venue.name"/></td>
-                <td><span t-esc="datetime.datetime.strptime(game.start_time, DEFAULT_SERVER_DATETIME_FORMAT).strftime(TIME_FORMAT)"/></td>
+                <td><span t-field="game.start_time" t-field-options='{"format": "HH:mm"}'/></td>
                 <td>
                   <span t-if="game.scorer" t-field="game.scorer.name"/>
                   <t t-if="not game.scorer and user">

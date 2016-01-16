@@ -43,6 +43,8 @@ class Members(models.Model):
     field_city = fields.Char('Field City')
     field_zip = fields.Char('Field Zip')
     field_country_id = fields.Many2one('res.country', 'Field Country')
+    debt = fields.Float(string="Debt", compute='_compute_debt', store=True)
+
 
 
     @api.one
@@ -88,6 +90,10 @@ class Members(models.Model):
         if self.club_role_id:
             self.main_club_role_id = self.club_role_id[0]
 
+    @api.one
+    @api.depends('season_ids.fee_to_pay','season_ids.fee_paid')
+    def _compute_debt(self):
+        self.debt = round(sum(self.season_ids.mapped(lambda r: r.fee_to_pay - r.fee_paid)),2)
 
     @api.onchange('baseball_category_ids')
     def recalculat_current_category(self):
