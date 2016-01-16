@@ -5,6 +5,7 @@ import urllib2
 import xmltodict
 from openerp.exceptions import ValidationError
 from datetime import datetime
+import werkzeug
 
 
 class Members(models.Model):
@@ -38,6 +39,11 @@ class Members(models.Model):
     game_ids = fields.Many2many(
         'baseball.game', string="Games", compute="_compute_games")
     gender = fields.Selection([('male', 'Male'),('female', 'Female')], string="Gender")
+    field_street = fields.Char('Field Street')
+    field_city = fields.Char('Field City')
+    field_zip = fields.Char('Field Zip')
+    field_country_id = fields.Many2one('res.country', 'Field Country')
+
 
     @api.one
     @api.depends('team_ids')
@@ -101,12 +107,56 @@ class Members(models.Model):
                     })
                 self.season_ids += new_registration
 
+    @api.multi
+    def google_map_img(self, zoom=8, width=298, height=298, field=False):
+        if field:
+            params = {
+                'center': '%s, %s %s, %s' % (self.field_street or '', self.field_city or '', self.field_zip or '', self.field_country_id and self.field_country_id.name_get()[0][1] or ''),
+                'size': "%sx%s" % (height, width),
+                'zoom': zoom,
+                'sensor': 'false',
+            }
+        else:
+            params = {
+                'center': '%s, %s %s, %s' % (self.street or '', self.city or '', self.zip or '', self.country_id and self.country_id.name_get()[0][1] or ''),
+                'size': "%sx%s" % (height, width),
+                'zoom': zoom,
+                'sensor': 'false',
+            }
+        print urlplus('//maps.googleapis.com/maps/api/staticmap' , params)
+        return urlplus('//maps.googleapis.com/maps/api/staticmap' , params)
+
+    @api.multi
+    def google_map_link(self, zoom=10, field=False):
+        if field:
+            params = {
+                'q': '%s, %s %s, %s' % (self.field_street or '', self.field_city  or '', self.field_zip or '', self.field_country_id and self.field_country_id.name_get()[0][1] or ''),
+                'z': zoom,
+            }
+        else:
+            params = {
+                'q': '%s, %s %s, %s' % (self.street or '', self.city  or '', self.zip or '', self.country_id and self.country_id.name_get()[0][1] or ''),
+                'z': zoom,
+            }
+        print urlplus('https://maps.google.com/maps' , params)
+        return urlplus('https://maps.google.com/maps' , params)
+
 class Positions(models.Model):
     _name = 'baseball.positions'
     name = fields.Char(string="Name")
     code = fields.Char(string="Code")
     description = fields.Html()
 
+def urlplus(url, params):
+    return werkzeug.Href(url)(params or None)
+
+class res_company(models.Model):
+    _inherit = "res.company"
+
+    def google_map_img(self, zoom=8, width=298, height=298, field=False):
+        return self.sudo().partner_id and self.sudo().partner_id.google_map_img(zoom, width, height, field=field) or None
+    def google_map_link(self, zoom=8, field=False):
+        return self.sudo().partner_id and self.sudo().partner_id.google_map_link(zoom, field=field) or None
 
 
 

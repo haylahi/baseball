@@ -158,13 +158,5 @@
 </template>
 
 
-  <template id="contactus" inherit_id="website.contactus">
-    <xpath expr="//div[@class='container']" position="attributes">
-        <attribute name="class">container panel panel-default</attribute>        
-    </xpath>
-  </template>
-
-
-
   </data>
 </openerp>

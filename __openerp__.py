@@ -30,6 +30,7 @@
         'security/ir.model.access.csv',
         'views/menus.xml',
         'views/members.xml',
+        'views/partner.xml',
         'views/categories.xml',
         'views/teams.xml',
         'views/divisions.xml',
@@ -53,7 +54,7 @@
         'views/pages/calendar.xml',
         'views/pages/blog.xml',
         'views/snippets.xml',
-        'views/pages/snippets/test.xml',
+        'views/pages/snippets/snippets.xml',
         'views/pages/profile.xml',
 
     ],

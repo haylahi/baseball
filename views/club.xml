@@ -22,9 +22,23 @@
                 <xpath expr="//field[@name='company_registry']" position="after">
                     <field name="current_season_id"/>
                 </xpath>
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="account_no"/>
+                </xpath>
             </field>
         </record>
 
+        <record id="view_partner_property_form" model="ir.ui.view">
+            <field name="name">res.partner.property.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="priority">2</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='accounting']" position="inside">
+                    <field name="bank_ids"/>
+                </xpath>
+            </field>
+        </record>
 
 	</data>
 </openerp>

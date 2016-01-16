@@ -6,34 +6,39 @@
             <field name="url">/page/teams</field>
             <field name="parent_id" ref="website.main_menu" />
             <field name="sequence" type="int">20</field>
+            <field name="website_id" ref="website.default_website"/>
         </record>
 
-        <record id="contact_menu" model="website.menu">
+        <record id="menu_contactus" model="website.menu">
             <field name="name">Contact</field>
-            <field name="url">/page/contact</field>
+            <field name="url">/page/contactus</field>
             <field name="parent_id" ref="website.menu_homepage" />
-            <field name="sequence" type="int">20</field>
+            <field name="sequence" type="int">40</field>
+            <field name="website_id" ref="website.default_website"/>
         </record>
 
         <record id="club_menu" model="website.menu">
             <field name="name">Club</field>
             <field name="url">/page/club</field>
             <field name="parent_id" ref="website.menu_homepage" />
-            <field name="sequence" type="int">10</field>
+            <field name="sequence" type="int">20</field>
+            <field name="website_id" ref="website.default_website"/>
         </record>
 
-        <record id="club_menu" model="website.menu">
+        <record id="baseball_menu" model="website.menu">
             <field name="name">Baseball</field>
             <field name="url">/page/baseball</field>
             <field name="parent_id" ref="website.menu_homepage" />
             <field name="sequence" type="int">30</field>
+            <field name="website_id" ref="website.default_website"/>
         </record>
 
         <record id="upcoming_games_menu" model="website.menu">
             <field name="name">Upcoming Games</field>
             <field name="url">/page/upcoming_games</field>
             <field name="parent_id" ref="website.menu_homepage" />
-            <field name="sequence" type="int">30</field>
+            <field name="sequence" type="int">10</field>
+            <field name="website_id" ref="website.default_website"/>
         </record>
 
     </data>

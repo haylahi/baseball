@@ -20,7 +20,8 @@
                     </t>
                     <h1 class="panel-title" t-field="blog.name"/>
                 </div>
-                <div class="panel-body" t-ignore="True" id="main_column">
+                <div class="panel-body">
+                <div t-ignore="True" id="main_column">
 
                   <div t-if="not blog_posts" class="container mb64">
                     <p class="css_editable_hidden">
@@ -54,6 +55,7 @@
                         </div>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </div>
@@ -122,5 +124,11 @@
 
   </t>
 </template>
+
+
+<record id="website_blog.opt_blog_rc_blogs" model="ir.ui.view">
+    <field name="active" eval="False"/>
+</record>
+
   </data>
 </openerp>

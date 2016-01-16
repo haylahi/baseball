@@ -2,6 +2,7 @@
 <openerp>
   <data>
     <delete id="website.layout_logo_show" model="ir.ui.view" />
+    <delete model="website.menu" id="website.menu_contactus" />
     <delete model="ir.ui.view" id="website.show_sign_in" />
 <!--     <delete id="website.layout_footer_copyright" model="ir.ui.view" />
     <delete id="website_blog.header_footer_custom" model="ir.ui.view" />
@@ -21,7 +22,6 @@
 
     <delete model="website.menu" id="website_gdf.gdf-service" />
     <delete model="website.menu" id="website.menu_homepage" />
-    <delete model="website.menu" id="website.menu_contactus" />
     <delete model="website.menu" id="website_sale.menu_shop" />
     <delete model="website.menu" id="website_event.menu_events" />
     <delete model="website.menu" id="website_forum.menu_questions" />
