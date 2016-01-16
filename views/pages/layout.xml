@@ -6,9 +6,12 @@
     <xpath expr="." position="inside">
         <script type="text/javascript" src="/baseball/static/src/js/jquery.backstretch.min.js"></script>
         <script type="text/javascript" src="/baseball/static/src/js/sticky_header.js"></script>
+        <script type="text/javascript" src="/baseball/static/src/js/bootstrap_multiselect.js"></script>
+        <script type="text/javascript" src="/baseball/static/src/js/multiselect.js"></script>
 <!--         <script type="text/javascript">
           $("body").backstretch('/baseball/static/img/background/background5.jpg');
         </script> -->
+        <link rel="stylesheet" href="/baseball/static/src/css/bootstrap_multiselect.css" type="text/css"/>
         <link rel="stylesheet" href="/baseball/static/src/css/custom_bootstrap.css" type="text/css"/>
         <link href="/baseball/static/src/css/banner.css" rel="stylesheet" type="text/css" />
     </xpath>

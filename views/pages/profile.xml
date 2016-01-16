@@ -43,6 +43,11 @@
                           </tr>
                       </tbody>
                     </table>
+                    <div >
+                      <span>Missing or erroneous data? Update them</span>
+                      <br/>
+                      <a href="/web/update_profile" class="btn btn-primary">Update</a>
+                    </div>
                   </div>
                 </div>  
               </div>

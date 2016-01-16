@@ -131,9 +131,35 @@
               <div class="panel panel-default">
                 <div class="panel-heading"><h3 class="panel-title">Team</h3></div>
                 <div class="panel-body">
-                  <t t-if="team.image">
-                    <img class="img-responsive" t-att-src="'data:image/png;base64,'+team.image"/>
-                  </t>
+                  <div class="col-lg-6">
+                    <t t-if="team.image">
+                      <img class="img-responsive" t-att-src="'data:image/png;base64,'+team.image"/>
+                    </t>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="row">
+                      <H4>Divisions</H4>
+                      <p t-esc="', '.join(team.division_ids.mapped('name'))"/>
+                    </div>
+                    <div class="row">
+                      <H4>Practices</H4>
+                      <table class="table table-condensed data_roster_table">
+                        <t t-foreach="set(team.practices_ids.mapped('season'))" t-as="season">
+                          <tr>
+                            <td colspan="4" class="text-center"><span t-field="team.practices_ids.filtered(lambda r, season=season: r.season == season)[0].season"/></td>
+                          </tr>
+                          <t t-foreach="team.practices_ids.filtered(lambda r, season=season: r.season == season)" t-as="practice">
+                            <tr>
+                              <td><span t-field="practice.dayofweek"/></td>
+                              <td><span t-esc="'%s:%02d'% (int(round(practice.hour_from-practice.hour_from%1)), int(round(practice.hour_from%1*60)))"/></td>
+                              <td><span t-esc="'%s:%02d'% (int(round(practice.hour_to-practice.hour_to%1)), int(round(practice.hour_to%1*60)))"/></td>
+                              <td><span t-field="practice.venue_id.name"/></td>
+                            </tr>
+                          </t>  
+                        </t>  
+                      </table>                    
+                    </div>
+                  </div>
                   <table class="table table-condensed data_roster_table">
                     <thead>
                       <tr>

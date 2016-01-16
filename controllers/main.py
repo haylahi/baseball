@@ -14,8 +14,12 @@ class baseball_auth_signup(AuthSignupHome):
         res = super(baseball_auth_signup, self).web_auth_signup(*args, **kw)
         
         res.qcontext.update(self.signup_values())
-
         if 'error' not in res.qcontext and request.httprequest.method == 'POST':
+            kw.update({
+                'teams': [int(x) for x in request.httprequest.form.getlist('teams')],
+                'categories': [int(x) for x in request.httprequest.form.getlist('categories')]
+                })
+
             user_id = request.env['res.users'].sudo().search([('id','=',request.uid)])
             partner_id = user_id.partner_id
             self.update_partner(partner_id, **kw)
@@ -85,7 +89,6 @@ class baseball_auth_signup(AuthSignupHome):
 
     def update_partner(self, partner_id, **kw):
         current_season = request.env['baseball.season'].sudo().get_current_season()
-
         values = {
             'gender' :kw.get('gender'),
             'phone' :kw.get('phone'),
@@ -97,7 +100,7 @@ class baseball_auth_signup(AuthSignupHome):
             'zip' :kw.get('zip'),
             'country_id' :kw.get('country_id'),
             'is_player' :kw.get('is_player') =='player',
-            'team_ids' : [(6,0,[int(key.split('-')[1]) for key in kw if key.split('-')[0]=='team'])],
+            'team_ids' : [(6,0,kw.get('teams'))],
             # 'team_ids' : [(4,int(team),0) for team in kw.get('teams')],
             }
 
