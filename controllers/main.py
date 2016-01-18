@@ -26,14 +26,17 @@ class baseball_auth_signup(AuthSignupHome):
 
         return res
 
-    @http.route('/web/update_profile', type='http', auth='public', website=True)
+    @http.route('/web/update_profile', type='http', auth='user', website=True)
     def web_auth_update_profile(self, *args, **kw):
         qcontext = self.get_auth_signup_qcontext()
-
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
 
         if 'error' not in qcontext and request.httprequest.method == 'POST':
+            kw.update({
+                'teams': [int(x) for x in request.httprequest.form.getlist('teams')],
+                'categories': [int(x) for x in request.httprequest.form.getlist('categories')]
+                })
             user_id = request.env['res.users'].sudo().search([('id','=',request.uid)])
             partner_id = user_id.partner_id
             self.update_partner(partner_id, **kw)
@@ -44,6 +47,7 @@ class baseball_auth_signup(AuthSignupHome):
 
 
     def signup_values(self, data=None):
+
         env, uid, registry = request.env, request.uid, request.registry
 
         countries = env['res.country'].sudo().search([])
@@ -100,7 +104,7 @@ class baseball_auth_signup(AuthSignupHome):
             'zip' :kw.get('zip'),
             'country_id' :kw.get('country_id'),
             'is_player' :kw.get('is_player') =='player',
-            'team_ids' : [(6,0,kw.get('teams'))],
+            'team_ids' : [(6,0,kw.get('teams'))] if kw.get('teams') else False,
             # 'team_ids' : [(4,int(team),0) for team in kw.get('teams')],
             }
 

@@ -12,6 +12,8 @@
                 <div class="panel panel-default">
                   <div class="panel-heading"><h3 class="panel-title" t-field="user.partner_id.name"/></div>
                   <div class="panel-body">
+                    <img t-att-src="'data:image/png;base64,'+user.partner_id.image" style="width: 200px;"/>
+
                     <table class="table table-condensed table-profile">
                       <tbody>
                           <tr>
@@ -43,7 +45,7 @@
                           </tr>
                       </tbody>
                     </table>
-                    <div >
+                    <div class="text-center">
                       <span>Missing or erroneous data? Update them</span>
                       <br/>
                       <a href="/web/update_profile" class="btn btn-primary">Update</a>

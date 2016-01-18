@@ -22,7 +22,7 @@
                 <t t-esc="error"/>
             </p>
             <input type="hidden" name="redirect" t-att-value="redirect"/>
-            <input type="hidden" name="token" t-att-value="token"/>
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
             <div class="clearfix oe_login_buttons">
                 <button type="submit" class="btn btn-primary pull-left">Update</button>
             </div>
@@ -80,7 +80,7 @@
             <select name="country_id" class="form-control">
                 <option value="">Nationality</option>
                 <t t-foreach="countries or []" t-as="country">
-                    <option t-att-value="country.id" t-att-selected="country.id == signup.get('country_id')"><t t-esc="country.name"/></option>
+                    <option t-att-value="country.id" t-att-selected="country == signup.get('country_id')"><t t-esc="country.name"/></option>
                 </t>
             </select>
         </div>
