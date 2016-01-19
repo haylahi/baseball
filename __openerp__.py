@@ -19,6 +19,7 @@
 
     # always loaded
     'data': [
+        'data/groups.xml',
         'data/partners.xml',
         'data/initial_values.xml',
         'data/menus.xml',

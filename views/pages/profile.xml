@@ -66,6 +66,36 @@
                     <div class="row">
                       <div class="col-lg-6">
                         <H3>Cotisation</H3>
+                        <t t-set="current_season" t-value="request.env['baseball.season'].sudo().get_current_season()"/>                        
+                          <t t-set="current_registration" t-value="user.partner_id.season_ids.filtered(lambda r, current_season=current_season: r.season_id == current_season)"/>
+                          <t t-set="currency" t-value="request.env['res.company'].search([])[0].currency_id"/>
+                        <table class="table table-condensed">
+                          <thead>
+                              <tr>
+                                <th>Season</th>
+                                <th>Fee</th>
+                                <th>Paid</th>
+                                <th>Owed</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                <td><span t-field="current_registration.season_id.name"/></td>
+                                <td><span t-field="current_registration.fee_to_pay" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                <td><span t-field="current_registration.fee_paid" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                <td><span t-esc="current_registration.fee_to_pay - current_registration.fee_paid" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                              </tr>
+                              <t t-foreach="user.partner_id.season_ids.filtered(lambda r, current_season=current_season: r.season_id != current_season and int(round(r.fee_to_pay-r.fee_paid))==0 )" t-as="other_registration">
+                                <tr>
+                                  <td><span t-field="other_registration.season_id.name"/></td>
+                                  <td><span t-field="other_registration.fee_to_pay" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                  <td><span t-field="other_registration.fee_paid" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                  <td><span t-esc="cother_registration.fee_to_pay - other_registration.fee_paid" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                </tr>
+                              </t>
+                          </tbody>
+                        </table>
+
                       </div>
                       <div class="col-lg-6">
                         <H3>Jersey</H3>
