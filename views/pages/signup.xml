@@ -40,7 +40,7 @@
 
 <template id="login" name="Sign up - Reset Password" inherit_id="auth_signup.login">
   <xpath expr="//a[@t-attf-href='/web/signup?{{ keep_query() }}']" position="attributes">
-    <attribute name="t-attf-href">/web/signup?redirect=/</attribute>
+    <attribute name="t-attf-href">/web/signup?redirect=/profile</attribute>
   </xpath>
 </template>
 
@@ -103,37 +103,33 @@
                     }(document, 'script', 'facebook-jssdk'));</script>
 
         <div class="js_is_player">
-          <div class="form-group field-categories">
+<!--           <div class="form-group field-categories">
               <label class="control-label">Categories</label>
                 <select name="categories" class="control-label js_multiselect" multiple="mutltiple">
                   <t t-foreach="categories or []" t-as="category">
+                      <t t-if="category.id in signup.get('baseball_category_ids')">
+                        <option t-att-value="str(category.id)" selected="selected"><span t-field="category.name"/></option>
+                      </t>
+                      <t t-if="not category.id in signup.get('baseball_category_ids')">
                         <option t-att-value="str(category.id)"><span t-field="category.name"/></option>
+                      </t>
                   </t>
                 </select>
-<!--                 <t t-foreach="categories or []" t-as="category">
-                    <label class="checkbox-inline">
-                      <input class="js_baseball_category" type="checkbox" t-att-name="'category-'+str(category.id)" t-att-checked="category.id in signup.get('baseball_category_ids')" disabled="disabled"/>
-                      <span t-field="category.name"/>
-                    </label>
-                </t> -->
-          </div>
+          </div> -->
+
           <div class="form-group field-teams">
               <label class="control-label">Teams</label>
               <select name="teams" class="control-label js_multiselect" multiple="mutltiple">
                 <t t-foreach="teams or []" t-as="team">
-                      <option t-att-value="str(team.id)"><span t-field="team.name"/></option>
+                      <t t-if="team.id in signup.get('team_ids')">
+                        <option t-att-value="str(team.id)" selected="selected"><span t-field="team.name"/></option>
+                      </t>
+                      <t t-if="not team.id in signup.get('team_ids')">
+                        <option t-att-value="str(team.id)"><span t-field="team.name"/></option>
+                      </t>
                 </t>
               </select>
           </div>
-<!--           <div class="form-group field-teams">
-              <label class="control-label">Teams</label>
-                <t t-foreach="teams or []" t-as="team">
-                    <label class="checkbox-inline">
-                      <input type="checkbox" t-att-name="'team-'+str(team.id)" t-att-checked="team.id in signup.get('team_ids')"/>
-                      <span t-esc="team.name_get()[0][1]"/>
-                    </label>
-                </t>
-          </div> -->
         </div>
 
 

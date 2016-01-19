@@ -23,6 +23,7 @@ class baseball_auth_signup(AuthSignupHome):
             user_id = request.env['res.users'].sudo().search([('id','=',request.uid)])
             partner_id = user_id.partner_id
             self.update_partner(partner_id, **kw)
+            partner_id.recalculat_current_category()
 
         return res
 
@@ -40,7 +41,9 @@ class baseball_auth_signup(AuthSignupHome):
             user_id = request.env['res.users'].sudo().search([('id','=',request.uid)])
             partner_id = user_id.partner_id
             self.update_partner(partner_id, **kw)
-        
+            partner_id.recalculat_current_category()
+            return request.redirect("/profile")
+
         qcontext.update(self.signup_values())
 
         return request.render('auth_signup.update_profile', qcontext)
@@ -94,6 +97,7 @@ class baseball_auth_signup(AuthSignupHome):
     def update_partner(self, partner_id, **kw):
         current_season = request.env['baseball.season'].sudo().get_current_season()
         values = {
+            'name' :kw.get('name'),
             'gender' :kw.get('gender'),
             'phone' :kw.get('phone'),
             'mobile' :kw.get('mobile'),

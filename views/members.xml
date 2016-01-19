@@ -66,6 +66,8 @@
                             <field name="active"  invisible="1"/>
                             <field name="is_active_current_season" attrs="{'invisible': [('is_player','=',False)]}"/>
                             <field name="is_in_order" invisible="1"/>
+                            <field name="licence_number"/>
+
                         </group>
                     </group>
                     <group col="3" attrs="{'invisible': [('is_player','=',False)]}">

@@ -12,44 +12,94 @@
                 <div class="panel panel-default">
                   <div class="panel-heading"><h3 class="panel-title" t-field="user.partner_id.name"/></div>
                   <div class="panel-body">
-                    <img t-att-src="'data:image/png;base64,'+user.partner_id.image" style="width: 200px;"/>
+                      <H3>Data</H3>
+                      <div class="row">
+                    <t t-if="user.partner_id.image">
+                      <div class="col-lg-2">
+                        <div class="pull-right" >
+                          <img class="img img-responsive" t-att-src="'data:image/png;base64,'+user.partner_id.image" style="max-width: 150px;" />
+                        </div>
+                      </div>
+                    </t>
+                    <div class="col-lg-10">
+                      <table class="table table-condensed table-profile">
+                        <tbody>
+                            <tr>
+                              <td style="font-weight: bold;">Name</td>
+                              <td><span t-field="user.partner_id.name"/></td>
+                              <td style="font-weight: bold;">Licence number</td>
+                              <td><span t-field="user.partner_id.licence_number"/></td>
+                            </tr><tr>
+                              <td style="font-weight: bold;">Email</td>
+                              <td><span t-field="user.partner_id.email"/></td>
+                              <td style="font-weight: bold;">Address</td>
+                              <td><span t-field="user.partner_id.street"/></td>
+                            </tr><tr>
+                              <td style="font-weight: bold;">Birthdate</td>
+                              <td><span t-field="user.partner_id.birthdate"/></td>
+                              <td/>
+                              <td><span t-field="user.partner_id.street2"/></td>
+                            </tr><tr>
+                              <td style="font-weight: bold;">Phone</td>
+                              <td><span t-field="user.partner_id.phone"/></td>
+                              <td/>
+                              <td><span t-field="user.partner_id.zip"/> <span t-field="user.partner_id.city"/></td>
+                            </tr><tr>
+                              <td style="font-weight: bold;">Mobile</td>
+                              <td><span t-field="user.partner_id.mobile"/></td>
+                              <td style="font-weight: bold;">Nationality</td>
+                              <td><span t-field="user.partner_id.country_id.name"/></td>
+                            </tr><tr>
+                              <td style="font-weight: bold;">Gender</td>
+                              <td><span t-field="user.partner_id.gender"/></td>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    </div>
 
-                    <table class="table table-condensed table-profile">
-                      <tbody>
-                          <tr>
-                            <td style="font-weight: bold;">Name</td>
-                            <td><span t-field="user.partner_id.name"/></td>
-                          </tr><tr>
-                            <td style="font-weight: bold;">Email</td>
-                            <td><span t-field="user.partner_id.email"/></td>
-                            <td style="font-weight: bold;">Address</td>
-                            <td><span t-field="user.partner_id.street"/></td>
-                          </tr><tr>
-                            <td style="font-weight: bold;">Birthdate</td>
-                            <td><span t-field="user.partner_id.birthdate"/></td>
-                            <td/>
-                            <td><span t-field="user.partner_id.street2"/></td>
-                          </tr><tr>
-                            <td style="font-weight: bold;">Phone</td>
-                            <td><span t-field="user.partner_id.phone"/></td>
-                            <td/>
-                            <td><span t-field="user.partner_id.zip"/> <span t-field="user.partner_id.city"/></td>
-                          </tr><tr>
-                            <td style="font-weight: bold;">Mobile</td>
-                            <td><span t-field="user.partner_id.mobile"/></td>
-                            <td style="font-weight: bold;">Nationality</td>
-                            <td><span t-field="user.partner_id.country_id.name"/></td>
-                          </tr><tr>
-                            <td style="font-weight: bold;">Gender</td>
-                            <td><span t-field="user.partner_id.gender"/></td>
-                          </tr>
-                      </tbody>
-                    </table>
                     <div class="text-center">
                       <span>Missing or erroneous data? Update them</span>
                       <br/>
                       <a href="/web/update_profile" class="btn btn-primary">Update</a>
                     </div>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <H3>Cotisation</H3>
+                      </div>
+                      <div class="col-lg-6">
+                        <H3>Jersey</H3>
+                        <table class="table table-condensed">
+                          <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Color</th>
+                                <th>Size</th>
+                                <th>State</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <t t-foreach="user.partner_id.jerseys_ids" t-as="jersey">
+                                <tr>
+                                  <td><span t-field="jersey.number"/></td>
+                                  <td><span t-field="jersey.size"/></td>
+                                  <td><span t-field="jersey.color"/></td>
+                                  <td><span t-field="jersey.state"/></td>
+                                </tr>
+                              </t>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <H3>Upcoming games</H3>
+                      </div>
+                      <div class="col-lg-6">
+                        <H3>Upcoming practices</H3>
+                      </div>
+                    </div>
+
                   </div>
                 </div>  
               </div>
