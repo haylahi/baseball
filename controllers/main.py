@@ -9,6 +9,16 @@ from openerp.addons.website_blog.controllers.main import WebsiteBlog
 
 class baseball_auth_signup(AuthSignupHome):
 
+
+    @http.route()
+    def web_login(self, *args, **kw):
+        response = super(baseball_auth_signup, self).web_login(*args, **kw)
+
+        user_id = request.env['res.users'].sudo().search([('id','=',request.uid)])
+        user_id.current_partner_id = user_id.partner_id
+
+        return response
+
     @http.route('/web/signup', type='http', auth='public', website=True)
     def web_auth_signup(self, *args, **kw):
         res = super(baseball_auth_signup, self).web_auth_signup(*args, **kw)
@@ -24,8 +34,34 @@ class baseball_auth_signup(AuthSignupHome):
             partner_id = user_id.partner_id
             self.update_partner(partner_id, **kw)
             partner_id.recalculat_current_category()
+            user_id.current_partner_id = partner_id
 
         return res
+
+    @http.route('/web/add_child_partner', type='http', auth='user', website=True)
+    def web_auth_add_child_partner(self, *args, **kw):
+
+        qcontext = self.get_auth_signup_qcontext()
+        if not qcontext.get('token') and not qcontext.get('signup_enabled'):
+            raise werkzeug.exceptions.NotFound()
+
+        if 'error' not in qcontext and request.httprequest.method == 'POST':
+            kw.update({
+                'teams': [int(x) for x in request.httprequest.form.getlist('teams')],
+                'categories': [int(x) for x in request.httprequest.form.getlist('categories')]
+                })
+
+            user_id = request.env['res.users'].sudo().search([('id','=',request.uid)])
+            new_partner_id = self.add_child_partner(**kw)
+            new_partner_id.recalculat_current_category()
+            user_id.current_partner_id =  new_partner_id
+            return request.redirect("/profile")
+
+        qcontext.update(self.signup_values())
+        qcontext.update({'add_partner_enabled': True})
+
+        return request.render('auth_signup.add_child', qcontext)
+
 
     @http.route('/web/update_profile', type='http', auth='user', website=True)
     def web_auth_update_profile(self, *args, **kw):
@@ -39,7 +75,7 @@ class baseball_auth_signup(AuthSignupHome):
                 'categories': [int(x) for x in request.httprequest.form.getlist('categories')]
                 })
             user_id = request.env['res.users'].sudo().search([('id','=',request.uid)])
-            partner_id = user_id.partner_id
+            partner_id = user_id.current_partner_id
             self.update_partner(partner_id, **kw)
             partner_id.recalculat_current_category()
             return request.redirect("/profile")
@@ -54,7 +90,7 @@ class baseball_auth_signup(AuthSignupHome):
         env, uid, registry = request.env, request.uid, request.registry
 
         countries = env['res.country'].sudo().search([])
-        partner_id = env['res.users'].sudo().browse(uid).partner_id
+        partner_id = env['res.users'].sudo().browse(uid).current_partner_id
         categories = env['baseball.categories'].sudo().search([])
         teams = env['baseball.teams'].sudo().search([('is_opponent','=',False)])
         signup = {}
@@ -82,9 +118,6 @@ class baseball_auth_signup(AuthSignupHome):
         signup['baseball_category_ids'] = partner_id.baseball_category_ids.ids
         signup['team_ids'] = partner_id.team_ids.ids
 
-
-        
-
         values = {
             'countries': countries,
             'categories': categories,
@@ -109,7 +142,6 @@ class baseball_auth_signup(AuthSignupHome):
             'country_id' :kw.get('country_id'),
             'is_player' :kw.get('is_player') =='player',
             'team_ids' : [(6,0,kw.get('teams'))] if kw.get('teams') else False,
-            # 'team_ids' : [(4,int(team),0) for team in kw.get('teams')],
             }
 
         photo = kw.get('photo')
@@ -133,6 +165,49 @@ class baseball_auth_signup(AuthSignupHome):
             if registration_id:
                 registration_id.is_certificate = True
 
+    def add_child_partner(self, **kw):
+        current_season = request.env['baseball.season'].sudo().get_current_season()
+        user_id = request.env['res.users'].sudo().search([('id','=',request.uid)])
+        values = {
+            'email' : user_id.partner_id.email,
+            'parent_user_id' : user_id.id,
+            'name' :kw.get('name'),
+            'gender' :kw.get('gender'),
+            'phone' :kw.get('phone'),
+            'mobile' :kw.get('mobile'),
+            'birthdate' :kw.get('birthdate'),
+            'street' :kw.get('street'),
+            'street2' :kw.get('street2'),
+            'city' :kw.get('city'),
+            'zip' :kw.get('zip'),
+            'country_id' :kw.get('country_id'),
+            'is_player' :kw.get('is_player') =='player',
+            'team_ids' : [(6,0,kw.get('teams'))] if kw.get('teams') else False,
+            }
+
+        photo = kw.get('photo')
+        import pdb; pdb.set_trace()
+        if photo and photo.filename and photo.content_type.split('/')[0] == 'image':
+            values['image'] = photo.read().encode('base64')
+        
+        new_partner_id = request.env['res.partner'].create(values)
+        new_partner_id.recalculat_current_category()
+
+        registration_document = kw.get('registration_document')
+        if registration_document and registration_document.filename and registration_document.content_type.split('/').pop() == 'pdf':
+            attachment_value = {
+                'name': registration_document.filename,
+                'res_model': 'res.partner',
+                'res_id': new_partner_id.id,
+                'datas': registration_document.read().encode('base64'),
+                'datas_fname': new_partner_id.name.lower().replace(' ', '_')  + current_season.name +'.pdf',
+                }
+            attachment = request.env['ir.attachment'].sudo().create(attachment_value)
+            registration_id = new_partner_id.season_ids.filtered(lambda r: r.season_id == current_season)
+            if registration_id:
+                registration_id.is_certificate = True
+
+        return new_partner_id
 
 class baseball_club(http.Controller):
 

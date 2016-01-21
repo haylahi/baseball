@@ -12,7 +12,7 @@
 
 <template id="auth_signup.update_profile" name="Update profile">
     <t t-call="web.login_layout">
-        <form class="oe_signup_form" role="form" method="post" t-if="not message">
+        <form class="oe_signup_form" role="form" method="post" enctype="multipart/form-data" t-if="not message">
 
             <t t-call="auth_signup.fields">
                 <t t-set="only_update" t-value="1"/>
@@ -31,6 +31,28 @@
     </t>
 </template>
 
+
+<template id="auth_signup.add_child" name="Add child">
+    <t t-call="web.login_layout">
+        <form class="oe_signup_form" role="form" method="post" enctype="multipart/form-data" t-if="not message">
+
+            <t t-call="auth_signup.fields">
+                <t t-set="only_update" t-value="1"/>
+                <t t-set="add_child" t-value="1"/>
+            </t>
+
+            <p class="alert alert-danger" t-if="error">
+                <t t-esc="error"/>
+            </p>
+            <input type="hidden" name="redirect" t-att-value="redirect"/>
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+            <div class="clearfix oe_login_buttons">
+                <button type="submit" class="btn btn-primary pull-left">Add child</button>
+            </div>
+
+        </form>
+    </t>
+</template>
 
 <template id="signup" name="Signup" inherit_id="auth_signup.signup">
   <xpath expr="//form[@method='post']" position="attributes">

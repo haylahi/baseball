@@ -10,14 +10,14 @@
             <div class='row'>
               <div class="col-lg-12">
                 <div class="panel panel-default">
-                  <div class="panel-heading"><h3 class="panel-title" t-field="user.partner_id.name"/></div>
+                  <div class="panel-heading"><h3 class="panel-title" t-field="user.current_partner_id.name"/></div>
                   <div class="panel-body">
                       <H3>Data</H3>
                       <div class="row">
-                    <t t-if="user.partner_id.image">
+                    <t t-if="user.current_partner_id.image">
                       <div class="col-lg-2">
                         <div class="pull-right" >
-                          <img class="img img-responsive" t-att-src="'data:image/png;base64,'+user.partner_id.image" style="max-width: 150px;" />
+                          <img class="img img-responsive" t-att-src="'data:image/png;base64,'+user.current_partner_id.image" style="max-width: 150px;" />
                         </div>
                       </div>
                     </t>
@@ -26,32 +26,32 @@
                         <tbody>
                             <tr>
                               <td style="font-weight: bold;">Name</td>
-                              <td><span t-field="user.partner_id.name"/></td>
+                              <td><span t-field="user.current_partner_id.name"/></td>
                               <td style="font-weight: bold;">Licence number</td>
-                              <td><span t-field="user.partner_id.licence_number"/></td>
+                              <td><span t-field="user.current_partner_id.licence_number"/></td>
                             </tr><tr>
                               <td style="font-weight: bold;">Email</td>
-                              <td><span t-field="user.partner_id.email"/></td>
+                              <td><span t-field="user.current_partner_id.email"/></td>
                               <td style="font-weight: bold;">Address</td>
-                              <td><span t-field="user.partner_id.street"/></td>
+                              <td><span t-field="user.current_partner_id.street"/></td>
                             </tr><tr>
                               <td style="font-weight: bold;">Birthdate</td>
-                              <td><span t-field="user.partner_id.birthdate"/></td>
+                              <td><span t-field="user.current_partner_id.birthdate"/></td>
                               <td/>
-                              <td><span t-field="user.partner_id.street2"/></td>
+                              <td><span t-field="user.current_partner_id.street2"/></td>
                             </tr><tr>
                               <td style="font-weight: bold;">Phone</td>
-                              <td><span t-field="user.partner_id.phone"/></td>
+                              <td><span t-field="user.current_partner_id.phone"/></td>
                               <td/>
-                              <td><span t-field="user.partner_id.zip"/> <span t-field="user.partner_id.city"/></td>
+                              <td><span t-field="user.current_partner_id.zip"/> <span t-field="user.current_partner_id.city"/></td>
                             </tr><tr>
                               <td style="font-weight: bold;">Mobile</td>
-                              <td><span t-field="user.partner_id.mobile"/></td>
+                              <td><span t-field="user.current_partner_id.mobile"/></td>
                               <td style="font-weight: bold;">Nationality</td>
-                              <td><span t-field="user.partner_id.country_id.name"/></td>
+                              <td><span t-field="user.current_partner_id.country_id.name"/></td>
                             </tr><tr>
                               <td style="font-weight: bold;">Gender</td>
-                              <td><span t-field="user.partner_id.gender"/></td>
+                              <td><span t-field="user.current_partner_id.gender"/></td>
                             </tr>
                         </tbody>
                       </table>
@@ -61,13 +61,13 @@
                     <div class="text-center">
                       <span>Missing or erroneous data? Update them</span>
                       <br/>
-                      <a href="/web/update_profile" class="btn btn-primary">Update</a>
+                      <a href="/web/update_profile" class="btn btn-primary">Update</a> <a href="/web/add_child_partner" class="btn btn-primary">Add Child</a>
                     </div>
                     <div class="row">
                       <div class="col-lg-6">
                         <H3>Cotisation</H3>
                         <t t-set="current_season" t-value="request.env['baseball.season'].sudo().get_current_season()"/>                        
-                          <t t-set="current_registration" t-value="user.partner_id.season_ids.filtered(lambda r, current_season=current_season: r.season_id == current_season)"/>
+                          <t t-set="current_registration" t-value="user.current_partner_id.season_ids.filtered(lambda r, current_season=current_season: r.season_id == current_season)"/>
                           <t t-set="currency" t-value="request.env['res.company'].search([])[0].currency_id"/>
                         <table class="table table-condensed">
                           <thead>
@@ -85,7 +85,7 @@
                                 <td><span t-field="current_registration.fee_paid" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
                                 <td><span t-esc="current_registration.fee_to_pay - current_registration.fee_paid" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
                               </tr>
-                              <t t-foreach="user.partner_id.season_ids.filtered(lambda r, current_season=current_season: r.season_id != current_season and int(round(r.fee_to_pay-r.fee_paid))==0 )" t-as="other_registration">
+                              <t t-foreach="user.current_partner_id.season_ids.filtered(lambda r, current_season=current_season: r.season_id != current_season and int(round(r.fee_to_pay-r.fee_paid))==0 )" t-as="other_registration">
                                 <tr>
                                   <td><span t-field="other_registration.season_id.name"/></td>
                                   <td><span t-field="other_registration.fee_to_pay" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
@@ -109,7 +109,7 @@
                               </tr>
                           </thead>
                           <tbody>
-                              <t t-foreach="user.partner_id.jerseys_ids" t-as="jersey">
+                              <t t-foreach="user.current_partner_id.jerseys_ids" t-as="jersey">
                                 <tr>
                                   <td><span t-field="jersey.number"/></td>
                                   <td><span t-field="jersey.size"/></td>

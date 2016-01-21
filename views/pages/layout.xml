@@ -97,7 +97,7 @@
                           </ul>
                       </li>
                       <li t-if="website.user_id == user_id">
-                        <a href="/web/login?redirect=/">Sign in</a>
+                        <a href="/web/login?redirect=/profile">Sign in</a>
                       </li>
                   </ul>
 
