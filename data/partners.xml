@@ -12,5 +12,9 @@
             <field name="active" eval="False"/>
         </record>
 
+        <record id="base.public_user" model="res.users">
+            <field name="current.partner_id" ref="base.public_partner"/>
+        </record>
+
     </data>
 </openerp>

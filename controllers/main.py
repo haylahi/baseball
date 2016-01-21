@@ -15,7 +15,8 @@ class baseball_auth_signup(AuthSignupHome):
         response = super(baseball_auth_signup, self).web_login(*args, **kw)
 
         user_id = request.env['res.users'].sudo().search([('id','=',request.uid)])
-        user_id.current_partner_id = user_id.partner_id
+        if user_id:
+            user_id.current_partner_id = user_id.partner_id
 
         return response
 
@@ -186,7 +187,6 @@ class baseball_auth_signup(AuthSignupHome):
             }
 
         photo = kw.get('photo')
-        import pdb; pdb.set_trace()
         if photo and photo.filename and photo.content_type.split('/')[0] == 'image':
             values['image'] = photo.read().encode('base64')
         
