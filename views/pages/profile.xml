@@ -10,126 +10,145 @@
             <div class='row'>
               <div class="col-lg-12">
                 <div class="panel panel-default">
-                  <div class="panel-heading"><h3 class="panel-title" t-field="user.current_partner_id.name"/></div>
+                  <div class="panel-heading" style="border-bottom: 0px;padding: 0px;">
+                      <ul class="nav nav-tabs" style="padding-left: 20px;">
+                        <t t-foreach="(user.child_partner_ids | user.partner_id)" t-as="child_partner">
+                          <li t-att-class="'active' if (user.current_partner_id == child_partner) else ''">
+                            <a t-att-href="'#tabpartner%s' % child_partner.id" data-toggle="tab">
+                              <span t-field="child_partner.name"/>
+                            </a>
+                          </li>
+                        </t>
+                      </ul>
+                  </div>
                   <div class="panel-body">
-                      <H3>Data</H3>
-                      <div class="row">
-                    <t t-if="user.current_partner_id.image">
-                      <div class="col-lg-2">
-                        <div class="pull-right" >
-                          <img class="img img-responsive" t-att-src="'data:image/png;base64,'+user.current_partner_id.image" style="max-width: 150px;" />
-                        </div>
-                      </div>
-                    </t>
-                    <div class="col-lg-10">
-                      <table class="table table-condensed table-profile">
-                        <tbody>
-                            <tr>
-                              <td style="font-weight: bold;">Name</td>
-                              <td><span t-field="user.current_partner_id.name"/></td>
-                              <td style="font-weight: bold;">Licence number</td>
-                              <td><span t-field="user.current_partner_id.licence_number"/></td>
-                            </tr><tr>
-                              <td style="font-weight: bold;">Email</td>
-                              <td><span t-field="user.current_partner_id.email"/></td>
-                              <td style="font-weight: bold;">Address</td>
-                              <td><span t-field="user.current_partner_id.street"/></td>
-                            </tr><tr>
-                              <td style="font-weight: bold;">Birthdate</td>
-                              <td><span t-field="user.current_partner_id.birthdate"/></td>
-                              <td/>
-                              <td><span t-field="user.current_partner_id.street2"/></td>
-                            </tr><tr>
-                              <td style="font-weight: bold;">Phone</td>
-                              <td><span t-field="user.current_partner_id.phone"/></td>
-                              <td/>
-                              <td><span t-field="user.current_partner_id.zip"/> <span t-field="user.current_partner_id.city"/></td>
-                            </tr><tr>
-                              <td style="font-weight: bold;">Mobile</td>
-                              <td><span t-field="user.current_partner_id.mobile"/></td>
-                              <td style="font-weight: bold;">Nationality</td>
-                              <td><span t-field="user.current_partner_id.country_id.name"/></td>
-                            </tr><tr>
-                              <td style="font-weight: bold;">Gender</td>
-                              <td><span t-field="user.current_partner_id.gender"/></td>
-                            </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    </div>
+                    <div class="tab-content">
+                        <t t-foreach="user.child_partner_ids | user.partner_id" t-as="child_partner">
+                          <t t-set="is_current" t-value="child_partner==user.current_partner_id"/>
+                          <div t-att-class="'tab-pane fade in active' if is_current else 'tab-pane fade in'" t-att-id="'tabpartner%s' % child_partner.id">
+                            <H3>Data</H3>
+                            <div t-if="not is_current" class="text-center">
+                              <a t-att-href="'/profile?current_partner=%s' % child_partner.id" class="btn btn-primary">Set as current</a>
+                            </div>
+                            <div class="row">
+                            <t t-if="child_partner.image">
+                              <div class="col-lg-2">
+                                <div class="pull-right" >
+                                  <img class="img img-responsive" t-att-src="'data:image/png;base64,'+child_partner.image" style="max-width: 150px;" />
+                                </div>
+                              </div>
+                            </t>
+                            <div class="col-lg-10">
+                              <table class="table table-condensed table-profile">
+                                <tbody>
+                                    <tr>
+                                      <td style="font-weight: bold;">Name</td>
+                                      <td><span t-field="child_partner.name"/></td>
+                                      <td style="font-weight: bold;">Licence number</td>
+                                      <td><span t-field="child_partner.licence_number"/></td>
+                                    </tr><tr>
+                                      <td style="font-weight: bold;">Email</td>
+                                      <td><span t-field="child_partner.email"/></td>
+                                      <td style="font-weight: bold;">Address</td>
+                                      <td><span t-field="child_partner.street"/></td>
+                                    </tr><tr>
+                                      <td style="font-weight: bold;">Birthdate</td>
+                                      <td><span t-field="child_partner.birthdate"/></td>
+                                      <td/>
+                                      <td><span t-field="child_partner.street2"/></td>
+                                    </tr><tr>
+                                      <td style="font-weight: bold;">Phone</td>
+                                      <td><span t-field="child_partner.phone"/></td>
+                                      <td/>
+                                      <td><span t-field="child_partner.zip"/> <span t-field="child_partner.city"/></td>
+                                    </tr><tr>
+                                      <td style="font-weight: bold;">Mobile</td>
+                                      <td><span t-field="child_partner.mobile"/></td>
+                                      <td style="font-weight: bold;">Nationality</td>
+                                      <td><span t-field="child_partner.country_id.name"/></td>
+                                    </tr><tr>
+                                      <td style="font-weight: bold;">Gender</td>
+                                      <td><span t-field="child_partner.gender"/></td>
+                                    </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                            </div>
 
-                    <div class="text-center">
-                      <span>Missing or erroneous data? Update them</span>
-                      <br/>
-                      <a href="/web/update_profile" class="btn btn-primary">Update</a> <a href="/web/add_child_partner" class="btn btn-primary">Add Child</a>
-                    </div>
-                    <div class="row">
-                      <div class="col-lg-6">
-                        <H3>Cotisation</H3>
-                        <t t-set="current_season" t-value="request.env['baseball.season'].sudo().get_current_season()"/>                        
-                          <t t-set="current_registration" t-value="user.current_partner_id.season_ids.filtered(lambda r, current_season=current_season: r.season_id == current_season)"/>
-                          <t t-set="currency" t-value="request.env['res.company'].search([])[0].currency_id"/>
-                        <table class="table table-condensed">
-                          <thead>
-                              <tr>
-                                <th>Season</th>
-                                <th>Fee</th>
-                                <th>Paid</th>
-                                <th>Owed</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                <td><span t-field="current_registration.season_id.name"/></td>
-                                <td><span t-field="current_registration.fee_to_pay" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
-                                <td><span t-field="current_registration.fee_paid" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
-                                <td><span t-esc="current_registration.fee_to_pay - current_registration.fee_paid" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
-                              </tr>
-                              <t t-foreach="user.current_partner_id.season_ids.filtered(lambda r, current_season=current_season: r.season_id != current_season and int(round(r.fee_to_pay-r.fee_paid))==0 )" t-as="other_registration">
-                                <tr>
-                                  <td><span t-field="other_registration.season_id.name"/></td>
-                                  <td><span t-field="other_registration.fee_to_pay" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
-                                  <td><span t-field="other_registration.fee_paid" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
-                                  <td><span t-esc="cother_registration.fee_to_pay - other_registration.fee_paid" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
-                                </tr>
-                              </t>
-                          </tbody>
-                        </table>
+                            <div t-if="is_current" class="text-center">
+                              <span>Missing or erroneous data? Update them</span>
+                              <br/>
+                              <a href="/web/update_profile" class="btn btn-primary">Update</a> <a href="/web/add_child_partner" class="btn btn-primary">Add Child</a>
+                            </div>
+                            <div class="row">
+                              <div class="col-lg-6">
+                                <H3>Cotisation</H3>
+                                <t t-set="current_season" t-value="request.env['baseball.season'].sudo().get_current_season()"/>                        
+                                  <t t-set="current_registration" t-value="child_partner.season_ids.filtered(lambda r, current_season=current_season: r.season_id == current_season)"/>
+                                  <t t-set="currency" t-value="request.env['res.company'].search([])[0].currency_id"/>
+                                <table class="table table-condensed">
+                                  <thead>
+                                      <tr>
+                                        <th>Season</th>
+                                        <th>Fee</th>
+                                        <th>Paid</th>
+                                        <th>Owed</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <tr>
+                                        <td><span t-field="current_registration.season_id.name"/></td>
+                                        <td><span t-field="current_registration.fee_to_pay" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                        <td><span t-field="current_registration.fee_paid" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                        <td><span t-esc="current_registration.fee_to_pay - current_registration.fee_paid" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                      </tr>
+                                      <t t-foreach="child_partner.season_ids.filtered(lambda r, current_season=current_season: r.season_id != current_season and int(round(r.fee_to_pay-r.fee_paid))==0 )" t-as="other_registration">
+                                        <tr>
+                                          <td><span t-field="other_registration.season_id.name"/></td>
+                                          <td><span t-field="other_registration.fee_to_pay" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                          <td><span t-field="other_registration.fee_paid" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                          <td><span t-esc="cother_registration.fee_to_pay - other_registration.fee_paid" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                        </tr>
+                                      </t>
+                                  </tbody>
+                                </table>
 
-                      </div>
-                      <div class="col-lg-6">
-                        <H3>Jersey</H3>
-                        <table class="table table-condensed">
-                          <thead>
-                              <tr>
-                                <th>#</th>
-                                <th>Color</th>
-                                <th>Size</th>
-                                <th>State</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <t t-foreach="user.current_partner_id.jerseys_ids" t-as="jersey">
-                                <tr>
-                                  <td><span t-field="jersey.number"/></td>
-                                  <td><span t-field="jersey.size"/></td>
-                                  <td><span t-field="jersey.color"/></td>
-                                  <td><span t-field="jersey.state"/></td>
-                                </tr>
-                              </t>
-                          </tbody>
-                        </table>
-                      </div>
+                              </div>
+                              <div class="col-lg-6">
+                                <H3>Jersey</H3>
+                                <table class="table table-condensed">
+                                  <thead>
+                                      <tr>
+                                        <th>#</th>
+                                        <th>Color</th>
+                                        <th>Size</th>
+                                        <th>State</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <t t-foreach="child_partner.jerseys_ids" t-as="jersey">
+                                        <tr>
+                                          <td><span t-field="jersey.number"/></td>
+                                          <td><span t-field="jersey.size"/></td>
+                                          <td><span t-field="jersey.color"/></td>
+                                          <td><span t-field="jersey.state"/></td>
+                                        </tr>
+                                      </t>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                            <div t-if="child_partner.is_player" class="row">
+                              <div class="col-lg-6">
+                                <H3>Upcoming games</H3>
+                              </div>
+                              <div class="col-lg-6">
+                                <H3>Upcoming practices</H3>
+                              </div>
+                            </div>
+                          </div>
+                        </t>
                     </div>
-                    <div class="row">
-                      <div class="col-lg-6">
-                        <H3>Upcoming games</H3>
-                      </div>
-                      <div class="col-lg-6">
-                        <H3>Upcoming practices</H3>
-                      </div>
-                    </div>
-
                   </div>
                 </div>  
               </div>

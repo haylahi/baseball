@@ -298,17 +298,17 @@
                 <td class="js_game" t-attf-id="#{game.id}"><span  t-field="game.start_time" t-field-options='{"format": "HH:mm"}'/></td>
                 <td>
                   <t t-if="user">
-                    <t t-if="user.partner_id in game.present_players_ids">
+                    <t t-if="user.current_partner_id in game.present_players_ids">
                       <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
                     </t>
-                    <t t-if="user.partner_id not in game.present_players_ids">
+                    <t t-if="user.current_partner_id not in game.present_players_ids">
                       <i class="fa fa-check-circle-o fa-2x js_game_attend" t-attf-id="#{game.id}"/>
                     </t>
 
-                    <t t-if="user.partner_id in game.absent_players_ids">
+                    <t t-if="user.current_partner_id in game.absent_players_ids">
                       <i class="fa fa-times-circle-o fa-2x text-danger js_game_absent" t-attf-id="#{game.id}" />
                     </t>                
-                    <t t-if="user.partner_id not in game.absent_players_ids">
+                    <t t-if="user.current_partner_id not in game.absent_players_ids">
                       <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
                     </t>
 
@@ -328,17 +328,17 @@
                 <td class="js_game" t-attf-id="#{game.id}"/>
                 <td>
                   <t t-if="user">
-                    <t t-if="user.partner_id in game.present_players_ids">
+                    <t t-if="user.current_partner_id in game.present_players_ids">
                       <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
                     </t>
-                    <t t-if="user.partner_id not in game.present_players_ids">
+                    <t t-if="user.current_partner_id not in game.present_players_ids">
                       <i class="fa fa-check-circle-o fa-2x js_game_attend" t-attf-id="#{game.id}"/>
                     </t>
 
-                    <t t-if="user.partner_id in game.absent_players_ids">
+                    <t t-if="user.current_partner_id in game.absent_players_ids">
                       <i class="fa fa-times-circle-o fa-2x text-danger js_game_absent" t-attf-id="#{game.id}" />
                     </t>                
-                    <t t-if="user.partner_id not in game.absent_players_ids">
+                    <t t-if="user.current_partner_id not in game.absent_players_ids">
                       <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
                     </t>
 

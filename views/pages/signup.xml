@@ -143,10 +143,10 @@
               <label class="control-label">Teams</label>
               <select name="teams" class="control-label js_multiselect" multiple="mutltiple">
                 <t t-foreach="teams or []" t-as="team">
-                      <t t-if="team.id in signup.get('team_ids')">
+                      <t t-if="signup.get('team_ids') and team.id in signup.get('team_ids')">
                         <option t-att-value="str(team.id)" selected="selected"><span t-field="team.name"/></option>
                       </t>
-                      <t t-if="not team.id in signup.get('team_ids')">
+                      <t t-if="not signup.get('team_ids') or not team.id in signup.get('team_ids')">
                         <option t-att-value="str(team.id)"><span t-field="team.name"/></option>
                       </t>
                 </t>

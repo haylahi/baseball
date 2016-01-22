@@ -58,7 +58,7 @@ class baseball_auth_signup(AuthSignupHome):
             user_id.current_partner_id =  new_partner_id
             return request.redirect("/profile")
 
-        qcontext.update(self.signup_values())
+        qcontext.update(self.signup_values(no_values=True))
         qcontext.update({'add_partner_enabled': True})
 
         return request.render('auth_signup.add_child', qcontext)
@@ -86,7 +86,7 @@ class baseball_auth_signup(AuthSignupHome):
         return request.render('auth_signup.update_profile', qcontext)
 
 
-    def signup_values(self, data=None):
+    def signup_values(self, data=None, no_values=False):
 
         env, uid, registry = request.env, request.uid, request.registry
 
@@ -119,12 +119,16 @@ class baseball_auth_signup(AuthSignupHome):
         signup['baseball_category_ids'] = partner_id.baseball_category_ids.ids
         signup['team_ids'] = partner_id.team_ids.ids
 
+        if no_values:
+            signup = {'email' : partner_id.email}
+
         values = {
             'countries': countries,
             'categories': categories,
             'teams': teams,
             'signup': signup,
         }
+
 
         return values
 
@@ -190,7 +194,7 @@ class baseball_auth_signup(AuthSignupHome):
         if photo and photo.filename and photo.content_type.split('/')[0] == 'image':
             values['image'] = photo.read().encode('base64')
         
-        new_partner_id = request.env['res.partner'].create(values)
+        new_partner_id = request.env['res.partner'].sudo().create(values)
         new_partner_id.recalculat_current_category()
 
         registration_document = kw.get('registration_document')
@@ -270,8 +274,8 @@ class baseball_club(http.Controller):
         user_id = env['res.users'].sudo().browse(uid)
         game_id = env['baseball.game'].sudo().browse(int(game_id))
 
-        game_id.present_players_ids |= user_id.partner_id 
-        game_id.absent_players_ids -= user_id.partner_id 
+        game_id.present_players_ids |= user_id.current_partner_id 
+        game_id.absent_players_ids -= user_id.current_partner_id 
 
         value = {'attending': True}  
         return value
@@ -286,8 +290,8 @@ class baseball_club(http.Controller):
         user_id = env['res.users'].sudo().browse(uid)        
         game_id = env['baseball.game'].sudo().browse(int(game_id))
 
-        game_id.present_players_ids -= user_id.partner_id 
-        game_id.absent_players_ids |= user_id.partner_id 
+        game_id.present_players_ids -= user_id.current_partner_id 
+        game_id.absent_players_ids |= user_id.current_partner_id 
 
         value = {'attending': False}  
         return value
@@ -314,10 +318,10 @@ class baseball_club(http.Controller):
 
         user_id = env['res.users'].sudo().browse(uid)
         game_id = env['baseball.game'].sudo().browse(int(game_id))
-        game_id.scorer = user_id.partner_id 
+        game_id.scorer = user_id.current_partner_id 
         value = {
             'scoring': True,
-            'scorer': user_id.partner_id.name,
+            'scorer': user_id.current_partner_id.name,
             }  
         return value
 
@@ -333,7 +337,7 @@ class baseball_club(http.Controller):
 
         value = {
             'umpiring': True,
-            'umpire': user_id.partner_id.name,
+            'umpire': user_id.current_partner_id.name,
         }  
         return value
 
@@ -349,11 +353,13 @@ class baseball_club(http.Controller):
 
         return request.render('baseball.upcoming_schedule', values)
 
-    @http.route(['/profile'], type='http', auth="public", website=True)
+    @http.route(['/profile'], type='http', auth="user", website=True)
     def get_profile(self, **kw):
         env, uid = request.env, request.uid
         if uid != env.ref('base.public_user').id:
             user = env['res.users'].sudo().browse(uid)
+            if kw.get('current_partner'):
+                user.current_partner_id = int(kw.get('current_partner'))
             values = {
                 'user': user,
             }
