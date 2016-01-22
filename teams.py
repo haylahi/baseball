@@ -65,12 +65,6 @@ class Teams(models.Model):
     def _compute_games(self):
         self.game_ids = self.env['baseball.game'].search(['|', ('home_team','=',self.id),('away_team','=',self.id)]).sorted(key=lambda r: r.start_time)
 
-
-class SubTeams(models.Model):
-    _inherit = 'baseball.teams'
-    _name = 'baseball.subteams'
-
-
 class Divisions(models.Model):
     _name = 'baseball.divisions'
 

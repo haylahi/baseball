@@ -226,14 +226,14 @@ class Game(models.Model):
             teams_without_logo = self.env['baseball.teams'].search([('logo_id','=',False),('name_from_federation','ilike',logo_id.name)])
             teams_without_logo.write({'logo_id': logo_id.id})
 
-class Tournament(models.Model):
-    _name = 'baseball.tournament'
-    _inherit = 'calendar.event'
+# class Tournament(models.Model):
+#     _name = 'baseball.tournament'
+#     _inherit = 'calendar.event'
 
-    participating_team = fields.Many2one(
-        'baseball.teams', string="Club Participant")
-    organising_team = fields.Many2one('baseball.teams', string="Organiser")
-    away_team = fields.Many2one('baseball.teams', string="Away Team")
+#     participating_team = fields.Many2one(
+#         'baseball.teams', string="Club Participant")
+#     organising_team = fields.Many2one('baseball.teams', string="Organiser")
+#     away_team = fields.Many2one('baseball.teams', string="Away Team")
 
 
 class Invitation(models.Model):

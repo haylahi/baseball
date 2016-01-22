@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <menuitem id="main_baseball_menu" name="LLN baseball" sequence="1"/>
+        <menuitem id="main_baseball_menu" name="LLN baseball" sequence="1" groups="base.group_user"/>
         <menuitem id="menu_management" name="Management" sequence="1" parent="main_baseball_menu"/>
 
-        <menuitem id="menu_uniforms" name="Uniforms" sequence="3" parent="main_baseball_menu"/>
+        <menuitem id="menu_uniforms" name="Uniforms" sequence="3" parent="main_baseball_menu" groups="group_uniforms_manage"/>
 
-        <menuitem id="menu_competition" name="Competition" sequence="2" parent="main_baseball_menu"/>
+        <menuitem id="menu_competition" name="Competition" sequence="2" parent="main_baseball_menu" groups="group_sports_manage"/>
 
 
 <!--         <record id="action_home_page" model="ir.actions.client">
