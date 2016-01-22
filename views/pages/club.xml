@@ -79,14 +79,14 @@
 <template id="website.company_description" name="Company Description">
     <address itemscope="itemscope" itemtype="http://schema.org/Organization">
         <!-- TODO widget contact must add itemprop attributes -->
-        <div>Siège</div>
+        <h4>Siège</h4>
 
         <div t-field="res_company.partner_id" t-field-options='{
                 "widget": "contact",
                 "fields": ["name", "address", "phone", "email"]}'/>
     </address>
     <address itemscope="itemscope" itemtype="http://schema.org/Organization">
-        <div>Terrain</div>
+        <h4>Terrain</h4>
         <div t-field="res_company.partner_id.field_street"/>
         <div t-field="res_company.partner_id.field_zip"/>
         <div t-field="res_company.partner_id.field_city"/>
