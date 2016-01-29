@@ -70,7 +70,7 @@
             <field name="name">baseball.jerseysitem.tree</field>
             <field name="model">baseball.jerseysitem</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree editable="bottom">
                     <field name="number"/>
                     <field name="size"/>
                     <field name="color"/>
@@ -78,6 +78,21 @@
                     <field name="member_id" context="{
 'form_view_ref':'baseball.view_baseball_members_form'}"/>
                 </tree>
+            </field>
+        </record>
+
+
+       <record id="view_jerseysitem_filter" model="ir.ui.view">
+            <field name="name">baseball.jerseysitem.search</field>
+            <field name="model">baseball.jerseysitem</field>
+            <field name="arch" type="xml">
+                <search>
+                  <field name="member_id"/>
+                  <field name="color"/>
+                  <filter name="current_members" string="Current Members" domain="[('is_active_current_season', '=', True)]"/>
+                  <filter name="former_members" string="Former members" domain="[('is_active_current_season', '=', False)]"/>
+                  <filter name="indebted_members" string="Indebted members" domain="[('debt', '>', 0)]"/>
+                </search>
             </field>
         </record>
 
