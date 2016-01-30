@@ -70,7 +70,7 @@
             <field name="name">baseball.jerseysitem.tree</field>
             <field name="model">baseball.jerseysitem</field>
             <field name="arch" type="xml">
-                <tree editable="bottom">
+                <tree editable="top">
                     <field name="number"/>
                     <field name="size"/>
                     <field name="color"/>

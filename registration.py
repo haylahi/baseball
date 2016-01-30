@@ -14,7 +14,10 @@ class Season(models.Model):
     members_qty = fields.Integer('Members quantity', compute='_compute_members_qty')
     amount_left_to_collect = fields.Float('Amount to get', compute='_compute_to_collect')
     is_current = fields.Boolean('Current')
-
+    certificate_id = fields.Many2one(
+        'ir.attachment',
+        'Certificate',
+    )
     @api.constrains('is_current')
     def _check_current(self):
         if len(self.search([('is_current','=', True)]))> 1:

@@ -8,11 +8,12 @@
             <field name="model">baseball.season</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
-                <tree string="Seasons" editable="bottom">
+                <tree string="Seasons" editable="top">
                     <field name="name"/>
                     <field name="members_qty"/>
                     <field name="amount_left_to_collect"/>
                     <field name="is_current"/>
+                    <field name="certificate_id" domain="[('public','=',True)]" context="{'default_public': True}"/>
                 </tree>
             </field>
         </record>

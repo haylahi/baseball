@@ -201,7 +201,20 @@
 
           <div class="form-group field-registration_document js_is_player">
               <label class="control-label" for="registration_document">Certificate</label>
-              <input type="file" name="registration_document" class="form-control"/>
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="file" name="registration_document" class="form-control"/>
+                </div>
+                <div class="col-md-6">
+                  <t t-set="season" t-value="request.env['baseball.season'].sudo().get_current_season()"/>
+                  <t t-if="season and season.certificate_id">
+                    <a t-att-href="'/web/content/ir.attachment/%s/datas/name' % (season.certificate_id.id)">
+                        <i class="fa fa-file-pdf-o fa-2x"></i><t t-esc="season.certificate_id.name"/>
+                    </a>
+                  </t>
+                </div>
+              </div>
+              <!-- <a href="/profile" role="menuitem">My Profile</a> METTRE UN LIEN VERS CURRENT SEASON-->
           </div>
         </t>
         <div t-att-class="'hidden' if only_update else None">
