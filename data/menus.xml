@@ -33,6 +33,14 @@
             <field name="website_id" ref="website.default_website"/>
         </record>
 
+        <record id="register_menu" model="website.menu">
+            <field name="name">S'inscrire</field>
+            <field name="url">/page/register</field>
+            <field name="parent_id" ref="website.menu_homepage" />
+            <field name="sequence" type="int">35</field>
+            <field name="website_id" ref="website.default_website"/>
+        </record>
+
         <record id="upcoming_games_menu" model="website.menu">
             <field name="name">Upcoming Games</field>
             <field name="url">/page/upcoming_games</field>

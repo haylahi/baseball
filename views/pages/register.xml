@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<template id="website.register" name="Registering information page">                
+  <t t-call="website.layout">
+      <t t-set="additional_title">Comment s'inscrire?</t>
+      <div id="wrap">
+        <div class="oe_structure"/>
+          <div class="container">
+            <div class='row'>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Comment s'inscrire?</h2>
+                </div>
+                <div class="panel-body">
+
+
+                  <p>
+                  Vous avez entre 5 et 105 ans, vous êtes Intéressés par le baseball? N'hésitez plus, venez particper à un entraînement: contactez le secrétariat ou directement le responsable de l'équipe concernée. Vous ne savez pas à quelle catégorie vous appartenez? N'hésitez pas à nous contacter.
+                  </p>
+
+                  <p>
+                  Les inscriptions se font via le secrétariat. Le papier à remplir :
+                  </p>
+                  <t t-set="season" t-value="request.env['baseball.season'].sudo().get_current_season()"/>
+                  <t t-if="season and season.certificate_id">
+                    <a t-att-href="'/web/content/ir.attachment/%s/datas/name' % (season.certificate_id.id)">
+                        <i class="fa fa-file-pdf-o fa-2x"></i><t t-esc="season.certificate_id.name"/>
+                    </a>
+                  </t>
+
+
+                  <p>
+                    Inscrivez-vous également en ligne, votre profil vous permettra :
+                    <ul>
+                    <li>De mettre à jour vos données, changer votre photo, poster les papiers d'inscription.</li>
+                    <li>De voir si vous êtes en ordre de payement au niveau des cotisations et de matériel (vareuses).</li>
+                    <li>De vous inscrire aux matches (présences ou absences).</li>
+                    <li>De vous porter volontaire pour arbitrer ou scorer un match via le menu Home, onglet Prochains matches ou via le menu Equipes.</li>
+                    </ul>
+                  </p>
+                    <a class="btn btn-primary" href="/web/signup">
+                        S'inscrire en ligne
+                    </a>
+
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="oe_structure mb32"/>
+      </div>
+  </t>
+</template>
+
+
+  </data>
+</openerp>

@@ -51,6 +51,7 @@
         'views/pages/signup.xml',
         'views/pages/teams.xml',
         'views/pages/baseball.xml',
+        'views/pages/register.xml',
         'views/pages/club.xml',
         'views/pages/calendar.xml',
         'views/pages/blog.xml',
