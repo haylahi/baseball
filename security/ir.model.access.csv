@@ -37,3 +37,4 @@ baseball.acces_rights_38,baseball.team.practice,baseball.model_baseball_teams_pr
 baseball.acces_rights_39,baseball.portal.venue,baseball.model_baseball_venue,base.group_user,1,0,0,0
 baseball.acces_rights_40,baseball.team.venue,baseball.model_baseball_venue,,1,1,1,0
 baseball.acces_rights_41,baseball.club.venue,baseball.model_baseball_venue,group_club_manage,1,1,1,1
+baseball.acces_rights_1,baseball.team.partner,baseball.model_baseball_teams_practice_event,group_club_members_read,1,1,1,1

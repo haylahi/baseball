@@ -29,6 +29,7 @@
         'data/cron.xml',
         'data/mails.xml',
         'security/ir.model.access.csv',
+        'wizard/practice_wizard.xml',
         'views/menus.xml',
         'views/members.xml',
         'views/partner.xml',

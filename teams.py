@@ -5,7 +5,9 @@ import urllib2
 import xmltodict
 from openerp.exceptions import ValidationError
 from datetime import datetime
-
+import dateutil
+import math
+import pytz
 
 
 class Teams(models.Model):
@@ -143,11 +145,69 @@ class Practices(models.Model):
     _name = 'baseball.teams.practice'
     _order = "dayofweek, hour_from"
 
-    dayofweek = fields.Selection([('0','Monday'),('1','Tuesday'),('2','Wednesday'),('3','Thursday'),('4','Friday'),('5','Saturday'),('6','Sunday')], 'Day of Week', required=True, select=True)
+    dayofweek = fields.Selection([(0,'Monday'),(1,'Tuesday'),(2,'Wednesday'),(3,'Thursday'),(4,'Friday'),(5,'Saturday'),(6,'Sunday')], 'Day of Week', required=True, select=True)
     hour_from = fields.Float("Start")
     hour_to = fields.Float("End")
     team_ids = fields.Many2many(
         'baseball.teams', string="Teams", relation="team_practices_rel", domain="[('is_opponent','=',False)]")
     season = fields.Selection([('summer','Summer'),('winter','Winter')], default='summer')
     venue_id = fields.Many2one('baseball.venue', string="Venue")
+    practice_event_ids = fields.One2many(
+        'baseball.teams.practice.event', 'practice_id', string="Practices")
+
+class Practices_serie(models.Model):
+    _name = 'baseball.teams.practice.serie'
+
+    practice_event_ids = fields.One2many(
+        'baseball.teams.practice.event', 'serie_id', string="Practices")
+
+
+class Practices_event(models.Model):
+    _name = 'baseball.teams.practice.event'
+    _order = "start_time, team_id"
+
+    start_time = fields.Datetime(string="Start Time")
+    end_time = fields.Datetime(string="End Time")
+    team_id = fields.Many2one('baseball.teams', string="Team", domain="[('is_opponent','=',False)]")
+    venue_id = fields.Many2one('baseball.venue', string="Venue")
+    serie_id = fields.Many2one('baseball.teams.practice.serie', string="Serie", ondelete="cascade")
+    practice_id = fields.Many2one('baseball.teams.practice', string="Practice", ondelete="cascade")
+
+
+class Practice_wizard(models.TransientModel):
+    _name = 'baseball.teams.practice.wizard'
+
+
+    start_date = fields.Date(string="Start Date", required=True)
+    end_date = fields.Date(string="End Date", required=True)
+    practice_id = fields.Many2one('baseball.teams.practice', string="Practice", required=True)
+
+
+
+    @api.one
+    def generate_practice(self):
+        dates = dateutil.rrule.rrule(
+            dateutil.rrule.MONTHLY,
+            byweekday=self.practice_id.dayofweek, 
+            byhour=int(math.floor(self.practice_id.hour_from)), 
+            byminute=int(math.floor((self.practice_id.hour_from%1)*60)), 
+            dtstart=fields.Date.from_string(self.start_date), 
+            until=fields.Date.from_string(self.end_date))[:]
+        dates = [pytz.timezone(self._context.get('tz')).localize(x, is_dst=None).astimezone(pytz.utc) for x in dates]
+
+        for team in self.practice_id.team_ids:
+            serie  = self.env['baseball.teams.practice.serie'].create({})
+            self.practice_id.write({
+                'practice_event_ids': [(0,0,{
+                    'start_time': fields.Datetime.to_string(date),
+                    'end_time': fields.Datetime.to_string(date + dateutil.relativedelta.relativedelta(hours=(self.practice_id.hour_to - self.practice_id.hour_from),) ),
+                    'team_id': team.id,
+                    'venue_id': self.practice_id.venue_id.id,
+                    'serie_id': serie.id,
+                }) for date in dates],
+            })
+
+
+
+
 

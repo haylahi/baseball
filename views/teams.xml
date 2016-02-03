@@ -174,7 +174,7 @@
             <field name="model">baseball.teams.practice</field>
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
-                <tree string="Practices" editable="top">
+                <tree string="Practices">
                     <field name="team_ids" widget="many2many_tags"/>
                     <field name="dayofweek"/>
                     <field name="hour_from" widget="float_time"/>
@@ -185,11 +185,41 @@
             </field>
         </record>
 
+        <record id="view_baseball_practices_form" model="ir.ui.view">
+            <field name="name">baseball.teams.practice.form</field>
+            <field name="model">baseball.teams.practice</field>
+            <field name="arch" type="xml">
+                <form string="Practices">
+                    <group>
+                        <field name="team_ids" widget="many2many_tags"/>
+                        <field name="dayofweek"/>
+                        <field name="hour_from" widget="float_time"/>
+                        <field name="hour_to" widget="float_time"/>
+                        <field name="season"/>
+                        <field name="venue_id"/>
+                    </group>
+                    <field name="practice_event_ids">
+                        <tree string="Practices">
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                            <field name="team_id" />
+                            <field name="venue_id"/>
+                            <field name="serie_id"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button name="%(action_baseball_practice_wizard)d" type="action" string="Generate practices" class="btn-primary" context="{'default_practice_id': id, 'default_venue_id': venue_id, 'default_dayofweek': dayofweek, 'default_team_ids': team_ids, 'default_hour_from': hour_from}"/>
+                    </footer>
+
+                </form>
+            </field>
+        </record>
+
 
         <record model="ir.actions.act_window" id="action_practices">
             <field name="name">Practices</field>
             <field name="res_model">baseball.teams.practice</field>
-            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,form</field>
         </record>
 
 

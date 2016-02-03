@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+          <record id="view_baseball_practice_wizard_form" model="ir.ui.view">
+            <field name="name">baseball.teams.practice.wizard.form</field>
+            <field name="model">baseball.teams.practice.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Practice">
+                    <group>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="practice_id" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="generate_practice" type="object" string="Generate practices" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_baseball_practice_wizard">
+            <field name="name">Practices</field>
+            <field name="res_model">baseball.teams.practice.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_baseball_practice_wizard_form"/>
+        </record>
+
+
+    </data>
+</openerp>
