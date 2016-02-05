@@ -56,7 +56,7 @@ class Teams(models.Model):
         for team in self:
 
             result.append(
-                (team.id, '%s (%s)' % (team.name, ','.join(team.division_ids.mapped('name')))))
+                (team.id, '%s (%s)' % (team.name, ','.join(team.division_ids.filtered(lambda r: not r.parent_related_division_ids).mapped('name')))))
         return result
 
     @api.one

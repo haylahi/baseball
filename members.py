@@ -103,15 +103,15 @@ class Members(models.Model):
         categories = self.baseball_category_ids.sorted(lambda r: r.cotisation, reverse=True)
         if categories:
             category = categories[0]
-
             if current_registration_id:
                 current_registration_id.category_id = category
             else:
+                old_registration = self.season_ids
                 new_registration = self.env['baseball.registration'].create({
                     'season_id': current_season.id,
                     'category_id': category.id
                     })
-                self.season_ids += new_registration
+                self.season_ids = old_registration | new_registration
 
     @api.multi
     def google_map_img(self, zoom=8, width=298, height=298, field=False):

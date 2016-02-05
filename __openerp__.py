@@ -33,6 +33,7 @@
         'views/menus.xml',
         'views/members.xml',
         'views/partner.xml',
+        'views/users.xml',
         'views/categories.xml',
         'views/teams.xml',
         'views/divisions.xml',

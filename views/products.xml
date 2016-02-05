@@ -72,11 +72,14 @@
             <field name="arch" type="xml">
                 <tree editable="top">
                     <field name="number"/>
-                    <field name="size"/>
-                    <field name="color"/>
+                    <field name="size" domain="[('attribute_id', '=', %(product_attribute_size)d)]"/>
+                    <field name="color" domain="[('attribute_id', '=', %(product_attribute_color)d)]"/>
                     <field name="state"/>
                     <field name="member_id" context="{
 'form_view_ref':'baseball.view_baseball_members_form'}"/>
+                    <field name="gender"/>
+                    <field name="team_ids" widget="many2many_tags"/>
+
                 </tree>
             </field>
         </record>
@@ -89,9 +92,10 @@
                 <search>
                   <field name="member_id"/>
                   <field name="color"/>
-                  <filter name="current_members" string="Current Members" domain="[('is_active_current_season', '=', True)]"/>
-                  <filter name="former_members" string="Former members" domain="[('is_active_current_season', '=', False)]"/>
-                  <filter name="indebted_members" string="Indebted members" domain="[('debt', '>', 0)]"/>
+                  <filter name="stock" string="Stock" domain="[('state', '=', 'stock')]"/>
+                  <filter name="sold" string="Sold" domain="[('state', '=', 'sold')]"/>
+                  <filter name="rented" string="Rented" domain="[('state', '=', 'rented')]"/>
+                  <filter name="lost" string="Lost" domain="[('state', '=', 'lost')]"/>
                 </search>
             </field>
         </record>

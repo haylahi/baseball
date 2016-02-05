@@ -26,6 +26,9 @@ class JerseyItem(models.Model):
     ], default='stock')
     member_id = fields.Many2one('res.partner', string="Member")
     product_id = fields.Many2one('product.product', string="Related product", compute="_get_product", store=True)
+    gender = fields.Selection(related="member_id.gender", string="Gender", readonly=True)
+    team_ids  = fields.Many2many(
+        related="member_id.team_ids", string="Teams", readonly=True)
 
     @api.one
     @api.depends('color','size')
