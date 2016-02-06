@@ -58,6 +58,7 @@
                         <field name="state"/>
                         <field name="member_id" context="{
 'form_view_ref':'baseball.view_baseball_members_form'}"/>
+                        <field name="comment"/>                        
                         <field name="product_id" domain="[('attribute_value_ids','in',size),('attribute_value_ids','in',color)]"/>
 
                     </group>                
@@ -75,6 +76,7 @@
                     <field name="size" domain="[('attribute_id', '=', %(product_attribute_size)d)]"/>
                     <field name="color" domain="[('attribute_id', '=', %(product_attribute_color)d)]"/>
                     <field name="state"/>
+                    <field name="comment"/>
                     <field name="member_id" context="{
 'form_view_ref':'baseball.view_baseball_members_form'}"/>
                     <field name="gender"/>
@@ -94,8 +96,11 @@
                   <field name="color"/>
                   <filter name="stock" string="Stock" domain="[('state', '=', 'stock')]"/>
                   <filter name="sold" string="Sold" domain="[('state', '=', 'sold')]"/>
+                  <filter name="sold_paid" string="Sold and Paid" domain="[('state', '=', 'sold_paid')]"/>
                   <filter name="rented" string="Rented" domain="[('state', '=', 'rented')]"/>
+                  <filter name="rented_paid" string="Rented and paid" domain="[('state', '=', 'rented_paid')]"/>
                   <filter name="lost" string="Lost" domain="[('state', '=', 'lost')]"/>
+                  <filter name="borrow" string="Borrowed" domain="[('state', '=', 'borrow')]"/>
                 </search>
             </field>
         </record>

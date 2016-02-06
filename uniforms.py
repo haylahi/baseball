@@ -21,14 +21,19 @@ class JerseyItem(models.Model):
     state = fields.Selection([
         ('stock', "In Stock"),
         ('sold', "Sold"),
+        ('sold_paid', "Sold and Paid"),
         ('rented', "Rented"),
+        ('rented_paid', "Rented and paid"),
         ('lost', "Lost"),
+        ('borrow', "Borrowed"),
     ], default='stock')
     member_id = fields.Many2one('res.partner', string="Member")
     product_id = fields.Many2one('product.product', string="Related product", compute="_get_product", store=True)
     gender = fields.Selection(related="member_id.gender", string="Gender", readonly=True)
     team_ids  = fields.Many2many(
         related="member_id.team_ids", string="Teams", readonly=True)
+    comment = fields.Text(string="Comments")
+
 
     @api.one
     @api.depends('color','size')
