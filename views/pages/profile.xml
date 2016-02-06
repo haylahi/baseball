@@ -78,7 +78,7 @@
                             <div t-if="is_current" class="text-center">
                               <span>Missing or erroneous data? Update them</span>
                               <br/>
-                              <a href="/web/update_profile" class="btn btn-primary">Update</a> <a href="/web/add_child_partner" class="btn btn-primary">Add Child</a>
+                              <a href="/web/reset_password" class="btn btn-primary">Reset password</a> <a href="/web/update_profile" class="btn btn-primary">Update</a> <a href="/web/add_child_partner" class="btn btn-primary">Add Child</a>
                             </div>
                             <div class="row">
                               <div class="col-lg-6">
