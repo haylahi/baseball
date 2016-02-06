@@ -107,7 +107,7 @@
                                           <td><span t-field="other_registration.season_id.name"/></td>
                                           <td><span t-field="other_registration.fee_to_pay" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
                                           <td><span t-field="other_registration.fee_paid" t-field-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
-                                          <td><span t-esc="cother_registration.fee_to_pay - other_registration.fee_paid" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
+                                          <td><span t-esc="other_registration.fee_to_pay - other_registration.fee_paid" t-esc-options='{"widget": "monetary", "display_currency": "currency"}'/></td>
                                         </tr>
                                       </t>
                                   </tbody>
