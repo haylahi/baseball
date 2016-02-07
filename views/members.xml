@@ -99,10 +99,10 @@
                         </page>
                         <page name="family" string="Family" >
                             <group>
-                                <field name="parent_user_id"/>
+                                <field name="parent_user_id" context="{'form_view_ref':'baseball.view_baseball_members_form'}"/>
                             </group>
                             <label for="child_partner_ids"/>
-                            <field name="child_partner_ids" widget="many2many">
+                            <field name="child_partner_ids" widget="many2many" context="{'form_view_ref':'baseball.view_baseball_members_form'}">
                                 <tree>
                                     <field name="name"/>
 

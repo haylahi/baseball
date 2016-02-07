@@ -42,7 +42,6 @@ class baseball_auth_signup(AuthSignupHome):
     @http.route('/web/add_child_partner', type='http', auth='user', website=True)
     def web_auth_add_child_partner(self, *args, **kw):
 
-        import pdb; pdb.set_trace()
         qcontext = self.get_auth_signup_qcontext()
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
