@@ -44,8 +44,8 @@ class Members(models.Model):
     field_zip = fields.Char('Field Zip')
     field_country_id = fields.Many2one('res.country', 'Field Country')
     debt = fields.Float(string="Debt", compute='_compute_debt', store=True)
-    parent_user_id = fields.Many2one('res.users', 'Parent user')
-
+    parent_user_id = fields.Many2one('res.partner', 'Parent member')
+    child_partner_ids = fields.One2many('res.partner', 'parent_user_id', string="Child members")
 
     @api.one
     @api.depends('team_ids')
