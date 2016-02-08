@@ -59,12 +59,22 @@ class Game(models.Model):
     ], default=_default_game_type)
     venue = fields.Many2one('baseball.venue', string="Venue")
     is_opponent = fields.Boolean(string="Opponent", compute="_get_is_opponent", store=True)
+    result = fields.Selection([
+        ('home', "Home"),
+        ('away', "Away"),
+        ('tie', "Tie"),
+        ('np', "Not played"),
+    ], string="Result", compute="_compute_result")
+
 
     _sql_constraints = [
         ('game_number',
          'UNIQUE(game_number)',
          "The game number must be unique"),
     ]
+
+
+
 
 
     @api.one
@@ -75,6 +85,29 @@ class Game(models.Model):
     @api.depends('home_team.is_opponent', 'away_team.is_opponent')
     def _get_is_opponent(self):
         self.is_opponent = self.home_team.is_opponent and self.away_team.is_opponent
+
+    @api.one
+    @api.depends('score_away', 'score_home')
+    def _compute_result(self):
+        if self.score_home:
+            if  self.score_home.isdigit() and self.score_away.isdigit():
+                if int(self.score_home) > int(self.score_away):
+                    self.result = 'home'
+                elif int(self.score_home) < int(self.score_away):
+                    self.result = 'away'
+                elif int(self.score_home) == int(self.score_away):
+                    self.result = 'tie'
+                else:
+                    self.result = 'np'
+            else:
+                if 'ff' in self.score_home.lower():
+                    self.result = 'away'
+                elif 'ff' in self.score_away.lower():
+                    self.result = 'home'
+                else:
+                    self.result = 'np'
+        else: 
+            self.result = 'np'
 
     @api.one
     @api.depends('home_team.is_official_umpires', 'away_team.is_official_umpires', 'game_type')

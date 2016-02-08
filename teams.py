@@ -54,10 +54,15 @@ class Teams(models.Model):
     def name_get(self):
         result = []
         for team in self:
-
-            result.append(
-                (team.id, '%s (%s)' % (team.name, ','.join(team.division_ids.filtered(lambda r: not r.parent_related_division_ids).mapped('name')))))
+            if team.division_ids:
+                result.append(
+                    (team.id, '%s (%s)' % (team.name, ','.join(team.division_ids.filtered(lambda r: not r.parent_related_division_ids).mapped('name')))))
+            else:
+                result.append(
+                    (team.id, '%s' % (team.name)))
+  
         return result
+
 
     @api.one
     def _players_in_team(self):

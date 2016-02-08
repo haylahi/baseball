@@ -110,7 +110,7 @@
             <td><span t-esc="str(int(practice.hour_from))+'h'+str(int(60*(practice.hour_from - int(practice.hour_from) )) if (practice.hour_from - int(practice.hour_from)) else '') + ' - ' + str(int(practice.hour_to))+'h'+str(int(60*(practice.hour_to - int(practice.hour_to) )) if (practice.hour_to - int(practice.hour_to)) else '')"/></td>
             <t t-foreach="days" t-as="day">
                 <t t-set="practice" t-value="practices.filtered(lambda r,day=day,time=time: r.dayofweek == day and r.hour_from == time)"/>
-                <td><span t-esc="', '.join(practice.team_ids.mapped('name'))"/></td>
+                <td><span t-esc="', '.join(practice.mapped('team_ids').mapped('name'))"/></td>
             </t>
 
           </tr>
@@ -297,7 +297,7 @@
                 <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
                 <td class="js_game" t-attf-id="#{game.id}"><span  t-field="game.start_time" t-field-options='{"format": "HH:mm"}'/></td>
                 <td>
-                  <t t-if="user">
+                  <t t-if="user and game.start_time &gt; datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')">
                     <t t-if="user.current_partner_id in game.present_players_ids">
                       <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
                     </t>
@@ -311,7 +311,20 @@
                     <t t-if="user.current_partner_id not in game.absent_players_ids">
                       <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
                     </t>
-
+                  </t>
+                  <t t-if="game.start_time &lt; datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')">
+                    <t t-if="((game.home_team == team) and (game.result == 'home')) or ((game.away_team == team) and (game.result == 'away'))">
+                      <span style="font-weight: bold;">W</span>
+                    </t>
+                    <t t-if="((game.home_team == team) and (game.result == 'away')) or ((game.away_team == team) and (game.result == 'home'))">
+                      <span>L</span>
+                    </t>
+                    <t t-if="game.result == 'tie'">
+                      <span>T</span>
+                    </t>
+                    <t t-if="game.result == 'np'">
+                      <span>NP</span>
+                    </t>
                   </t>
                 </td>
               </tr>
