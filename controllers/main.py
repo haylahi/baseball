@@ -5,7 +5,8 @@ from openerp import models, fields, api, exceptions, tools
 from openerp.addons.auth_signup.controllers.main import AuthSignupHome
 from datetime import datetime
 from openerp.addons.website_blog.controllers.main import WebsiteBlog
-
+from icalendar import Calendar, Event, vCalAddress, vText
+import pytz
 
 class baseball_auth_signup(AuthSignupHome):
 
@@ -226,6 +227,73 @@ class baseball_club(http.Controller):
         }
 
         return request.render('baseball.team_page', values)
+
+    @http.route(['/page/teams/<int:team_id>/calendar/practice.ics'], type='http', auth="public", website=True)
+    def team_practice_calendar(self, team_id, **post):
+        env, uid = request.env, request.uid
+        team = env['baseball.teams'].sudo().browse(team_id)
+
+        calendar = Calendar()
+        calendar.add('prodid', '-//My practices//mxm.dk//')
+        calendar.add('version', '2.0')
+        calendar.add('method', 'PUBLISH')
+        calendar.add('class', 'PUBLIC')
+        company_id = env['res.company'].sudo().search([]) and env['res.company'].sudo().search([])[0]
+        if company_id:
+            organizer = vCalAddress('MAILTO:%s' % (company_id.partner_id.email))
+            organizer.params['cn'] = vText(company_id.partner_id.name)
+            organizer.params['role'] = vText('Baseball club')
+        else:
+            organizer = vCalAddress('MAILTO:')
+
+        practice_ids = env['baseball.teams.practice.event'].sudo().search([
+            ('team_id','=',team.id),
+            ])
+
+        for practice_id in practice_ids:
+            practice = Event()
+            practice['organizer'] = organizer
+            practice.add('summary', 'Practice - %s' % (team.name))
+            if practice_id.venue_id:
+                location = '%s: %s %s, %s %s' % (practice_id.venue_id.name, practice_id.venue_id.street or '', practice_id.venue_id.street2 or '', practice_id.venue_id.zip_code or '', practice_id.venue_id.city or '')
+                practice['location'] = vText(location)
+            practice.add('dtstart', fields.Datetime.from_string(practice_id.start_time).replace(tzinfo=pytz.utc) )
+            practice.add('dtend', fields.Datetime.from_string(practice_id.end_time).replace(tzinfo=pytz.utc))
+            calendar.add_component(practice)
+        
+        return request.make_response(calendar.to_ical(), headers=[('Content-Type', 'text/calendar')])
+
+    @http.route(['/page/teams/<int:team_id>/calendar/game.ics'], type='http', auth="public", website=True)
+    def team_game_calendar(self, team_id, **post):
+        env, uid = request.env, request.uid
+        team = env['baseball.teams'].sudo().browse(team_id)
+
+
+        calendar = Calendar()
+        calendar.add('prodid', '-//My practices//mxm.dk//')
+        calendar.add('version', '2.0')
+        calendar.add('method', 'PUBLISH')
+        calendar.add('class', 'PUBLIC')
+        company_id = env['res.company'].sudo().search([]) and env['res.company'].sudo().search([])[0]
+        if company_id:
+            organizer = vCalAddress('MAILTO:%s' % (company_id.partner_id.email))
+            organizer.params['cn'] = vText(company_id.partner_id.name)
+            organizer.params['role'] = vText('Baseball club')
+        else:
+            organizer = vCalAddress('MAILTO:')
+
+        for game_id in team.game_ids:
+            game = Event()
+            game['organizer'] = organizer
+            game.add('summary', '%s: vs %s (%s)' % (game_id.game_number, game_id.home_team.name if game_id.home_team != team else game_id.away_team.name, game_id.division.code))
+            if game_id.venue:
+                location = '%s: %s %s, %s %s' % (game_id.venue.name, game_id.venue.street or '', game_id.venue.street2 or '', game_id.venue.zip_code or '', game_id.venue.city or '')
+                game['location'] = vText(location)
+            game.add('dtstart', fields.Datetime.from_string(game_id.start_time).replace(tzinfo=pytz.utc) )
+            game.add('dtend', fields.Datetime.from_string(game_id.end_time).replace(tzinfo=pytz.utc))
+            calendar.add_component(game)
+        
+        return request.make_response(calendar.to_ical(), headers=[('Content-Type', 'text/calendar')])
 
     @http.route(['/player'], type='json', auth="public", methods=['POST'], website=True)
     def modal_player(self, player_id, **kw):

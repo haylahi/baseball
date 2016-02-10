@@ -160,7 +160,11 @@
                             </tr>
                           </t>  
                         </t>  
-                      </table>                    
+                      </table>
+                      <div class="text-center">
+                        <a class="btn btn-default" t-att-href="'/page/teams/%s/calendar/practice.ics'% (team.id)">Download <i class="fa fa-calendar"/></a>
+                        <a class="btn btn-default" t-att-href="'http://www.google.com/calendar/render?cid=%s/page/teams/%s/calendar/practice.ics' % (request.env['ir.config_parameter'].sudo().get_param('web.base.url'),team.id)"><i class="fa fa-google"/> Subscribe <i class="fa fa-calendar"/></a>   
+                        </div>                    
                     </div>
                   </div>
                   <table class="table table-condensed data_roster_table">
@@ -260,6 +264,10 @@
   <div class="panel panel-default">
     <div class="panel-heading"><h3 class="panel-title">Competition</h3></div>
     <div class="panel-body">
+      <div class="text-center">
+        <a class="btn btn-default" t-att-href="'/page/teams/%s/calendar/game.ics'% (team.id)">Download <i class="fa fa-calendar"/></a>
+        <a class="btn btn-default" t-att-href="'http://www.google.com/calendar/render?cid=%s/page/teams/%s/calendar/game.ics' % (request.env['ir.config_parameter'].sudo().get_param('web.base.url'),team.id)"><i class="fa fa-google"/> Subscribe <i class="fa fa-calendar"/></a>
+      </div>
       <table class="table table-condensed data_calendar_table">
         <thead>
           <tr>
