@@ -37,3 +37,8 @@
   font-weight: bold; 
   padding: 5px 5px;
 }
+.navbar-collapse.in {
+  background-color: #c50322;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
