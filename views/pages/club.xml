@@ -19,7 +19,7 @@
                   <t t-set="board" t-value="request.env['res.partner'].sudo().search([('main_club_role_id','!=',False), ('main_club_role_id','!=',request.env.ref('baseball.roles_members').id ),('main_club_role_id.published','=',True)]).sorted(lambda r: r.main_club_role_id.sequence)"/>
 
                   <div >
-                    <h4>Board</h4>
+                    <h4>Comité</h4>
                     <table class="table table-contact">
                       <tbody>
                         <t t-foreach="board or []" t-as="member">
@@ -39,7 +39,7 @@
                       </tbody>
                     </table>    
                     <t t-if="res_company.partner_id.bank_ids">
-                      <h4>Banking information</h4>
+                      <h4>Informations bancaires</h4>
                       <table class="table table-contact">
                         <tbody>
                           <t t-foreach="res_company.partner_id.bank_ids" t-as="bank_account">
@@ -56,12 +56,11 @@
                   <br/>
                   <div class="oe_structure">
                       <div>
-                          <p>Contact us about anything related to our company or services.</p>
-                          <p>We'll do our best to get back to you as soon as possible.</p>
+                          <p>Contactez pour toute question concernant le club.</p>
                       </div>
                   </div>
                   <div class="text-center mt64" name="mail_button">
-                      <a t-attf-href="mailto:{{ res_company.email }}" class="btn btn-primary">Send us an email</a>
+                      <a t-attf-href="mailto:{{ res_company.email }}" class="btn btn-primary">Envoyez nous un email</a>
                   </div>
                 </div>
                 <div class="col-md-4 mb32">

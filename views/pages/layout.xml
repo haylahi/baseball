@@ -91,13 +91,13 @@
                               </b>
                           </a>
                           <ul class="dropdown-menu js_usermenu" role="menu">
-                              <li><a href="/profile" role="menuitem">My Profile</a></li>
+                              <li><a href="/profile" role="menuitem"><i class="fa fa-user"/> Mon Profil</a></li>
                               <li class="divider"/>
-                              <li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>
+                              <li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Log out</a></li>
                           </ul>
                       </li>
                       <li t-if="website.user_id == user_id">
-                        <a href="/web/login?redirect=/profile">Sign in</a>
+                        <a href="/web/login?redirect=/profile">Log in</a>
                       </li>
                   </ul>
 

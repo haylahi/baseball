@@ -54,7 +54,7 @@
             <input type="hidden" name="redirect" t-att-value="redirect"/>
             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
             <div class="clearfix oe_login_buttons">
-                <button type="submit" class="btn btn-primary pull-left">Add child</button>
+                <button type="submit" class="btn btn-primary pull-left">Ajouter un enfant</button>
             </div>
 
         </form>
@@ -75,13 +75,13 @@
 
 <template id="auth_signup.fields" name="Auth Signup/ResetPassword form fields">
         <div class="form-group field-login">
-            <label for="login" class="control-label">Your Email</label>
+            <label for="login" class="control-label">Votre Email</label>
             <input type="text" name="login" t-att-value="signup.get('email') or login" id="login" class="form-control" autofocus="autofocus"
                 required="required" t-att-readonly="'readonly' if only_passwords or only_update else None"/>
         </div>
         <t t-if="not only_passwords">
           <div class="form-group field-name">
-              <label for="name" class="control-label">Your Name</label>
+              <label for="name" class="control-label">Votre Nom</label>
               <input type="text" name="name" t-att-value="signup.get('name')" id="name" class="form-control" placeholder="e.g. John Doe"
                   required="required" t-att-readonly="'readonly' if only_passwords else None"
                   t-att-autofocus="'autofocus' if login and not only_passwords else None" />
@@ -89,23 +89,23 @@
 
 
           <div class="form-group field-gender">
-              <label for="gender" class="control-label">Gender</label>
+              <label for="gender" class="control-label">Sexe</label>
               <select name="gender" t-att-value="signup.get('gender')" id="gender" class="form-control" 
                   required="required" t-att-readonly="'readonly' if only_passwords else None">
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
+                  <option value="male">Homme</option>
+                  <option value="female">Femme</option>
               </select>
           </div>
 
           <div class="field-birthdate">
-              <label for="birthdate" class="control-label">Birthdate</label>
+              <label for="birthdate" class="control-label">Date de naissance</label>
               <input type="date" name="birthdate" t-att-value="signup.get('birthdate')" id="birthdate" class="form-control"
                   required="required" t-att-readonly="'readonly' if only_passwords else None"
                   t-att-autofocus="'autofocus' if login and not only_passwords else None" />
           </div>
 
           <div class="form-group">
-              <label class="control-label" for="country_id">Nationality</label>
+              <label class="control-label" for="country_id">Nationalité</label>
               <select name="country_id" class="form-control">
                   <option value="">Nationality</option>
                   <t t-foreach="countries or []" t-as="country">
@@ -118,8 +118,8 @@
               <label for="is_player" class="control-label">Type</label>
               <select name="is_player" t-att-value="'player' if signup.get('is_player') else 'other'" id="is_player" class="form-control" 
                   required="required" t-att-readonly="'readonly' if only_passwords else None">
-                  <option value="player">Player</option>
-                  <option value="other">Other</option>
+                  <option value="player">Joueur</option>
+                  <option value="other">Autre</option>
               </select>
           </div>
 
@@ -147,7 +147,7 @@
             </div> -->
 
             <div class="form-group field-teams">
-                <label class="control-label">Teams</label>
+                <label class="control-label">Equipes</label>
                 <select name="teams" class="control-label js_multiselect" multiple="mutltiple">
                   <t t-foreach="teams or []" t-as="team">
                         <t t-if="signup.get('team_ids') and team.id in signup.get('team_ids')">
@@ -166,7 +166,7 @@
 
 
           <div class="form-group field-phone">
-              <label class="control-label" for="phone">Phone</label>
+              <label class="control-label" for="phone">Téléphone</label>
               <input type="tel" name="phone" class="form-control" t-att-value="signup.get('phone')"/>
           </div>
 
@@ -176,21 +176,21 @@
           </div>
 
           <div class="form-group field-street">
-              <label class="control-label" for="street2">Street</label>
+              <label class="control-label" for="street2">Rue</label>
               <input type="text" name="street" class="form-control" t-att-value="signup.get('street')"/>
           </div>
 
           <div class="form-group field-street">
-              <label class="control-label" for="street2">Street</label>
+              <label class="control-label" for="street2">Rue</label>
               <input type="text" name="street2" class="form-control" t-att-value="signup.get('street2')"/>
           </div>
 
           <div class="form-group field-city">
-              <label class="control-label" for="city">City</label>
+              <label class="control-label" for="city">Ville</label>
               <input type="text" name="city" class="form-control" t-att-value="signup.get('city')"/>
           </div>
           <div class="form-group field-zip">
-              <label class="control-label" for="zip">Postal Code</label>
+              <label class="control-label" for="zip">Code postal</label>
               <input type="text" name="zip" class="form-control" t-att-value="signup.get('zip')" />
           </div>
 
@@ -200,7 +200,7 @@
           </div>
 
           <div class="form-group field-registration_document js_is_player">
-              <label class="control-label" for="registration_document">Certificate</label>
+              <label class="control-label" for="registration_document">Certificat</label>
               <div class="row">
                 <div class="col-md-6">
                   <input type="file" name="registration_document" class="form-control"/>
@@ -219,13 +219,13 @@
         </t>
         <div t-att-class="'hidden' if only_update else None">
           <div class="form-group field-password">
-              <label for="password" class="control-label">Password</label>
+              <label for="password" class="control-label">Mot de passe</label>
               <input type="password" name="password" id="password" class="form-control"
                   t-att-required="'required' if not only_update else None" t-att-autofocus="'autofocus' if only_passwords else None"/>
           </div>
 
           <div class="form-group field-confirm_password">
-              <label for="confirm_password" class="control-label">Confirm Password</label>
+              <label for="confirm_password" class="control-label">Confirmez mot de passe</label>
               <input type="password" name="confirm_password" id="confirm_password" class="form-control" t-att-required="'required' if not only_update else None"/>
           </div>
         </div>

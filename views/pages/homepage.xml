@@ -9,7 +9,7 @@
       <div class='row'>
         <div class="col-lg-4">
           <div class="panel panel-default">
-            <div class="panel-heading"><h3 class="panel-title">Next games</h3></div>
+            <div class="panel-heading"><h3 class="panel-title">Prochains matches</h3></div>
             <div class="panel-body">
               <t t-call="baseball.5upcoming_games"/>
             </div>
@@ -17,7 +17,7 @@
         </div>
         <div class="col-lg-7">
           <div class="panel panel-default">
-            <div class="panel-heading"><h3 class="panel-title">News</h3></div>
+            <div class="panel-heading"><h3 class="panel-title">Nouvelles</h3></div>
             <div class="panel-body">
               <t t-call="baseball.news"/>
             </div>
@@ -63,7 +63,7 @@
             <!-- <th></th> -->
             <!-- <th></th> -->
             <th>Away</th>
-            <th>Time</th>
+            <th>Heure</th>
           </tr>
         </thead>
         <tbody>

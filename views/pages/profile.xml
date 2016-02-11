@@ -26,9 +26,9 @@
                         <t t-foreach="user.child_partner_ids | user.partner_id" t-as="child_partner">
                           <t t-set="is_current" t-value="child_partner==user.current_partner_id"/>
                           <div t-att-class="'tab-pane fade in active' if is_current else 'tab-pane fade in'" t-att-id="'tabpartner%s' % child_partner.id">
-                            <H3>Data</H3>
+                            <H3>Données</H3>
                             <div t-if="not is_current" class="text-center">
-                              <a t-att-href="'/profile?current_partner=%s' % child_partner.id" class="btn btn-primary">Set as current</a>
+                              <a t-att-href="'/profile?current_partner=%s' % child_partner.id" class="btn btn-primary">Changer de profil</a>
                             </div>
                             <div class="row">
                             <t t-if="child_partner.image">
@@ -42,32 +42,32 @@
                               <table class="table table-condensed table-profile">
                                 <tbody>
                                     <tr>
-                                      <td style="font-weight: bold;">Name</td>
+                                      <td style="font-weight: bold;">Nom</td>
                                       <td><span t-field="child_partner.name"/></td>
-                                      <td style="font-weight: bold;">Licence number</td>
+                                      <td style="font-weight: bold;">Numéro de licence</td>
                                       <td><span t-field="child_partner.licence_number"/></td>
                                     </tr><tr>
                                       <td style="font-weight: bold;">Email</td>
                                       <td><span t-field="child_partner.email"/></td>
-                                      <td style="font-weight: bold;">Address</td>
+                                      <td style="font-weight: bold;">Adresse</td>
                                       <td><span t-field="child_partner.street"/></td>
                                     </tr><tr>
-                                      <td style="font-weight: bold;">Birthdate</td>
+                                      <td style="font-weight: bold;">Date de naissance</td>
                                       <td><span t-field="child_partner.birthdate"/></td>
                                       <td/>
                                       <td><span t-field="child_partner.street2"/></td>
                                     </tr><tr>
-                                      <td style="font-weight: bold;">Phone</td>
+                                      <td style="font-weight: bold;">Téléphone</td>
                                       <td><span t-field="child_partner.phone"/></td>
                                       <td/>
                                       <td><span t-field="child_partner.zip"/> <span t-field="child_partner.city"/></td>
                                     </tr><tr>
                                       <td style="font-weight: bold;">Mobile</td>
                                       <td><span t-field="child_partner.mobile"/></td>
-                                      <td style="font-weight: bold;">Nationality</td>
+                                      <td style="font-weight: bold;">NAtionalité</td>
                                       <td><span t-field="child_partner.country_id.name"/></td>
                                     </tr><tr>
-                                      <td style="font-weight: bold;">Gender</td>
+                                      <td style="font-weight: bold;">Sexe</td>
                                       <td><span t-field="child_partner.gender"/></td>
                                     </tr>
                                 </tbody>
@@ -76,23 +76,23 @@
                             </div>
 
                             <div t-if="is_current" class="text-center">
-                              <span>Missing or erroneous data? Update them</span>
+                              <span>Des données manquantes ou erronée? Mettez les à jour</span>
                               <br/>
-                              <a href="/web/reset_password" class="btn btn-primary">Reset password</a> <a href="/web/update_profile" class="btn btn-primary">Update</a> <a href="/web/add_child_partner" class="btn btn-primary">Add Child</a>
+                              <a href="/web/reset_password" class="btn btn-primary">Reset password</a> <a href="/web/update_profile" class="btn btn-primary">Update</a> <a href="/web/add_child_partner" class="btn btn-primary">Ajoutez un enfant</a>
                             </div>
                             <div class="row">
                               <div class="col-lg-6">
-                                <H3>Cotisation</H3>
+                                <H3>Cotisations</H3>
                                 <t t-set="current_season" t-value="request.env['baseball.season'].sudo().get_current_season()"/>                        
                                   <t t-set="current_registration" t-value="child_partner.season_ids.filtered(lambda r, current_season=current_season: r.season_id == current_season)"/>
                                   <t t-set="currency" t-value="request.env['res.company'].search([])[0].currency_id"/>
                                 <table class="table table-condensed">
                                   <thead>
                                       <tr>
-                                        <th>Season</th>
-                                        <th>Fee</th>
-                                        <th>Paid</th>
-                                        <th>Owed</th>
+                                        <th>Saison</th>
+                                        <th>Cotisation</th>
+                                        <th>Payé</th>
+                                        <th>Dû</th>
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -120,9 +120,9 @@
                                   <thead>
                                       <tr>
                                         <th>#</th>
-                                        <th>Color</th>
-                                        <th>Size</th>
-                                        <th>State</th>
+                                        <th>Couleur</th>
+                                        <th>Taille</th>
+                                        <th>Etat</th>
                                       </tr>
                                   </thead>
                                   <tbody>
@@ -140,10 +140,10 @@
                             </div>
                             <div t-if="child_partner.is_player" class="row">
                               <div class="col-lg-6">
-                                <H3>Upcoming games</H3>
+                                <H3>Prochains matches</H3>
                               </div>
                               <div class="col-lg-6">
-                                <H3>Upcoming practices</H3>
+                                <H3>Prochains entraînements</H3>
                               </div>
                             </div>
                           </div>

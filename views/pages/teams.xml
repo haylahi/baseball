@@ -12,7 +12,7 @@
   <t t-set="categories" t-value="request.env['baseball.categories'].sudo().search([])"/>
 
   <t t-call="website.layout">
-      <t t-set="additional_title">Teams</t>
+      <t t-set="additional_title">Equipes</t>
       <div id="wrap" class="js_sale">
         <div class="oe_structure"/>
           <div class="container">
@@ -32,14 +32,14 @@
 
 <template id="categories" name="Categories">
   <div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title">Categories</h3></div>
+    <div class="panel-heading"><h3 class="panel-title">Catégories</h3></div>
     <div class="panel-body">
       <table class="table table-condensed">
         <thead>
           <tr>
             <th></th>
             <th>Age</th>
-            <th>Fee</th>
+            <th>Cotisation</th>
           </tr>
         </thead>
         <tbody>
@@ -59,18 +59,18 @@
 
 <template id="practices" name="Practices">
   <div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title">Practices</h3></div>
+    <div class="panel-heading"><h3 class="panel-title">Entraînements</h3></div>
       <div class="panel-body">
       <!-- Nav tabs -->
       <ul class="nav nav-tabs" role="tablist">
         <li class="active">
             <a href="#summer_practice" role="tab" data-toggle="tab">
-              Summer
+              Eté
             </a>
         </li>
         <li>
             <a href="#winter_practice" role="tab" data-toggle="tab">
-              Winter
+              Hiver
             </a>
         </li>
       </ul>
@@ -122,14 +122,14 @@
 
 <template id="team_page" name="Team page">
   <t t-call="website.layout">
-      <t t-set="additional_title">Team</t>
+      <t t-set="additional_title">Equipe</t>
       <div id="wrap" class="js_sale">
         <div class="oe_structure"/>
         <div class="container oe_website_sale">
           <div class='row'>
             <div class="col-lg-6">
               <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">Team</h3></div>
+                <div class="panel-heading"><h3 class="panel-title">Equipe</h3></div>
                 <div class="panel-body">
                   <t t-if="team.photo">
                     <img class="img-responsive" t-att-src="'data:image/png;base64,'+team.photo"/>
@@ -145,7 +145,7 @@
                       <p t-esc="', '.join(team.division_ids.mapped('name'))"/>
                     </div> -->
                     <div class="row">
-                      <H4>Practices</H4>
+                      <H4>Entraînements</H4>
                       <table class="table table-condensed data_roster_table">
                         <t t-foreach="set(team.practices_ids.mapped('season'))" t-as="season">
                           <tr>
@@ -172,10 +172,10 @@
                       <tr>
                         <th>#</th>
                         <th></th>
-                        <th>Name</th>
+                        <th>Nom</th>
                         <th>Positions</th>
-                        <th>Nationality</th>
-                        <th>Birthdate</th>
+                        <th>Nationalité</th>
+                        <th>Naissance</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -262,7 +262,7 @@
 
 <template id="team_calendar" name="Team calendar">
   <div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title">Competition</h3></div>
+    <div class="panel-heading"><h3 class="panel-title">Compétition</h3></div>
     <div class="panel-body">
       <div class="text-center">
         <a class="btn btn-default" t-att-href="'/page/teams/%s/calendar/game.ics'% (team.id)">Download <i class="fa fa-calendar"/></a>
@@ -273,9 +273,9 @@
           <tr>
             <th>Date</th>
             <th/>
-            <th>Opponent</th>
-            <th>Venue</th>
-            <th>Time</th>
+            <th>Adversaire</th>
+            <th>Lieu</th>
+            <th>Heure</th>
             <th></th>
 
           </tr>
@@ -342,7 +342,7 @@
                 <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
                 <td/>
                 <td class="js_game" t-attf-id="#{game.id}" style="font-weight: bold;">
-                Tournament</td>
+                Tournois</td>
 
 
                 <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
@@ -382,7 +382,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-          <h4 class="modal-title" id="myModalLabel" t-esc="player.name + ' (#' + ', '.join(set(player.jerseys_ids.mapped(lambda r: str(r.number)))) +  ')'">Player Name</h4>
+          <h4 class="modal-title" id="myModalLabel" t-esc="player.name + ' (#' + ', '.join(set(player.jerseys_ids.mapped(lambda r: str(r.number)))) +  ')'">Nom du joueur</h4>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -400,7 +400,7 @@
                <div  t-esc="'Positions: ' +', '.join(player.positions_ids.mapped('name'))" />
                <div t-if="is_coach or is_manager">
                  <div>Email: <a t-attf-href="mailto:#{player.email}"><span t-field="player.email"/></a></div>
-                 <div>Phone: <a t-attf-href="tel:#{player.phone}"><span t-field="player.phone"/></a></div>
+                 <div>Téléphone: <a t-attf-href="tel:#{player.phone}"><span t-field="player.phone"/></a></div>
                  <div>Mobile: <a t-attf-href="tel:#{player.mobile}"><span t-field="player.mobile"/></a></div>
                </div>
 
@@ -457,7 +457,7 @@
 
           <div class="row" t-if="user">
             <div class="col-md-6">
-              <h4>Attendees <i class="fa fa-check-circle-o fa-2x"></i></h4>
+              <h4>Présents <i class="fa fa-check-circle-o fa-2x"></i></h4>
                 <t t-foreach="game.present_players_ids or []" t-as="attendee">
                   <div class="row">
                     <div class="col-md-3">
@@ -473,7 +473,7 @@
 
             </div>
             <div class="col-md-6">
-              <h4>Absentees <i class="fa fa-times-circle-o fa-2x"></i></h4>
+              <h4>Absents <i class="fa fa-times-circle-o fa-2x"></i></h4>
                 <t t-foreach="game.absent_players_ids or []" t-as="absentee">
                   <div class="row">
                     <div class="col-md-3">

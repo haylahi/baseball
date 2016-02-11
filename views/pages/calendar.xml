@@ -16,14 +16,14 @@
 
 <template id="upcoming_schedule" name="Upcoming calendar">
   <t t-call="website.layout">
-      <t t-set="additional_title">Team</t>
+      <t t-set="additional_title">Equipe</t>
       <div id="wrap" class="js_sale">
         <div class="oe_structure"/>
         <div class="container oe_website_sale">
           <div class='row'>
             <div class="col-lg-12">
               <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">Competition</h3></div>
+                <div class="panel-heading"><h3 class="panel-title">Compétition</h3></div>
                 <div class="panel-body">
                   <t t-call="baseball.upcoming_schedule_table"/>
                 </div>
@@ -41,16 +41,16 @@
         <thead>
           <tr>
             <th>Date</th>
-            <th>Categorie</th>
+            <th>Catégorie</th>
             <th>Division</th>
             <th>Home</th>
             <th/>
             <th/>
             <th>Away</th>
-            <th>Venue</th>
-            <th>Time</th>
-            <th>Scorer</th>
-            <th>Umpire</th>
+            <th>Lieu</th>
+            <th>Heure</th>
+            <th>Scoreurr</th>
+            <th>Arbitre</th>
           </tr>
         </thead>
         <tbody>
@@ -77,13 +77,13 @@
                 <td>
                   <span t-if="game.scorer" t-field="game.scorer.name"/>
                   <t t-if="not game.scorer and user">
-                    <button type="button" class="btn btn-primary js_game_score" t-attf-id="#{game.id}">I'll Score</button>
+                    <button type="button" class="btn btn-primary js_game_score" t-attf-id="#{game.id}">Je score!</button>
                   </t>
                 </td>
                 <td>
                   <span t-if="game.umpires" t-esc="', '.join(game.umpires.mapped('name'))"/>
                   <t t-if="not game.umpires and user">
-                    <button type="button" class="btn btn-primary js_game_umpire" t-attf-id="#{game.id}">I'll Umpire</button>
+                    <button type="button" class="btn btn-primary js_game_umpire" t-attf-id="#{game.id}">J'arbitre!</button>
                   </t>
                 </td>                
               </tr>
