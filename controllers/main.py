@@ -371,6 +371,12 @@ class baseball_club(http.Controller):
         invitation_id = env['baseball.game.invitation'].sudo().search([('token','=',token), ('id','=',invite_id)])
         if invitation_id:
             invitation_id.state = 'accepted'
+        game_team = invitation_id.game_id.home_team | invitation_id.game_id.away_team
+        team = invitation_id.partner_id.team_ids & game_team
+        if team:
+            return request.redirect("/page/team/%s" % (team[0].id))
+        else:
+            return request.redirect("/profile")
 
     @http.route('/game/invitation/decline', type='http', auth='public', website=True)
     def game_invite_decline(self, token, invite_id, **kwargs):
@@ -379,6 +385,13 @@ class baseball_club(http.Controller):
         invitation_id = env['baseball.game.invitation'].sudo().search([('token','=',token), ('id','=',invite_id)])
         if invitation_id:
             invitation_id.state = 'declined'
+        game_team = invitation_id.game_id.home_team | invitation_id.game_id.away_team
+        team = invitation_id.partner_id.team_ids & game_team
+        if team:
+            return request.redirect("/page/team/%s" % (team[0].id))
+        else:
+            return request.redirect("/profile")
+
 
     @http.route(['/game/score'], type='json', auth="public", methods=['POST'], website=True)
     def game_score(self, game_id, **kw):
