@@ -124,6 +124,13 @@
     </xpath>
     </template>
 
+
+        <record id="layout" model="ir.ui.view">
+            <field name="priority">17</field>
+          
+        </record>
+
+
 <template id="website.submenu" name="Submenu">
     <li t-att-class="
         'active' if (submenu.url and submenu.url != '/' and request.httprequest.path == submenu.url.replace('/page/website.', '/page/')) or (parent_menu == submenu) else None
