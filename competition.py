@@ -128,11 +128,12 @@ class Game(models.Model):
             duration = timedelta(hours=1)
         else:
             duration = timedelta(hours=self.division.average_duration)
-        start = fields.Datetime.from_string(self.start_time)
-        self.end_time = start + duration
+        if self.start_time:
+            start = fields.Datetime.from_string(self.start_time)
+            self.end_time = start + duration
 
-        self.start_date = start.strftime("%d/%m/%Y")
-        self.start_hour = start.strftime("%H:%M")
+            self.start_date = start.strftime("%d/%m/%Y")
+            self.start_hour = start.strftime("%H:%M")
 
     @api.model
     def _get_upcoming_games(self, limit=None):

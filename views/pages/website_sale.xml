@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+  <template id="products" inherit_id="website_sale.products" name="Products">
+    <xpath expr="//div[@class='container oe_website_sale']" position="attributes">
+        <attribute name="class">container oe_website_sale panel panel-default</attribute>        
+        <attribute name="style">padding: 15px;</attribute>        
+    </xpath>
+  </template>
+
+  <template id="product" inherit_id="website_sale.product" name="Product">
+    <xpath expr="//div[@class='js_sale']//section" position="attributes">
+        <attribute name="t-attf-class">container panel panel-default mt8 oe_website_sale #{(compute_currency(product.lst_price) - product.price) &gt; 0.1 and 'discount'}</attribute>        
+        <attribute name="style">padding: 15px;</attribute>        
+    </xpath>
+<!--     <xpath expr="//p[@class='text-muted'][1]" position="attributes">
+        <attribute name="class">text-muted hidden</attribute>        
+    </xpath> -->
+  </template>
+
+  <template id="extra_info" inherit_id="website_sale.extra_info" name="Checkout Extra Info">
+    <xpath expr="//div[@class='container oe_website_sale']" position="attributes">
+        <attribute name="class">container oe_website_sale panel panel-default</attribute>        
+    </xpath>
+  </template>
+
+  <template id="cart" inherit_id="website_sale.cart" name="Cart">
+    <xpath expr="//div[@class='container oe_website_sale']" position="attributes">
+        <attribute name="class">container oe_website_sale panel panel-default</attribute>        
+    </xpath>
+  </template>
+
+  <template id="checkout" inherit_id="website_sale.checkout" name="Checkout">
+    <xpath expr="//div[@class='container oe_website_sale']" position="attributes">
+        <attribute name="class">container oe_website_sale panel panel-default</attribute>        
+    </xpath>
+  </template>
+
+  <template id="payment" inherit_id="website_sale.payment" name="Payment">
+    <xpath expr="//div[@class='container oe_website_sale']" position="attributes">
+        <attribute name="class">container oe_website_sale panel panel-default</attribute>        
+    </xpath>
+  </template>
+
+  <template id="confirmation" inherit_id="website_sale.confirmation" name="Confirmation">
+    <xpath expr="//div[@class='container oe_website_sale']" position="attributes">
+        <attribute name="class">container oe_website_sale panel panel-default</attribute>        
+    </xpath>
+  </template>
+  </data>
+</openerp>

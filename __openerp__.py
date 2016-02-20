@@ -15,7 +15,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'website', 'calendar', 'auth_signup', 'document', 'website_blog', 'sale', 'stock'],
+    'depends': ['base', 'website', 'calendar', 'auth_signup', 'document', 'website_blog', 'sale', 'stock', 'website_sale'],
 
     # always loaded
     'data': [
@@ -57,6 +57,7 @@
         'views/pages/club.xml',
         'views/pages/calendar.xml',
         'views/pages/blog.xml',
+        'views/pages/website_sale.xml',
         'views/snippets.xml',
         'views/pages/snippets/snippets.xml',
         'views/pages/profile.xml',
