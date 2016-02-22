@@ -95,7 +95,7 @@
                           <ul class="dropdown-menu js_usermenu" role="menu">
                               <li><a href="/profile" role="menuitem"><i class="fa fa-user"/> Mon Profil</a></li>
                               <li class="divider"/>
-                              <li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Log out</a></li>
+                              <li id="o_logout"><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Log out</a></li>
                           </ul>
                       </li>
                       <li t-if="website.user_id == user_id">
