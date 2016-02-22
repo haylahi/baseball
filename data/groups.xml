@@ -17,6 +17,12 @@
 	        <field name="comment">Can see information about all  members</field>
             <field name="category_id" ref="module_category_baseball"/>
         </record>
+        <record model="res.groups" id="group_sponsoring">
+            <field name="name">Sponsoring</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Can see inforation about the sponsors</field>
+            <field name="category_id" ref="module_category_baseball"/>
+        </record>
 		<record model="res.groups" id="group_uniforms_manage">
 			<field name="name">Uniform manager</field>
 	        <field name="implied_ids" eval="[(4, ref('base.group_user')), (4, ref('base.group_sale_manager'))]"/>
@@ -49,7 +55,7 @@
         </record>
 		<record model="res.groups" id="group_club_manage">
 			<field name="name">Club manager</field>
-	        <field name="implied_ids" eval="[(4, ref('group_club_members_manage')), (4, ref('account.group_account_manager')),  (4, ref('group_sports_manage'))]"/>
+	        <field name="implied_ids" eval="[(4, ref('group_club_members_manage')), (4, ref('account.group_account_manager')),  (4, ref('group_sports_manage')) , (4, ref('group_sponsoring'))]"/>
 	        <field name="comment">Can edit information about all  members</field>
             <field name="category_id" ref="module_category_baseball"/>
         </record>

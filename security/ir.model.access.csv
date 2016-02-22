@@ -38,3 +38,9 @@ baseball.acces_rights_39,baseball.portal.venue,baseball.model_baseball_venue,bas
 baseball.acces_rights_40,baseball.team.venue,baseball.model_baseball_venue,,1,1,1,0
 baseball.acces_rights_41,baseball.club.venue,baseball.model_baseball_venue,group_club_manage,1,1,1,1
 baseball.acces_rights_1,baseball.team.partner,baseball.model_baseball_teams_practice_event,group_club_members_read,1,1,1,1
+baseball.acces_rights_42,baseball.sponsoring,baseball.model_baseball_sponsoring,group_sponsoring,1,1,1,1
+baseball.acces_rights_43,baseball.sponsoring.line,baseball.model_baseball_sponsoring_line,group_sponsoring,1,1,1,1
+baseball.acces_rights_44,baseball.sponsor,baseball.model_baseball_sponsor,group_sponsoring,1,1,1,1
+baseball.acces_rights_45,baseball.sponsor.line,baseball.model_baseball_sponsor_line,group_sponsoring,1,1,1,1
+baseball.acces_rights_46,ir.attachment,base.model_ir_attachment,group_sponsoring,1,1,1,1
+baseball.acces_rights_47,baseball.season,baseball.model_baseball_season,group_sponsoring,1,0,0,0

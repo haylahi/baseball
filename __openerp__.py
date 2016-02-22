@@ -28,6 +28,7 @@
         'data/product.xml',
         'data/cron.xml',
         'data/mails.xml',
+        'data/sponsors.xml',
         'security/ir.model.access.csv',
         'wizard/practice_wizard.xml',
         'views/menus.xml',
@@ -47,6 +48,7 @@
         'views/season.xml',
         'views/club.xml',
         'views/config.xml',
+        'views/sponsors.xml',
         'views/facebook_settings_view.xml',
         'views/pages/layout.xml',
         'views/pages/homepage.xml',
@@ -61,6 +63,7 @@
         'views/snippets.xml',
         'views/pages/snippets/snippets.xml',
         'views/pages/profile.xml',
+        'views/pages/sponsors.xml',
 
     ],
 }

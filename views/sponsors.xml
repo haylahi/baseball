@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+
+        <record id="view_baseball_sponsor_tree" model="ir.ui.view">
+            <field name="name">baseball.sponsor.tree</field>
+            <field name="model">baseball.sponsor</field>
+            <field eval="8" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Sponsors">
+                    <field name="name"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_baseball_sponsor_form" model="ir.ui.view">
+            <field name="name">baseball.sponsor.form</field>
+            <field name="model">baseball.sponsor</field>
+            <field name="arch" type="xml">
+                <form string="Sponsor">
+                <sheet>
+                    <field name="image" widget='image' class="oe_left oe_avatar" />
+                    <div class="oe_title oe_left">
+                        <h1>
+                            <field name="name" placeholder="Name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="url"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="lines" string="Sponsorship">
+                            <field name="line_ids">
+                                <tree editable="top">
+                                    <field name="season_id"/>
+                                    <field name="amount_paid"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="description" string="Description">
+                            <field name="website_description"/>
+                        </page>
+                        <page name="information" string="Additional information">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>  
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_baseball_sponsoring_form" model="ir.ui.view">
+            <field name="name">baseball.sponsoring.form</field>
+            <field name="model">baseball.sponsoring</field>
+            <field name="arch" type="xml">
+                <form string="Sponsor">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="dossier_id" domain="[('public','=',True)]" context="{'default_public': True}"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <tree>
+                            <field name="season_id"/>
+                            <field name="sponsors"/>
+                            <field name="amount_paid"/>
+                        </tree>
+                    </field> 
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="baseball_sponsors">
+            <field name="name">Sponsors</field>
+            <field name="res_model">baseball.sponsor</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="baseball_sponsoring">
+            <field name="name">Sponsoring</field>
+            <field name="res_model">baseball.sponsoring</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="res_id" ref="sponsoring_record"/>
+        </record>
+
+        <menuitem id="menu_sponsoring" name="Sponsoring"
+                  parent="menu_sponsors_management"
+                  action="baseball_sponsoring"
+                  sequence="10"
+                  />
+
+
+        <menuitem id="menu_sponsors" name="Sponsors"
+                  parent="menu_sponsors_management"
+                  action="baseball_sponsors"
+                  sequence="20"
+                  />
+
+        <menuitem id="menu_sponsors_management" name="Sponsoring"
+                  parent="main_baseball_menu"
+                  sequence="4"
+                  groups="group_sponsoring"
+                  />
+
+	</data>
+</openerp>
+

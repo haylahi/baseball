@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+<template id="sponsor" name="Sponsor page">
+  <t t-call="website.layout">
+      <t t-set="additional_title">Partenaire</t>
+      <div id="wrap">
+        <div class="oe_structure"/>
+          <div class="container">
+            <div class='row'>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title"><span t-field="sponsor.name"/></h2>
+                </div>
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-lg-2">
+                      <div class="pull-right" >
+                        <a t-att-href="sponsor.url">
+                          <img class="img img-responsive" t-att-src="'data:image/png;base64,'+sponsor.image" style="max-width: 150px;" />
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-lg-10">
+                      <div t-field="sponsor.website_description"/>
+                    </div>            
+                  </div>            
+                </div>
+
+              </div>
+            </div>
+          </div>
+      </div>
+  </t>
+</template>
+
+<template id="sponsors" name="Sponsors page">
+  <t t-call="website.layout">
+      <t t-set="additional_title">Partenaires</t>
+      <div id="wrap">
+        <div class="oe_structure"/>
+          <div class="container">
+            <div class='row'>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Partenaires</h2>
+                </div>
+                <div class="panel-body">
+                  <div class="col-lg-12">
+                    <p>
+                      Ils nous soutiennent! Et vous? Consultez notre dossier de sponsoring! 
+                    </p>
+                    <t t-if="dossier">
+                      <a t-att-href="'/web/content/ir.attachment/%s/datas/name' % (dossier.id)">
+                        <i class="fa fa-file-pdf-o fa-2x"></i><t t-esc="dossier.name"/>
+                      </a>
+
+                    </t>
+                  </div>
+                  <t t-foreach="sponsors" t-as="sponsor">
+                    <div class="sponsor-tile">
+                      <t t-if="sponsor.image">
+                        <div t-att-class="'item active' if sponsor == sponsors[0] else 'item'">
+                          <a t-attf-href="/sponsors/#{slug(sponsor)}">
+                            <img class="img img-responsive" t-att-src="'data:image/png;base64,'+sponsor.image"/>
+                          </a>
+                        </div>
+                      </t>                      
+                    </div>
+                  </t>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </t>
+</template>
+  </data>
+</openerp>

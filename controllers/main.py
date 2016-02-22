@@ -447,6 +447,23 @@ class baseball_club(http.Controller):
 
             return request.render('baseball.profile', values)
 
+    @http.route(['/sponsors'], type='http', auth="public", website=True)
+    def sponsors(self, **kw):
+        env, uid = request.env, request.uid
+        values = {
+            'dossier': env.ref('baseball.sponsoring_record').sudo().dossier_id,
+            'sponsors' : env['baseball.sponsor'].sudo().get_active_sponsors(),
+        }
+
+        return request.render('baseball.sponsors', values)
+
+    @http.route(['/sponsors/<model("baseball.sponsor"):sponsor_id>'], type='http', auth="public", website=True)
+    def sponsor(self, sponsor_id, **kw):
+        values = {
+            'sponsor' : sponsor_id.sudo(),
+        }
+
+        return request.render('baseball.sponsor', values)
 
 class WebsiteBlog(WebsiteBlog):
 

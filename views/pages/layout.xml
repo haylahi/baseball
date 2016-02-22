@@ -8,9 +8,7 @@
         <script type="text/javascript" src="/baseball/static/src/js/sticky_header.js"></script>
         <script type="text/javascript" src="/baseball/static/src/js/bootstrap_multiselect.js"></script>
         <script type="text/javascript" src="/baseball/static/src/js/multiselect.js"></script>
-<!--         <script type="text/javascript">
-          $("body").backstretch('/baseball/static/img/background/background5.jpg');
-        </script> -->
+        <script type="text/javascript" src="/baseball/static/src/js/sponsor.js"></script>
         <link rel="stylesheet" href="/baseball/static/src/css/bootstrap_multiselect.css" type="text/css"/>
         <link rel="stylesheet" href="/baseball/static/src/css/custom_bootstrap.css" type="text/css"/>
         <link href="/baseball/static/src/css/banner.css" rel="stylesheet" type="text/css" />
@@ -40,7 +38,8 @@
     <template id="layout" inherit_id="website.layout">
     <xpath expr="//header" position="replace">
         <div class="row">
-
+          <div class="col-lg-2"/>
+          <div class="col-lg-8">
               <div class="header_banner">
                 <center>
                   <img src='/baseball/static/src/img/banner3_lanceuse.png' id='header-lanceuse'/>
@@ -51,7 +50,10 @@
                   <img src='/baseball/static/src/img/banner3_balle.png' id='balle'/>
                 </center>
               </div>
-
+          </div>
+          <div class="col-lg-2">
+            <t t-call="baseball.sponsors_carousel"/>
+          </div>
         </div>
       <header>
         
@@ -165,6 +167,26 @@
         </li>  
     </t>
   </t>
+</template>
+
+<template id="sponsors_carousel" name="Sponsor Carousel">
+
+  <div class="container">
+    <div id="sponsor_carousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+        <t t-foreach="request.env['baseball.sponsor'].sudo().get_active_sponsors()" t-as="sponsor">
+          <t t-if="sponsor.image">
+            <div t-att-class="'item active' if sponsor == request.env['baseball.sponsor'].sudo().get_active_sponsors()[0] else 'item'">
+              <a t-attf-href="/sponsors/#{slug(sponsor)}">
+                <img class="img-carousel-sponsor" t-att-src="'data:image/png;base64,'+sponsor.image" height="100%"/>
+              </a>
+            </div>
+          </t>
+        </t>
+      </div>
+    </div>
+  </div>
 </template>
 
 

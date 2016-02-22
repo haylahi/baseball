@@ -12,3 +12,4 @@ import controllers
 import website
 import website_config_setting
 import res_users
+import sponsor

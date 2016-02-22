@@ -42,3 +42,13 @@
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
+
+.sponsor-tile {
+    height: 150px;
+    width: 150px;
+    border-radius: 10px;
+    border: 0.5px solid lightgray;
+    padding: 5px;
+    margin: 5px;
+    display: inline-block;
+}
