@@ -92,6 +92,12 @@
             <field name="view_mode">form</field>
             <field name="res_id" ref="sponsoring_record"/>
         </record>
+        
+        <menuitem id="menu_sponsors_management" name="Sponsoring"
+                  parent="main_baseball_menu"
+                  sequence="4"
+                  groups="group_sponsoring"
+                  />
 
         <menuitem id="menu_sponsoring" name="Sponsoring"
                   parent="menu_sponsors_management"
@@ -106,11 +112,7 @@
                   sequence="20"
                   />
 
-        <menuitem id="menu_sponsors_management" name="Sponsoring"
-                  parent="main_baseball_menu"
-                  sequence="4"
-                  groups="group_sponsoring"
-                  />
+
 
 	</data>
 </openerp>
