@@ -68,7 +68,7 @@ div #header_top_bar_alias.sticky {
 
 }
 .img-carousel-sponsor{
-    height: 150px !important;
+    max-height: 150px !important;
     padding: 10px
 }
 #logo_header.sticky {

@@ -172,14 +172,14 @@
 <template id="sponsors_carousel" name="Sponsor Carousel">
 
   <div class="container">
-    <div id="sponsor_carousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+    <div id="sponsor_carousel" class="carousel slide" data-ride="carousel" data-interval="5000">
       <!-- Wrapper for slides -->
       <div class="carousel-inner">
         <t t-foreach="request.env['baseball.sponsor'].sudo().get_active_sponsors()" t-as="sponsor">
           <t t-if="sponsor.image">
             <div t-att-class="'item active' if sponsor == request.env['baseball.sponsor'].sudo().get_active_sponsors()[0] else 'item'">
               <a t-attf-href="/sponsors/#{slug(sponsor)}">
-                <img class="img-carousel-sponsor" t-att-src="'data:image/png;base64,'+sponsor.image" height="100%"/>
+                <img class="img-carousel-sponsor" t-att-src="'data:image/png;base64,'+sponsor.image" width="150px"/>
               </a>
             </div>
           </t>
