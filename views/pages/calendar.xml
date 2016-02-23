@@ -40,24 +40,24 @@
       <table class="table table-condensed data_calendar_table data_full_calendar_table">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Catégorie</th>
-            <th>Division</th>
-            <th>Home</th>
-            <th/>
-            <th/>
-            <th>Away</th>
-            <th>Lieu</th>
-            <th>Heure</th>
-            <th>Scoreur</th>
-            <th>Arbitre</th>
+            <th class="col-md-2">Date</th>
+            <th class="col-md-2">Catégorie</th>
+            <th class="col-md-2">Division</th>
+            <th class="col-md-2">Home</th>
+            <th class="col-md-1"/>
+            <th class="col-md-1"/>
+            <th class="col-md-2">Away</th>
+            <th class="col-md-2">Lieu</th>
+            <th class="col-md-2">Heure</th>
+            <th class="col-md-2">Scoreur</th>
+            <th class="col-md-2">Arbitre</th>
           </tr>
         </thead>
         <tbody>
           <t t-foreach="games" t-as="game">
             <t t-if="game.game_type != 'tournament'">
               <tr class="js_game" t-attf-id="#{game.id}" t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
-                <td><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
+                <td><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yy"}'/></td>
                 <td><t t-if="((game.home_team | game.away_team).mapped('category_ids'))" ><span t-esc="(game.home_team | game.away_team).mapped('category_ids').sorted(lambda r: r.sequence)[0].name"/></t></td>
                 <td><span t-field="game.division.name"/></td>
                 <td><span t-field="game.home_team.name"/></td>

@@ -339,7 +339,7 @@
             </t>
             <t t-if="game.game_type == 'tournament'">
               <tr t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
-                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
+                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yy"}'/></td>
                 <td/>
                 <td class="js_game" t-attf-id="#{game.id}" style="font-weight: bold;">
                 Tournois</td>
@@ -436,12 +436,12 @@
             <div class="boxed right">
               <t t-if="game.game_type == 'tournament'">
                 <div>
-                  <span t-field="game.start_time" t-field-options='{"format": "dd/MM/yyyy HH:mm"}'/> - <span t-field="game.end_time" t-field-options='{"format": "dd/MM/yyyy HH:mm"}'/>
+                  <span t-field="game.start_time" t-field-options='{"format": "dd/MM/yy HH:mm"}'/> - <span t-field="game.end_time" t-field-options='{"format": "dd/MM/yy HH:mm"}'/>
                 </div>
               </t>
               <t t-if="game.game_type != 'tournament'">
                  <div t-esc="game.home_team.name + ' @ ' + game.away_team.name" />
-                 <div t-field="game.start_time" t-field-options='{"format": "dd/MM/yyyy"}'/> 
+                 <div t-field="game.start_time" t-field-options='{"format": "dd/MM/yy"}'/> 
                  <div t-field="game.start_time" t-field-options='{"format": "HH:mm"}'/> 
                  <div  t-esc="'@ ' + game.venue.name" />
               </t>
