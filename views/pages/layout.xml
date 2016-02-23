@@ -37,7 +37,7 @@
 
     <template id="layout" inherit_id="website.layout">
     <xpath expr="//header" position="replace">
-        <div class="row">
+        <div class="row hidden-xs hidden-sm">
           <div class="col-lg-2"/>
           <div class="col-lg-8">
               <div class="header_banner">

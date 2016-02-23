@@ -3,7 +3,7 @@ from datetime import timedelta
 from openerp import models, fields, api, exceptions, tools
 import urllib2
 import xmltodict
-from openerp.exceptions import ValidationError
+from openerp.exceptions import ValidationError, Warning
 from datetime import datetime
 import werkzeug
 
@@ -46,7 +46,7 @@ class Members(models.Model):
     debt = fields.Float(string="Debt", compute='_compute_debt', store=True)
     parent_user_id = fields.Many2one('res.partner', 'Parent member')
     child_partner_ids = fields.One2many('res.partner', 'parent_user_id', string="Child members")
-
+    is_user = fields.Boolean('User', compute="_is_user")
     @api.one
     @api.depends('team_ids')
     def _players_in_categories(self):
@@ -146,6 +146,26 @@ class Members(models.Model):
             }
         print urlplus('https://maps.google.com/maps' , params)
         return urlplus('https://maps.google.com/maps' , params)
+
+    @api.one
+    @api.depends('user_ids')
+    def _is_user(self):
+        self.is_user = True if self.user_ids else False
+
+
+    @api.one
+    def create_user(self):
+        existing_user = self.env['res.users'].search([('login','=',self.email)])
+        if existing_user and not self.user_ids:
+            raise Warning('Cannot create user. A user with the same email address already exists! Either link the member to a parent member or change the email address.')
+        if self.email and not self.user_ids:
+            self.env['res.users'].create({
+                'partner_id': self.id,
+                'login': self.email,
+                'groups_id': [(6,0, self.env.ref('base.group_portal').ids)],
+                'active': True,
+                })
+
 
 class Positions(models.Model):
     _name = 'baseball.positions'
