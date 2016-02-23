@@ -21,8 +21,9 @@ class Roles(models.Model):
     _name = 'baseball.roles'
     _order = 'sequence' 
 
-    name = fields.Char(string="Title", required=True)
+    name = fields.Char(string="Title", required=True, translate=True)
     sequence = fields.Integer('Sequence')
     published = fields.Boolean('Published on website')
     address_website = fields.Boolean('Address on website')
     description = fields.Html()
+    partner_ids = fields.Many2many('res.partner', string="Members")

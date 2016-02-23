@@ -22,7 +22,7 @@
             <field name="name">baseball.roles.form</field>
             <field name="model">baseball.roles</field>
             <field name="arch" type="xml">
-                <form string="Members">
+                <form string="Role">
                 <sheet>
                     <div class="oe_title oe_left">
                         <h1>
@@ -34,6 +34,14 @@
                         <field name="address_website"/>
                     </group>
                     <field name="description"/>
+                    <field name="partner_ids">
+                        <tree>
+                            <field name="name"/>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="email"/>
+                        </tree>
+                    </field>
                     
                 </sheet>
                 </form>

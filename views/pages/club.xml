@@ -20,7 +20,7 @@
 
                   <div >
                     <h4>Comité</h4>
-                    <table class="table table-contact">
+                    <table class="table table-contact table-condensed">
                       <tbody>
                         <t t-foreach="board or []" t-as="member">
                           <tr>
@@ -29,11 +29,12 @@
                             </t></td>
                             <td><span t-field="member.name"/></td>
                             <td><span t-field="member.main_club_role_id.name"/></td>
-                            <td><a t-attf-href="tel:#{member.mobile}"><span t-field="member.mobile"/></a></td>
-                            <td><a t-attf-href="tel:#{member.phone}"><span t-field="member.phone"/></a></td>
-                            <td><a t-attf-href="mailto:#{member.email}"><span t-field="member.email"/></a></td>
-                            <td><t t-if="member.main_club_role_id.address_website"><span t-field="member.street"/> <span t-field="member.street2"/></t></td>
-                            <td><t t-if="member.main_club_role_id.address_website"><span t-field="member.zip"/> <span t-field="member.city"/></t></td>
+                            <td>
+                              <a t-attf-href="tel:#{member.mobile}"><span t-field="member.mobile"/></a><br/>
+                              <a t-attf-href="tel:#{member.phone}"><span t-field="member.phone"/></a><br/>
+                              <a t-attf-href="mailto:#{member.email}"><span t-field="member.email"/></a><br/>
+                             </td>
+                            <td><t t-if="member.main_club_role_id.address_website"><span t-field="member.street"/> <span t-field="member.street2"/><br/><span t-field="member.zip"/> <span t-field="member.city"/></t></td>
                           </tr>
                         </t>
                       </tbody>
