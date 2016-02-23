@@ -7,7 +7,7 @@
   <div class="oe_structure">
     <div class="container">
       <div class='row'>
-        <div class="col-lg-4">
+        <div class="col-lg-5">
           <div class="panel panel-default">
             <div class="panel-heading"><h3 class="panel-title">Prochains matches</h3></div>
             <div class="panel-body">
@@ -70,7 +70,7 @@
           <t t-foreach="games" t-as="game">
             <t t-if="game.game_type != 'tournament'">
               <tr class="js_game" t-attf-id="#{game.id}" t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
-                <td><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
+                <td><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yy"}'/></td>
                 <td><span t-field="game.division.name"/></td>
                 <!-- <td><span t-field="game.home_team.name"/></td> -->
                 <td>
