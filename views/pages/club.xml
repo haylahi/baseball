@@ -20,21 +20,21 @@
 
                   <div >
                     <h4>Comité</h4>
-                    <table class="table table-contact table-condensed">
+                    <table class="table table-contact table-condensed table-striped">
                       <tbody>
                         <t t-foreach="board or []" t-as="member">
                           <tr>
-                            <td><t t-if="member.image">
+                            <td class="col-md-2"><t t-if="member.image">
                               <img class="maxed img img-responsive" width="50px" t-att-src="'data:image/png;base64,'+member.sudo().image_small"/>
                             </t></td>
-                            <td><span t-field="member.name"/></td>
-                            <td><span t-field="member.main_club_role_id.name"/></td>
-                            <td>
+                            <td class="col-md-2"><span t-field="member.name"/></td>
+                            <td class="col-md-2"><span t-field="member.main_club_role_id.name"/></td>
+                            <td class="col-md-4">
                               <a t-attf-href="tel:#{member.mobile}"><span t-field="member.mobile"/></a><br/>
                               <a t-attf-href="tel:#{member.phone}"><span t-field="member.phone"/></a><br/>
                               <a t-attf-href="mailto:#{member.email}"><span t-field="member.email"/></a><br/>
                              </td>
-                            <td><t t-if="member.main_club_role_id.address_website"><span t-field="member.street"/> <span t-field="member.street2"/><br/><span t-field="member.zip"/> <span t-field="member.city"/></t></td>
+                            <td class="col-md-4"><t t-if="member.main_club_role_id.address_website"><span t-field="member.street"/> <span t-field="member.street2"/><br/><span t-field="member.zip"/> <span t-field="member.city"/></t></td>
                           </tr>
                         </t>
                       </tbody>

@@ -271,12 +271,12 @@
       <table class="table table-condensed data_calendar_table">
         <thead>
           <tr>
-            <th>Date</th>
-            <th/>
-            <th>Adversaire</th>
-            <th>Lieu</th>
-            <th>Heure</th>
-            <th></th>
+            <th class="col-md-2">Date</th>
+            <th class="col-md-1"/>
+            <th class="col-md-3">Adversaire</th>
+            <th class="col-md-3">Lieu</th>
+            <th class="col-md-3">Heure</th>
+            <th class="col-md-2"></th>
 
           </tr>
         </thead>
@@ -284,7 +284,7 @@
           <t t-foreach="team.game_ids or []" t-as="game">
             <t t-if="game.game_type != 'tournament'">
               <tr t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
-                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yyyy"}'/></td>
+                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yy"}'/></td>
 
                 <t t-if="game.away_team == team">
                   <td class="js_game" t-attf-id="#{game.id}">
