@@ -64,6 +64,8 @@
         'views/pages/snippets/snippets.xml',
         'views/pages/profile.xml',
         'views/pages/sponsors.xml',
+        'views/pages/mobile/layout.xml',
+        'views/pages/mobile/homepage.xml',
 
     ],
 }

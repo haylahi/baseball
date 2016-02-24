@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+  <template id="website.homepage_mobile" name="Homepage" >
+    <t t-call="baseball.layout_mobile">
+      <div id="wrap" class="oe_structure oe_empty">
+        <t t-call="baseball.news_mobile"/>
+
+      </div>
+    </t>
+</template>
+
+<template id="news_mobile" name="News">
+  <t t-set="blog_posts" t-value="request.env['blog.post'].search([], limit=5)"/>
+  <div t-foreach="blog_posts" t-as="blog_post">
+    <span t-field="blog_post.author_avatar" t-field-options='{"widget": "image", "class": "img-circle pull-right media-object img-avatar"}' />
+    <a t-attf-href="/blog/#{ slug(blog_post.blog_id) }/post/#{ slug(blog_post) }">
+        <h4 t-field="blog_post.name" class="mb4"/>
+    </a>
+    <div class="text-muted">
+      <div name='blog_post_data' class='mb0' style="font-size: smaller;">
+           <span t-field="blog_post.author_id" style="display: inline-block;" t-field-options='{
+                  "widget": "contact",
+                  "fields": ["name"]
+              }'/>
+          &#5760; <span t-field="blog_post.create_date" t-field-options='{"format": "MMMM yyyy"}'/>
+          <span t-if="not blog_post.website_published" class="label label-danger">not published</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+
+
+
+
+
+  </data>
+</openerp>
