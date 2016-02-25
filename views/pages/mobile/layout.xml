@@ -64,36 +64,35 @@
             <t t-raw="head or ''" name='layout_head'/>
         </head>
         <body>
-            <div id="wrapwrap" data-role="page">
-                <div data-role="panel" id="defaultpanel">
-                    <ul>
-                        <t t-foreach="website.menu_id.child_id" t-as="submenu">
-                            <t t-call="website.submenu"/>
-                        </t>
-                        <li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>
-                        <li class="dropdown" t-ignore="true" t-if="website.user_id != user_id">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <b>
+            <div id="wrapwrap">
+                <div data-role="page">
+                    <div data-role="panel" data-display="overlay" data-position-fixed="true" data-theme="b" id="panelmenu">
+                        <ul data-role="listview" >
+                            <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                                <t t-call="baseball.submenu_mobile"/>
+                            </t>
+                            <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false" t-ignore="true" t-if="website.user_id != user_id">
+                                <h1>
                                     <span t-esc="(len(user_id.name)&gt;25) and (user_id.name[:23]+'...') or user_id.name"/>
-                                    <span class="caret"></span>
-                                </b>
-                            </a>
-                            <ul class="dropdown-menu js_usermenu" role="menu">
-                                <li id="o_logout"><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+                                </h1>
+                                <ul data-role="listview" data-theme="b">
+                                    <li id="o_logout"><a t-attf-href="/web/session/logout?redirect=/">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div data-role="header" data-position="fixed" data-theme="a">
+                        <a href="#panelmenu" class="ui-icon-bars ui-btn-icon-left ui-btn ui-shadow ui-corner-all ui-btn-icon-notext"></a>
+                      <H1>Title</H1>
+                    </div>
+                    <div role="main" class="ui-content">
+                        <t t-raw="0"/>
+                    </div>
+                    <div data-role="footer" data-position="fixed" id="footer">
 
-                <div data-role="header" data-position="fixed">
-                  <H1>Title</H1>
-                </div>
-                <div role="main" class="ui-content">
-                    <t t-raw="0"/>
-                </div>
-                <div data-role="footer" data-position="fixed" id="footer">
-                        <a href="#defaultpanel" class="ui-icon-bars ui-btn-icon-left"></a>
-                        <a href="#defaultpanel" class="ui-icon-user ui-btn-icon-right"></a>
+                            <a href="#panelmenu" class="ui-icon-user ui-btn-icon-right ui-btn ui-shadow ui-corner-all ui-btn-icon-notext"></a>
+                    </div>
+                    
                 </div>
             </div>
             <script id='tracking_code' t-if="website and website.google_analytics_key and not editable">
@@ -128,6 +127,8 @@
     <link rel="stylesheet" href="/web/static/src/less/variables.less"/>
     <link rel="stylesheet" href="/web/static/src/less/utils.less"/>
     <link rel="stylesheet" href="/baseball/static/src/css/jquery.mobile-1.4.5.css"/>
+    <link rel="stylesheet" href="/baseball/static/src/css/jquery.mobile.custom.css"/>
+
 </template>
 
 
@@ -246,6 +247,39 @@
 </xpath>
 </template>
 
+
+
+<template id="submenu_mobile" name="Submenu">
+    <li t-if="not submenu.child_id and submenu != request.env.ref('baseball.teams_menu')" t-att-class="
+        'active' if submenu.url and submenu.url != '/' and request.httprequest.path == submenu.url.replace('/page/website.', '/page/') else None
+        ">
+        <a t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url" t-ignore="true" t-att-target="'_blank' if submenu.new_window else None">
+            <span t-field="submenu.name"/>
+        </a>
+    </li>
+    <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false" t-if="submenu.child_id and submenu != request.env.ref('baseball.teams_menu')">
+        <h1>
+            <span t-field="submenu.name"/> <span class="caret" t-ignore="true"></span>
+        </h1>
+        <ul data-role="listview">
+            <t t-foreach="submenu.child_id" t-as="submenu">
+                <t t-call="baseball.submenu_mobile"/>
+            </t>
+        </ul>
+    </li>
+    <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false"  t-if="submenu == request.env.ref('baseball.teams_menu')">
+        <h1>Teams</h1>
+        <ul data-role="listview">
+            <t t-foreach="request.env['baseball.teams'].sudo().search([('is_opponent','=',False)])" t-as="team">
+                <li>
+                  <a t-att-href="submenu.url + '/' + str(team.id) ">
+                      <span t-field="team.name"/>
+                  </a>
+                </li>  
+            </t>
+        </ul>
+    </li>
+</template>
 
 
   </data>
