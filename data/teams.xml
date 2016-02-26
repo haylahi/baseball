@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
-    <data>
+    <data noupdate="1">
         <record id="logo_1" model="baseball.logo">
             <field name="name">afterburners</field>
             <field name="image" type="base64" file="baseball/static/img/logos/afterburners50.jpg"/>

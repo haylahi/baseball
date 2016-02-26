@@ -17,6 +17,7 @@
                                 <field name="state"/>
                                 <field name="member_id" context="{
 'form_view_ref':'baseball.view_baseball_members_form'}"/>
+
                             </tree>
                         </field>
                     </page>
@@ -58,6 +59,8 @@
                         <field name="state"/>
                         <field name="member_id" context="{
 'form_view_ref':'baseball.view_baseball_members_form'}"/>
+                        <field name="season_id"/>
+
                         <field name="comment"/>                        
                         <field name="product_id" domain="[('attribute_value_ids','in',size),('attribute_value_ids','in',color)]"/>
 
@@ -79,7 +82,10 @@
                     <field name="comment"/>
                     <field name="member_id" context="{
 'form_view_ref':'baseball.view_baseball_members_form'}"/>
+                    <field name="season_id"/>
+
                     <field name="gender"/>
+                    <field name="time_rent" attrs="{'invisible': [('state','not in', ['rented', 'rented_paid'])]}"/>
                     <field name="team_ids" widget="many2many_tags"/>
 
                 </tree>

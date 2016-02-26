@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
   <data>
-    <delete id="website.layout_logo_show" model="ir.ui.view" />
+<!--     <delete id="website.layout_logo_show" model="ir.ui.view" />
     <delete model="website.menu" id="website.menu_contactus" />
-    <delete model="ir.ui.view" id="website.show_sign_in" />
+    <delete model="ir.ui.view" id="website.show_sign_in" /> -->
 <!--     <delete id="website.layout_footer_copyright" model="ir.ui.view" />
     <delete id="website_blog.header_footer_custom" model="ir.ui.view" />
     <delete id="website_forum.header_footer_custom" model="ir.ui.view" />

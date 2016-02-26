@@ -132,9 +132,7 @@
                   <field name="team_ids"/>
                   <field name="club_role_id"/>
                     <filter name="current_members" string="Current Members" domain="[('is_active_current_season', '=', True)]"/>
-                    <filter name="stock" string="Stock" domain="[('state', '=', 'stock')]"/>
                     <filter name="former_members" string="Former members" domain="[('is_active_current_season', '=', False)]"/>
-                    <filter name="sold" string="Sold" domain="[('state', '=', 'sold')]"/>
                     <filter name="indebted_members" string="Indebted members" domain="[('debt', '>', 0)]"/>
                 </search>
             </field>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
-    <data>
+    <data noupdate="1">
         <record id="mail_template_game_invitation" model="mail.template">
             <field name="name">Game Invitation</field>
             <field name="email_from"></field>

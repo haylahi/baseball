@@ -27,12 +27,18 @@ class JerseyItem(models.Model):
         ('lost', "Lost"),
         ('borrow', "Borrowed"),
     ], default='stock')
+    time_rent = fields.Selection([
+        (1, "1 year"),
+        (2, "2 year"),
+        (3, "3 year"),
+    ])
     member_id = fields.Many2one('res.partner', string="Member")
     product_id = fields.Many2one('product.product', string="Related product", compute="_get_product", store=True)
     gender = fields.Selection(related="member_id.gender", string="Gender", readonly=True)
     team_ids  = fields.Many2many(
         related="member_id.team_ids", string="Teams", readonly=True)
     comment = fields.Text(string="Comments")
+    season_id = fields.Many2one("baseball.season", string="Last season", compute="_get_last_season", store=True)
 
 
     @api.one
@@ -43,6 +49,12 @@ class JerseyItem(models.Model):
         else:
             self.product_id = self.env['product.product']
 
+    @api.one
+    @api.depends('member_id.season_ids.season_id')
+    def _get_last_season(self):
+        season_ids = self.member_id.season_ids.mapped('season_id')
+        if season_ids:
+            self.season_id = season_ids[0]
 
 class Product(models.Model):
     _inherit = 'product.product'

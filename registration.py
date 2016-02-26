@@ -9,6 +9,7 @@ from datetime import datetime
 
 class Season(models.Model):
     _name = 'baseball.season'
+    _order = 'sequence, id desc'
 
     name = fields.Char('Year')
     members_qty = fields.Integer('Members quantity', compute='_compute_members_qty')
@@ -18,6 +19,8 @@ class Season(models.Model):
         'ir.attachment',
         'Certificate',
     )
+    sequence = fields.Integer(string='Sequence')
+
     @api.constrains('is_current')
     def _check_current(self):
         if len(self.search([('is_current','=', True)]))> 1:

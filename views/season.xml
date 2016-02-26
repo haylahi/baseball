@@ -9,6 +9,7 @@
             <field eval="8" name="priority"/>
             <field name="arch" type="xml">
                 <tree string="Seasons" editable="top">
+                    <field name="sequence" widget="handle" />
                     <field name="name"/>
                     <field name="members_qty"/>
                     <field name="amount_left_to_collect"/>
