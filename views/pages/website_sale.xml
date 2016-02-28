@@ -35,17 +35,79 @@
     <xpath expr="//div[@class='container oe_website_sale']" position="attributes">
         <attribute name="class">container oe_website_sale panel panel-default</attribute>        
     </xpath>
+    <xpath expr="//input[@name='street']/.." position="replace">
+    </xpath>
+    <xpath expr="//input[@name='street2']/.." position="before">
+      <div class="clearfix"/>      
+      <div t-attf-class="form-group #{error.get('street') and 'has-error' or ''} col-lg-6">
+          <label class="control-label" for="street">Street</label>
+          <input type="text" name="street" class="form-control" t-att-value="checkout.get('street')"/>
+      </div>
+    </xpath>
+    <xpath expr="//select[@name='shipping_id']/.." position="attributes">
+        <attribute name="class">form-group col-lg-12 hidden</attribute>        
+    </xpath>
   </template>
 
   <template id="payment" inherit_id="website_sale.payment" name="Payment">
     <xpath expr="//div[@class='container oe_website_sale']" position="attributes">
         <attribute name="class">container oe_website_sale panel panel-default</attribute>        
     </xpath>
+    <xpath expr="//div[@id='right_column']" position="replace">
+      <div class="col-lg-3 col-lg-offset-1 col-sm-3 text-muted" id="right_column">
+          <h4>Bill To:</h4>
+          <div t-field="order.partner_invoice_id" t-field-options='{
+              "widget": "contact",
+              "fields": ["address", "name", "phone", "email"]
+              }'/>
+          <div>
+            <a href="/shop/checkout"><span class="fa fa-arrow-right"/> Change Address</a>
+          </div>
+          <div class="hidden">
+            <t t-if="website_sale_order and not website_sale_order.only_services">
+                <h4 class="mt32">Ship To:</h4>
+                <t t-if="website_sale_order.partner_shipping_id and website_sale_order.partner_shipping_id.id != website_sale_order.partner_invoice_id.id">
+                  <div t-field="order.partner_shipping_id" t-field-options='{
+                    "widget": "contact",
+                    "fields": ["address", "name", "phone"]
+                    }'/>
+                </t>
+                <address t-if="website_sale_order.partner_shipping_id.id == website_sale_order.partner_invoice_id.id">Ship to the same address</address>
+                <div class="mb32">
+                  <a href="/shop/checkout"><span class="fa fa-arrow-right"/> Change Address</a>
+                </div>
+            </t>
+          </div>
+      </div>   
+    </xpath>
+
+ 
   </template>
 
   <template id="confirmation" inherit_id="website_sale.confirmation" name="Confirmation">
     <xpath expr="//div[@class='container oe_website_sale']" position="attributes">
         <attribute name="class">container oe_website_sale panel panel-default</attribute>        
+    </xpath>
+    <xpath expr="//div[@class='col-md-3 col-md-offset-1 text-muted']" position="replace">
+        <div class="col-md-3 col-md-offset-1 text-muted">
+          <h4>Bill To:</h4>
+          <div t-field="order.partner_invoice_id" t-field-options='{
+              "widget": "contact",
+              "fields": ["address", "name", "phone", "email"]
+              }'/>
+          <div class="hidden">
+            <t t-if="not order.only_services">
+                <h4 class="mt32">Ship To:</h4>
+                <t t-if="order.partner_shipping_id and order.partner_shipping_id.id != order.partner_invoice_id.id">
+                  <div t-field="order.partner_shipping_id" t-field-options='{
+                    "widget": "contact",
+                    "fields": ["address", "name", "phone"]
+                    }'/>
+                </t>
+                <address t-if="order.partner_shipping_id.id == order.partner_invoice_id.id">Ship to the same address</address>
+            </t>
+          </div>
+        </div>
     </xpath>
   </template>
   </data>
