@@ -17,8 +17,8 @@ class Members(models.Model):
         'baseball.teams', string="Teams", relation="team_players")
     club_role_id = fields.Many2many('baseball.roles', string="Roles")
     main_club_role_id = fields.Many2one('baseball.roles', string="Main Role", compute='_compute_main_role', store=True)
-    is_in_order = fields.Boolean(readonly=True, string="Is in order", compute='_is_in_order', store=False)
-    is_registered = fields.Boolean(readonly=True, string="Licenced", compute='_is_in_order', store=False)
+    is_in_order = fields.Boolean(readonly=True, string="Is in order", compute='_is_in_order', store=True)
+    is_registered = fields.Boolean(readonly=True, string="Licenced", compute='_is_in_order', store=True)
     is_photo = fields.Boolean(
         default=False, string="Photo", compute='_check_photo')
     licence_number = fields.Char(string="Licence")
@@ -34,7 +34,7 @@ class Members(models.Model):
     personal_comments = fields.Html()
     private_comments = fields.Html()
     is_active_current_season = fields.Boolean('Active current season', default=False, compute='_is_active_this_season', store=True)
-    is_certificate = fields.Boolean('Certificate', default=False, compute='_is_in_order', store=False)
+    is_certificate = fields.Boolean('Certificate', default=False, compute='_is_in_order', store=True)
     is_player = fields.Boolean('Player', default=True)
     game_ids = fields.Many2many(
         'baseball.game', string="Games", compute="_compute_games")
@@ -43,12 +43,12 @@ class Members(models.Model):
     field_city = fields.Char('Field City')
     field_zip = fields.Char('Field Zip')
     field_country_id = fields.Many2one('res.country', 'Field Country')
-    debt = fields.Float(string="Debt", compute='_compute_debt', store=False)
+    debt = fields.Float(string="Debt", compute='_compute_debt', store=True)
     parent_user_id = fields.Many2one('res.partner', 'Parent member')
     child_partner_ids = fields.One2many('res.partner', 'parent_user_id', string="Child members")
     is_user = fields.Boolean('User', compute="_is_user")
-    fee_to_pay = fields.Float(string="Season Fee", compute='_compute_fee', store=False)
-    fee_paid = fields.Float(string="Season Paid", compute='_compute_fee', store=False)
+    fee_to_pay = fields.Float(string="Season Fee", compute='_compute_fee', store=True)
+    fee_paid = fields.Float(string="Season Paid", compute='_compute_fee', store=True)
 
     @api.one
     @api.depends('team_ids')
