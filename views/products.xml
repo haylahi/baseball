@@ -99,7 +99,15 @@
             <field name="arch" type="xml">
                 <search>
                   <field name="member_id"/>
+                  <field name="number"/>
                   <field name="color"/>
+                  <field name="size"/>
+                  <field name="time_rent"/>
+                  <field name="team_ids"/>
+                  <field name="comment"/>
+                  <field name="season_id"/>
+                  <filter string="Last active season" name="groupby_season" domain="[]" context="{'group_by':'season_id'}"/>
+                  <filter string="State" name="groupby_state" domain="[]" context="{'group_by':'state'}"/>
                   <filter name="stock" string="Stock" domain="[('state', '=', 'stock')]"/>
                   <filter name="sold" string="Sold" domain="[('state', '=', 'sold')]"/>
                   <filter name="sold_paid" string="Sold and Paid" domain="[('state', '=', 'sold_paid')]"/>

@@ -17,6 +17,8 @@
                     <field name="is_photo"/>
                     <field name="is_certificate"/>
                     <field name="is_registered"/>
+                    <field name="fee_to_pay"/>
+                    <field name="fee_paid"/>
                     <field name="is_in_order" invisible="1"/>
                     <field name="licence_number"/>
                     <field name="user_id" invisible="1"/>
@@ -134,6 +136,13 @@
                     <filter name="current_members" string="Current Members" domain="[('is_active_current_season', '=', True)]"/>
                     <filter name="former_members" string="Former members" domain="[('is_active_current_season', '=', False)]"/>
                     <filter name="indebted_members" string="Indebted members" domain="[('debt', '>', 0)]"/>
+                  <filter string="In order" name="groupby_in_order" domain="[]" context="{'group_by':'is_in_order'}"/>
+                  <filter string="Licensed" name="groupby_license" domain="[]" context="{'group_by':'is_registered'}"/>
+                  <filter string="Certificate" name="groupby_certificate" domain="[]" context="{'group_by':'is_certificate'}"/>
+                  <filter string="Player" name="groupby_is_player" domain="[]" context="{'group_by':'is_player'}"/>
+                  <filter string="City" name="groupby_city" domain="[]" context="{'group_by':'city'}"/>
+                  <filter string="Gender" name="groupby_gender" domain="[]" context="{'group_by':'gender'}"/>
+
                 </search>
             </field>
         </record>

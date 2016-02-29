@@ -29,16 +29,16 @@ class JerseyItem(models.Model):
     ], default='stock')
     time_rent = fields.Selection([
         (1, "1 year"),
-        (2, "2 year"),
-        (3, "3 year"),
+        (2, "2 years"),
+        (3, "3 years"),
     ])
     member_id = fields.Many2one('res.partner', string="Member")
     product_id = fields.Many2one('product.product', string="Related product", compute="_get_product", store=True)
-    gender = fields.Selection(related="member_id.gender", string="Gender", readonly=True)
+    gender = fields.Selection(related="member_id.gender", string="Gender", readonly=True, store=True)
     team_ids  = fields.Many2many(
-        related="member_id.team_ids", string="Teams", readonly=True)
+        related="member_id.team_ids", string="Teams", readonly=True, store=True)
     comment = fields.Text(string="Comments")
-    season_id = fields.Many2one("baseball.season", string="Last season", compute="_get_last_season", store=True)
+    season_id = fields.Many2one("baseball.season", string="Last active season", compute="_get_last_season", store=True)
 
 
     @api.one

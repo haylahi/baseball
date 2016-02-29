@@ -59,6 +59,7 @@ class Season(models.Model):
 
 class Registration(models.Model):
     _name = 'baseball.registration'
+    _order = 'season_id'
 
     season_id = fields.Many2one("baseball.season", string="Season")
     category_id = fields.Many2one("baseball.categories", string="Category")
