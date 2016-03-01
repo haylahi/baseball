@@ -39,6 +39,8 @@ class JerseyItem(models.Model):
         related="member_id.team_ids", string="Teams", readonly=True, store=True)
     comment = fields.Text(string="Comments")
     season_id = fields.Many2one("baseball.season", string="Last active season", compute="_get_last_season", store=True)
+    firstname = fields.Char(related="member_id.firstname", string="First name", readonly=True, store=True)
+    lastname = fields.Char(related="member_id.lastname", string="Last name", readonly=True, store=True)
 
 
     @api.one

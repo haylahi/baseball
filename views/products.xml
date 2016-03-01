@@ -80,6 +80,8 @@
                     <field name="color" domain="[('attribute_id', '=', %(product_attribute_color)d)]"/>
                     <field name="state"/>
                     <field name="comment"/>
+                    <field name="firstname"/>
+                    <field name="lastname"/>
                     <field name="member_id" context="{
 'form_view_ref':'baseball.view_baseball_members_form'}"/>
                     <field name="season_id"/>
@@ -99,6 +101,8 @@
             <field name="arch" type="xml">
                 <search>
                   <field name="member_id"/>
+                  <field name="firstname"/>
+                  <field name="lastname"/>
                   <field name="number"/>
                   <field name="color"/>
                   <field name="size"/>

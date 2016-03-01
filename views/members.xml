@@ -7,7 +7,8 @@
             <field eval="8" name="priority"/>
             <field name="arch" type="xml" >
                 <tree string="Contacts" colors="red: is_in_order==False; blue: is_in_order==True and is_registered==False">
-                    <field name="name"/>
+                    <field name="lastname"/>
+                    <field name="firstname"/>
                     <field name="phone"/>
                     <field name="email"/>
                     <field name="baseball_category_ids" readonly="1"/>
@@ -42,7 +43,8 @@
                     <field name="image" widget='image' class="oe_left oe_avatar" />
                     <div class="oe_title oe_left">
                         <h1>
-                            <field name="name" placeholder="Name" />
+                            <field name="firstname" placeholder="Firstname" />
+                            <field name="lastname" placeholder="Lastname" />
                         </h1>
                     </div>
                     <group>
@@ -129,7 +131,8 @@
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <search>
-                  <field name="name"/>
+                  <field name="lastname"/>
+                  <field name="firstname"/>
                   <field name="baseball_category_ids"/>
                   <field name="team_ids"/>
                   <field name="club_role_id"/>
