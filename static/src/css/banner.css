@@ -81,6 +81,38 @@ div #header_top_bar_alias.sticky {
     margin-bottom: 0px;
 }
 
+#logo_header_small {
+    float: left;
+    position: relative;
+    top: 0px;
+    left: -5px;
+    height: 100px;
+    width: 100px;
+    margin-bottom: 0px;
+}
+
+div #header_top_bar_small {
+    position: fixed;
+    top: 0px;
+    height: 100px; 
+    width: 100%;
+    text-align: center;
+    z-index: 10000;
+    opacity: 0.9;
+}
+
+div #header_top_bar_small_alias {
+    height: 100px; 
+}
+
+.subdropdown{
+    position: absolute !important; top: 0; right: 0;
+}
+
+.dropdown-toggle.disabled {
+    padding-right: 50px;
+}
+
 .modal-dialog {
     top: 100px;
 }
