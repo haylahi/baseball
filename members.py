@@ -110,7 +110,7 @@ class Members(models.Model):
         
     @api.model
     def _get_computed_name(self, lastname, firstname):
-        return u" ".join((p for p in (lastname, firstname) if p))
+        return u" ".join((p for p in (firstname , lastname) if p))
 
     @api.one
     @api.depends("firstname", "lastname")
