@@ -22,7 +22,7 @@
 
   <template id="footer" inherit_id="website.footer_default" name="footer">
     <xpath expr="//div[@class='row']" position="attributes">
-        <attribute name="class">row panel panel-default</attribute>        
+        <attribute name="class">row panel panel-default hidden-xs</attribute>        
     </xpath>
 
 
@@ -138,15 +138,20 @@
                         </t>
                         <li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>
                         <li class="dropdown" t-ignore="true" t-if="website.user_id != user_id">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" class="dropdown-toggle pdr50" data-toggle="dropdown">
                                 <b>
-                                    <span t-esc="(len(user_id.name)&gt;25) and (user_id.name[:23]+'...') or user_id.name"/>
-                                    <span class="caret"></span>
+                                    <span t-esc="user_id.sudo().current_partner_id.name"/>
                                 </b>
                             </a>
+                            <a class="dropdown-toggle subdropdown" data-toggle="dropdown"><i class="fa fa-caret-down fa-2x"></i></a>
                             <ul class="dropdown-menu js_usermenu" role="menu">
-                                <li id="o_logout"><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>
+                                <li class="text-center"><a href="/profile" role="menuitem"><i class="fa fa-user"/> Mon Profil</a></li>
+                                <li class="divider"/>
+                                <li class="text-center" id="o_logout"><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Log out</a></li>
                             </ul>
+                        </li>
+                        <li class="text-center" t-if="website.user_id == user_id">
+                          <a href="/web/login?redirect=/profile">Log in</a>
                         </li>
                     </ul>
                 </div>
@@ -169,17 +174,17 @@
 
 <template id="website.submenu_mini" name="Submenu">
     <li t-if="not submenu.child_id" t-att-class="
-        'active' if submenu.url and submenu.url != '/' and request.httprequest.path == submenu.url.replace('/page/website.', '/page/') else None
+        'active text-center' if submenu.url and submenu.url != '/' and request.httprequest.path == submenu.url.replace('/page/website.', '/page/') else 'text-center'
         ">
 
         <t t-if="submenu.id == request.env.ref('baseball.teams_menu').id">
-          <a class="dropdown-toggle disabled" data-toggle="dropdown" t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url" t-ignore="true" t-att-target="'_blank' if submenu.new_window else None">
+          <a class="dropdown-toggle disabled pdr50" data-toggle="dropdown" t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url" t-ignore="true" t-att-target="'_blank' if submenu.new_window else None">
                         <span t-field="submenu.name"/>
-                    </a><a class="dropdown-toggle subdropdown" data-toggle="dropdown"><span class="caret" t-ignore="true"></span></a>
+                    </a><a class="dropdown-toggle subdropdown" data-toggle="dropdown"><i class="fa fa-caret-down fa-2x"></i></a>
           <ul class="dropdown-menu" role="menu">
             <t t-foreach="request.env['baseball.teams'].sudo().search([('is_opponent','=',False)])" t-as="team">
                 <li t-att-class="
-                'active' if request.httprequest.path == (submenu.url + '/' + str(team.id)) else None
+                'active text-center' if request.httprequest.path == (submenu.url + '/' + str(team.id)) else 'text-center'
                 ">
                   <a t-att-href="submenu.url + '/' + str(team.id) ">
                       <span t-field="team.name"/>
@@ -189,7 +194,7 @@
           </ul>
         </t>
         <t t-if="submenu.id != request.env.ref('baseball.teams_menu').id">
-          <a t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url" t-ignore="true" t-att-target="'_blank' if submenu.new_window else None">
+          <a class="pdr50" t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url" t-ignore="true" t-att-target="'_blank' if submenu.new_window else None">
               <span t-field="submenu.name"/>
           </a>
         </t>
@@ -198,9 +203,9 @@
         (submenu.url and submenu.url != '/' and any([request.httprequest.path == child.url.replace('/page/website.', '/page/') for child in submenu.child_id if child.url]) or
          (submenu.url and request.httprequest.path == submenu.url.replace('/page/website.', '/page/'))) and 'active'
         }">
-        <a class="dropdown-toggle disabled" data-toggle="dropdown" t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url">
+        <a class="dropdown-toggle disabled pdr50" data-toggle="dropdown" t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url">
             <span t-field="submenu.name"/>
-        </a><a class="dropdown-toggle subdropdown" data-toggle="dropdown"><span class="caret" t-ignore="true"></span></a>
+        </a><a class="dropdown-toggle subdropdown" data-toggle="dropdown"><i class="fa fa-caret-down fa-2x"></i></a>
         <ul class="dropdown-menu" role="menu">
             <t t-foreach="submenu.child_id" t-as="submenu">
                 <t t-call="website.submenu_mini"/>

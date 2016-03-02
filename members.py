@@ -56,7 +56,8 @@ class Members(models.Model):
     is_user = fields.Boolean('User', compute="_is_user")
     fee_to_pay = fields.Float(string="Season Fee", compute='_compute_fee', store=True)
     fee_paid = fields.Float(string="Season Paid", compute='_compute_fee', store=True)
-
+    email2 = fields.Char(string="Email 2")
+    mobile2 = fields.Char(string="Mobile 2")
 
     @api.model
     def create(self, vals):
@@ -109,7 +110,7 @@ class Members(models.Model):
         
     @api.model
     def _get_computed_name(self, lastname, firstname):
-        return u" ".join((p for p in (lastname, firstname) if p))
+        return u" ".join((p for p in (firstname , lastname) if p))
 
     @api.one
     @api.depends("firstname", "lastname")

@@ -136,7 +136,7 @@
                   </t>
                   <div class="col-lg-3">
                     <t t-if="team.image">
-                      <img class="img-responsive" t-att-src="'data:image/png;base64,'+team.image"/>
+                      <img class="img-responsive" width="150px" t-att-src="'data:image/png;base64,'+team.image"/>
                     </t>
                   </div>
                   <div class="col-lg-9">
