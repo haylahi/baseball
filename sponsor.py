@@ -42,6 +42,7 @@ class Sponsor_line(models.TransientModel):
 
 class Sponsor(models.Model):
     _name = 'baseball.sponsor'
+    _order = 'sequence,name'
 
     name = fields.Char('Name', required=True,)
     image = fields.Binary(string='Logo')
@@ -52,6 +53,7 @@ class Sponsor(models.Model):
     notes = fields.Text(string="Notes")
     line_ids = fields.One2many(
         'baseball.sponsor.line', 'sponsor_id', string="Lines")
+    sequence = fields.Integer('Sequence')
 
     @api.model
     def get_active_sponsors(self):
