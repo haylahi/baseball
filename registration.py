@@ -82,6 +82,12 @@ class Registration(models.Model):
     def _set_fee(self):
         return
 
+    @api.onchange('season_id')
+    def onchange_season(self):
+        categories = self.member_id.baseball_category_ids.sorted(lambda r: r.cotisation, reverse=True)
+        if categories:
+            self.category_id = categories[0]
+
 class Fee(models.Model):
     _name = 'baseball.fee'
 
