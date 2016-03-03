@@ -10,7 +10,8 @@ import werkzeug
 
 class Members(models.Model):
     _inherit = 'res.partner'
-
+    _order = 'lastname,name'
+    
     firstname = fields.Char('First name',)
     lastname = fields.Char('Last name',)
     name = fields.Char(
