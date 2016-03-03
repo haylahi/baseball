@@ -82,7 +82,7 @@ class Members(models.Model):
             if "default_name" in context:
                 del context["default_name"]
 
-        return super(ResPartner, self.with_context(context)).create(vals)
+        return super(Members, self.with_context(context)).create(vals)
 
     @api.multi
     def copy(self, default=None):
@@ -91,12 +91,12 @@ class Members(models.Model):
         ignored in :meth:`~.create` because it also copies explicitly firstname
         and lastname fields.
         """
-        return super(ResPartner, self.with_context(copy=True)).copy(default)
+        return super(Members, self.with_context(copy=True)).copy(default)
 
     @api.model
     def default_get(self, fields_list):
         """Invert name when getting default values."""
-        result = super(ResPartner, self).default_get(fields_list)
+        result = super(Members, self).default_get(fields_list)
 
         inverted = self._get_inverse_name(
             self._get_whitespace_cleaned_name(result.get("name", "")),
