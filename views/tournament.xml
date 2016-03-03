@@ -11,7 +11,7 @@
 
                 <tree string="Games">
                     <field name="start_time"/>
-                    <field name="end_time"/>
+                    <field name="end_time_tournament"/>
                     <field name="division"/>
                     <field name="home_team"/>
                     <field name="venue"/>
@@ -34,7 +34,7 @@
                     <group>
                         <field name="game_type" invisible="1"/>
                         <field name="start_time"/>
-                        <field name="end_time"/>
+                        <field name="end_time_tournament"/>
                         <label for="home_team" string="Team"/>
                         <field name="home_team" nolabel="1" domain="[('is_opponent','=',False)]"/>
                         <field name="venue"/>

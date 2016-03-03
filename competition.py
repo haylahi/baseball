@@ -38,6 +38,9 @@ class Game(models.Model):
     start_date = fields.Char(string="Start Date", compute="_compute_end_time")
     start_hour = fields.Char(string="Start Hour", compute="_compute_end_time")
     end_time = fields.Datetime(string="End Time", compute="_compute_end_time")
+    end_time_tournament = fields.Datetime(string="End Time")
+    end_date_tournament = fields.Char(string="Start Date", compute="_compute_end_time_tournament")
+    end_hour_tournament = fields.Char(string="Start Hour", compute="_compute_end_time_tournament")    
     home_team = fields.Many2one('baseball.teams', string="Home Team")
     away_team = fields.Many2one('baseball.teams', string="Away Team")
     score_home = fields.Char(string="Score Home")
@@ -134,6 +137,15 @@ class Game(models.Model):
 
             self.start_date = start.strftime("%d/%m/%Y")
             self.start_hour = start.strftime("%H:%M")
+
+    @api.one
+    @api.depends('end_time_tournament')
+    def _compute_end_time_tournament(self):
+        if self.end_time_tournament:
+            end = fields.Datetime.from_string(self.end_time_tournament)
+            self.end_date_tournament = end.strftime("%d/%m/%Y")
+            self.end_hour_tournament = end.strftime("%H:%M")
+
 
     @api.model
     def _get_upcoming_games(self, limit=None):
