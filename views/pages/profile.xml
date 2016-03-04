@@ -141,9 +141,51 @@
                             <div t-if="child_partner.is_player" class="row">
                               <div class="col-lg-6">
                                 <H3>Prochains matches</H3>
+                                  <table class="table table-condensed data_calendar_table">
+                                    <thead>
+                                      <tr>
+                                        <th class="col-md-2">Date</th>
+                                        <th class="col-md-1"/>
+                                        <th class="col-md-3">Adversaire</th>
+                                        <th class="col-md-3">Lieu</th>
+                                        <th class="col-md-3">Heure</th>
+                                        <th class="col-md-2"></th>
+
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <t t-set="now" t-value="datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/>
+
+                                      <t t-foreach="child_partner.game_ids.filtered(lambda r, now=now: r.start_time &gt; now) and child_partner.game_ids.filtered(lambda r, now=now: r.start_time &gt; now)[:5] or []" t-as="game">
+                                        <t t-set="team" t-value="game.home_team if game.home_team in child_partner.team_ids else game.away_team"/>
+                                        <t t-call="baseball.table_game_calendar"/>
+                                      </t>
+                                    </tbody>
+                                  </table>
                               </div>
                               <div class="col-lg-6">
                                 <H3>Prochains entraînements</H3>
+                                  <table class="table table-condensed data_calendar_table">
+                                    <thead>
+                                      <tr>
+                                        <th class="col-md-2">Date</th>
+                                        <th class="col-md-2">Heure</th>
+                                        <th class="col-md-3">Lieu</th>
+
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <t t-set="now" t-value="datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/>
+
+                                      <t t-foreach="child_partner.practice_event_ids.filtered(lambda r, now=now: r.start_time &gt; now) and child_partner.practice_event_ids.filtered(lambda r, now=now: r.start_time &gt; now)[:5] or []" t-as="practice">
+                                        <tr>
+                                          <td><span t-field="practice.start_time" t-field-options='{"format": "dd/MM/yy"}'/></td>
+                                          <td><span  t-field="practice.start_time" t-field-options='{"format": "HH:mm"}'/></td>
+                                          <td><span t-field="practice.venue_id.name"/></td>
+                                        </tr>
+                                      </t>
+                                    </tbody>
+                                  </table>
                               </div>
                             </div>
                           </div>

@@ -45,8 +45,11 @@ class Teams(models.Model):
     logo_id = fields.Many2one('baseball.logo', string="Logo")
     sequence = fields.Integer(string='Sequence')
     practices_ids = fields.Many2many(
-        'baseball.teams.practice', string="Practices", relation="team_practices_rel")
-
+        'baseball.teams.practice', string="Weekly Practices", relation="team_practices_rel")
+    practice_event_ids = fields.One2many(
+        'baseball.teams.practice.event',
+        'team_id',
+        string='Practices',)
 
 
     @api.multi

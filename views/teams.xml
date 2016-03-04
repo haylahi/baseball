@@ -87,12 +87,21 @@
                         </page>
                         <page name="practices" string="Practices" >
                             <field name="practices_ids">
-                                <tree editable="top">
+                                <tree editable="top" string="Weekly practice">
 				                    <field name="dayofweek"/>
 				                    <field name="hour_from" widget="float_time"/>
 				                    <field name="hour_to" widget="float_time"/>
 				                    <field name="season"/>
 				                    <field name="venue_id"/>
+                                </tree>
+                            </field>
+                            <field name="practice_event_ids">
+                                <tree string="Practices">
+                                    <field name="start_time"/>
+                                    <field name="end_time"/>
+                                    <field name="team_id" />
+                                    <field name="venue_id"/>
+                                    <!-- <field name="serie_id"/> -->
                                 </tree>
                             </field>
                         </page>
@@ -204,7 +213,7 @@
                             <field name="end_time"/>
                             <field name="team_id" />
                             <field name="venue_id"/>
-                            <field name="serie_id"/>
+                            <!-- <field name="serie_id"/> -->
                         </tree>
                     </field>
                     <footer>

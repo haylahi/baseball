@@ -59,6 +59,10 @@ class Members(models.Model):
     fee_paid = fields.Float(string="Season Paid", compute='_compute_fee', store=True)
     email2 = fields.Char(string="Email 2")
     mobile2 = fields.Char(string="Mobile 2")
+    practice_event_ids = fields.Many2many(
+        'baseball.teams.practice.event', string="Practices", compute='_get_practices')
+
+
 
     @api.model
     def create(self, vals):
@@ -216,6 +220,9 @@ class Members(models.Model):
                 [('teams_ids', 'in', team_id.id)]).ids
         self.baseball_category_ids = ids
 
+
+
+
     @api.one
     @api.depends('image')
     def _check_photo(self):
@@ -239,6 +246,11 @@ class Members(models.Model):
             self.is_certificate = current_register.is_certificate
             self.is_registered = current_register.is_registered
             self.is_in_order = all([self.is_photo,current_register.is_certificate, current_register.fee_to_pay <= current_register.fee_paid])
+
+    @api.one
+    @api.depends('team_ids')
+    def _get_practices(self):
+        self.practice_event_ids = self.team_ids.mapped('practice_event_ids').sorted(key=lambda r: r.start_time)
 
     @api.one
     def _compute_games(self):

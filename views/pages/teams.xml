@@ -282,95 +282,7 @@
         </thead>
         <tbody>
           <t t-foreach="team.game_ids or []" t-as="game">
-            <t t-if="game.game_type != 'tournament'">
-              <tr t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
-                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yy"}'/></td>
-
-                <t t-if="game.away_team == team">
-                  <td class="js_game" t-attf-id="#{game.id}">
-                    <t t-if="game.home_team.logo_id and game.home_team.logo_id.image" >
-                      <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.home_team.logo_id.sudo().image"/>
-                    </t>
-                  </td>
-                  <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.home_team.name"/></td>
-                </t>
-                <t t-if="game.home_team == team">
-                  <td class="js_game" t-attf-id="#{game.id}">
-                    <t t-if="game.away_team.logo_id and game.away_team.logo_id.image">
-                      <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.away_team.logo_id.sudo().image"/>
-                    </t>
-                  </td>
-                  <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.away_team.name"/></td>
-                </t>
-                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
-                <td class="js_game" t-attf-id="#{game.id}"><span  t-field="game.start_time" t-field-options='{"format": "HH:mm"}'/></td>
-                <td>
-                  <t t-if="user and game.start_time &gt; datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')">
-                    <t t-if="user.current_partner_id in game.present_players_ids">
-                      <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
-                    </t>
-                    <t t-if="user.current_partner_id not in game.present_players_ids">
-                      <i class="fa fa-check-circle-o fa-2x js_game_attend" t-attf-id="#{game.id}"/>
-                    </t>
-
-                    <t t-if="user.current_partner_id in game.absent_players_ids">
-                      <i class="fa fa-times-circle-o fa-2x text-danger js_game_absent" t-attf-id="#{game.id}" />
-                    </t>                
-                    <t t-if="user.current_partner_id not in game.absent_players_ids">
-                      <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
-                    </t>
-                  </t>
-                  <t t-if="game.start_time &lt; datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')">
-                    <t t-if="((game.home_team == team) and (game.result == 'home')) or ((game.away_team == team) and (game.result == 'away'))">
-                      <span style="font-weight: bold;">W</span>
-                    </t>
-                    <t t-if="((game.home_team == team) and (game.result == 'away')) or ((game.away_team == team) and (game.result == 'home'))">
-                      <span>L</span>
-                    </t>
-                    <t t-if="game.result == 'tie'">
-                      <span>T</span>
-                    </t>
-                    <t t-if="game.result == 'np'">
-                      <span>NP</span>
-                    </t>
-                  </t>
-                </td>
-              </tr>
-            </t>
-            <t t-if="game.game_type == 'tournament'">
-              <tr t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
-                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yy"}'/> 
-                  <t t-if="game.end_time_tournament and game.start_date != game.end_date_tournament">
-                    - <span t-field="game.end_time_tournament" t-field-options='{"format": "dd/MM/yy"}'/>
-                  </t>
-                  </td>
-                <td/>
-                <td class="js_game" t-attf-id="#{game.id}" style="font-weight: bold;">
-                Tournois</td>
-
-
-                <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
-                <td class="js_game" t-attf-id="#{game.id}"/>
-                <td>
-                  <t t-if="user">
-                    <t t-if="user.current_partner_id in game.present_players_ids">
-                      <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
-                    </t>
-                    <t t-if="user.current_partner_id not in game.present_players_ids">
-                      <i class="fa fa-check-circle-o fa-2x js_game_attend" t-attf-id="#{game.id}"/>
-                    </t>
-
-                    <t t-if="user.current_partner_id in game.absent_players_ids">
-                      <i class="fa fa-times-circle-o fa-2x text-danger js_game_absent" t-attf-id="#{game.id}" />
-                    </t>                
-                    <t t-if="user.current_partner_id not in game.absent_players_ids">
-                      <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
-                    </t>
-
-                  </t>
-                </td>
-              </tr>
-            </t>
+            <t t-call="baseball.table_game_calendar"/>
           </t>
         </tbody>
       </table>
@@ -378,6 +290,106 @@
   </div>
 </template>
 
+
+<template id="table_game_calendar" name="Specific game calendar">
+  <t t-if="game.game_type != 'tournament'">
+    <t t-call="baseball.table_game_calendar_regular"/>
+  </t>
+  <t t-if="game.game_type == 'tournament'">
+    <t t-call="baseball.table_game_calendar_tournament"/>
+  </t>
+</template>
+
+<template id="table_game_calendar_regular" name="Regular game calendar">
+  <tr t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
+    <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yy"}'/></td>
+
+    <t t-if="game.away_team == team">
+      <td class="js_game" t-attf-id="#{game.id}">
+        <t t-if="game.home_team.logo_id and game.home_team.logo_id.image" >
+          <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.home_team.logo_id.sudo().image"/>
+        </t>
+      </td>
+      <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.home_team.name"/></td>
+    </t>
+    <t t-if="game.home_team == team">
+      <td class="js_game" t-attf-id="#{game.id}">
+        <t t-if="game.away_team.logo_id and game.away_team.logo_id.image">
+          <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.away_team.logo_id.sudo().image"/>
+        </t>
+      </td>
+      <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.away_team.name"/></td>
+    </t>
+    <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
+    <td class="js_game" t-attf-id="#{game.id}"><span  t-field="game.start_time" t-field-options='{"format": "HH:mm"}'/></td>
+    <td>
+      <t t-if="user and game.start_time &gt; datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')">
+        <t t-if="user.current_partner_id in game.present_players_ids">
+          <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
+        </t>
+        <t t-if="user.current_partner_id not in game.present_players_ids">
+          <i class="fa fa-check-circle-o fa-2x js_game_attend" t-attf-id="#{game.id}"/>
+        </t>
+
+        <t t-if="user.current_partner_id in game.absent_players_ids">
+          <i class="fa fa-times-circle-o fa-2x text-danger js_game_absent" t-attf-id="#{game.id}" />
+        </t>                
+        <t t-if="user.current_partner_id not in game.absent_players_ids">
+          <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
+        </t>
+      </t>
+      <t t-if="game.start_time &lt; datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')">
+        <t t-if="((game.home_team == team) and (game.result == 'home')) or ((game.away_team == team) and (game.result == 'away'))">
+          <span style="font-weight: bold;">W</span>
+        </t>
+        <t t-if="((game.home_team == team) and (game.result == 'away')) or ((game.away_team == team) and (game.result == 'home'))">
+          <span>L</span>
+        </t>
+        <t t-if="game.result == 'tie'">
+          <span>T</span>
+        </t>
+        <t t-if="game.result == 'np'">
+          <span>NP</span>
+        </t>
+      </t>
+    </td>
+  </tr>
+</template>
+
+<template id="table_game_calendar_tournament" name="Tournament game calendar">
+  <tr t-att-style="'font-style: italic;' if game.game_type == 'friendly' else ''">
+    <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.start_time" t-field-options='{"format": "dd/MM/yy"}'/> 
+      <t t-if="game.end_time_tournament and game.start_date != game.end_date_tournament">
+        - <span t-field="game.end_time_tournament" t-field-options='{"format": "dd/MM/yy"}'/>
+      </t>
+      </td>
+    <td/>
+    <td class="js_game" t-attf-id="#{game.id}" style="font-weight: bold;">
+    Tournois</td>
+
+
+    <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
+    <td class="js_game" t-attf-id="#{game.id}"/>
+    <td>
+      <t t-if="user">
+        <t t-if="user.current_partner_id in game.present_players_ids">
+          <i class="fa fa-check-circle-o fa-2x text-success js_game_attend" t-attf-id="#{game.id}"/>
+        </t>
+        <t t-if="user.current_partner_id not in game.present_players_ids">
+          <i class="fa fa-check-circle-o fa-2x js_game_attend" t-attf-id="#{game.id}"/>
+        </t>
+
+        <t t-if="user.current_partner_id in game.absent_players_ids">
+          <i class="fa fa-times-circle-o fa-2x text-danger js_game_absent" t-attf-id="#{game.id}" />
+        </t>                
+        <t t-if="user.current_partner_id not in game.absent_players_ids">
+          <i class="fa fa-times-circle-o fa-2x js_game_absent" t-attf-id="#{game.id}"/>
+        </t>
+
+      </t>
+    </td>
+  </tr>
+</template>
 
 
   <template id="modal_player" name="Player">
@@ -448,6 +460,12 @@
                  <div t-field="game.start_time" t-field-options='{"format": "dd/MM/yy"}'/> 
                  <div t-field="game.start_time" t-field-options='{"format": "HH:mm"}'/> 
                  <div  t-esc="'@ ' + game.venue.name" />
+                 <div>
+                  <span t-if="game.venue.street" ><span t-field="game.venue.street"/><br/></span>
+                  <span t-if="game.venue.street2" ><span t-field="game.venue.street2"/><br/></span>
+                  <span t-if="game.venue.zip_code" ><span t-field="game.venue.zip_code"/> </span>
+                  <span t-if="game.venue.city" ><span t-field="game.venue.city"/><br/></span>
+                 </div>
               </t>
             </div>
            </div>
