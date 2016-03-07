@@ -27,7 +27,7 @@
 
 
     <xpath expr="//div[@class='container hidden-print']" position="after">
-      <div style="left: 0px; top: 0px; overflow: hidden; margin: 0px; padding: 0px; height: 100%; width: 100%; z-index: -999999; position: fixed; background-image: url('/baseball/static/img/background/background5.jpg'); background-size:cover;"></div>    
+      <div class="hidden-xs" style="left: 0px; top: 0px; overflow: hidden; margin: 0px; padding: 0px; height: 100%; width: 100%; z-index: -999999; position: fixed; background-image: url('/baseball/static/img/background/background5.jpg'); background-size:cover;"></div>    
     </xpath>
   </template>
 
