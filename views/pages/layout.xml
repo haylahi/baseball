@@ -9,6 +9,7 @@
         <script type="text/javascript" src="/baseball/static/src/js/bootstrap_multiselect.js"></script>
         <script type="text/javascript" src="/baseball/static/src/js/multiselect.js"></script>
         <script type="text/javascript" src="/baseball/static/src/js/sponsor.js"></script>
+        <script type="text/javascript" src="/baseball/static/src/js/responsive.js"></script>
         <link rel="stylesheet" href="/baseball/static/src/css/bootstrap_multiselect.css" type="text/css"/>
         <link rel="stylesheet" href="/baseball/static/src/css/custom_bootstrap.css" type="text/css"/>
         <link href="/baseball/static/src/css/banner.css" rel="stylesheet" type="text/css" />
@@ -38,8 +39,8 @@
     <template id="layout" inherit_id="website.layout">
     <xpath expr="//header" position="replace">
         <div class="row hidden-xs hidden-sm">
-          <div class="col-lg-2"/>
-          <div class="col-lg-8">
+          <div class="col-lg-2 col-md-2"/>
+          <div class="col-lg-8 col-md-8">
               <div class="header_banner">
                 <center>
                   <img src='/baseball/static/src/img/banner3_lanceuse.png' id='header-lanceuse'/>
@@ -51,7 +52,7 @@
                 </center>
               </div>
           </div>
-          <div class="col-lg-2">
+          <div class="col-lg-2 col-md-2">
             <t t-call="baseball.sponsors_carousel"/>
           </div>
         </div>

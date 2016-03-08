@@ -173,9 +173,9 @@
                         <th>#</th>
                         <th></th>
                         <th>Nom</th>
-                        <th>Positions</th>
+                        <th class="hidden-xs">Positions</th>
                         <th>Nationalité</th>
-                        <th>Naissance</th>
+                        <th class="hidden-xs">Naissance</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -199,7 +199,7 @@
 <template id="team_roster" name="Team roster">
   <t t-if="team.players_ids">
       <tr>
-        <th colspan="6">Roster</th>
+        <th colspan="4">Roster</th>
       </tr>
       <t t-foreach="team.players_ids or []" t-as="player">
         <tr class="js_player" t-attf-id="#{player.id}" >
@@ -210,9 +210,9 @@
             </t>
           </td>
           <td><a href="#"><span t-field="player.name"/></a></td>
-          <td><span t-esc="', '.join(player.positions_ids.mapped('code'))"/></td>
+          <td class="hidden-xs"><span t-esc="', '.join(player.positions_ids.mapped('code'))"/></td>
           <td><t t-if="player.country_id"><span t-field="player.country_id.image" t-field-options='{"widget": "image", "max_width": 25}'/></t></td>
-          <td><span t-field="player.birthdate"/></td>
+          <td class="hidden-xs"><span t-field="player.birthdate"/></td>
         </tr>
       </t>
   </t>
@@ -221,7 +221,7 @@
 <template id="team_staff" name="Team Staff">
   <t t-if="team.responsible_ids">
     <tr>
-      <th colspan="6">Managers</th>
+      <th colspan="4">Managers</th>
     </tr>
     <t t-foreach="team.responsible_ids or []" t-as="manager">
       <tr class="js_player" t-attf-id="#{manager.id}" >
@@ -232,7 +232,7 @@
           </t>
         </td>
         <td><a href="#"><span t-field="manager.name"/></a></td>
-        <td/>
+        <td class="hidden-xs"/>
         <td><t t-if="manager.country_id"><span t-field="manager.country_id.image" t-field-options='{"widget": "image", "max_width": 25}'/></t></td>
         <td><span t-field="manager.birthdate"/></td>
       </tr>
@@ -240,7 +240,7 @@
   </t>
   <t t-if="team.coaches_ids">
     <tr>
-      <th colspan="6">Coaches</th>
+      <th colspan="4">Coaches</th>
     </tr>
       <t t-foreach="team.coaches_ids or []" t-as="coach">
         <tr class="js_player" t-attf-id="#{coach.id}" >
@@ -251,9 +251,9 @@
             </t>
           </td>
           <td><a href="#"><span t-field="coach.name"/></a></td>
-          <td/>
+          <td class="hidden-xs"/>
           <td><t t-if="coach.country_id"><span  t-field="coach.country_id.image" t-field-options='{"widget": "image", "max_width": 25}'/></t></td>
-          <td><span  t-field="coach.birthdate"/></td>
+          <td class="hidden-xs"><span  t-field="coach.birthdate"/></td>
         </tr>
       </t>
   </t>
@@ -274,7 +274,7 @@
             <th class="col-md-2">Date</th>
             <th class="col-md-1"/>
             <th class="col-md-3">Adversaire</th>
-            <th class="col-md-3">Lieu</th>
+            <th class="col-md-3 hidden-xs">Lieu</th>
             <th class="col-md-3">Heure</th>
             <th class="col-md-2"></th>
 
@@ -320,7 +320,7 @@
       </td>
       <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.away_team.name"/></td>
     </t>
-    <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
+    <td class="js_game hidden-xs" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
     <td class="js_game" t-attf-id="#{game.id}"><span  t-field="game.start_time" t-field-options='{"format": "HH:mm"}'/></td>
     <td>
       <t t-if="user and game.start_time &gt; datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')">
@@ -368,7 +368,7 @@
     Tournois</td>
 
 
-    <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
+    <td class="js_game hidden-xs" t-attf-id="#{game.id}"><span t-field="game.venue.name"/></td>
     <td class="js_game" t-attf-id="#{game.id}"/>
     <td>
       <t t-if="user">
