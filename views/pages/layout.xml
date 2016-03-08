@@ -144,7 +144,7 @@
                                     <span t-esc="user_id.sudo().current_partner_id.name"/>
                                 </b>
                             </a>
-                            <a class="dropdown-toggle subdropdown" data-toggle="dropdown"><i class="fa fa-caret-down fa-2x"></i></a>
+                            <a class="dropdown-toggle subdropdown" href="#"  data-toggle="dropdown"><i class="fa fa-caret-down fa-2x"></i></a>
                             <ul class="dropdown-menu js_usermenu" role="menu">
                                 <li class="text-center"><a href="/profile" role="menuitem"><i class="fa fa-user"/> Mon Profil</a></li>
                                 <li class="divider"/>
@@ -181,7 +181,7 @@
         <t t-if="submenu.id == request.env.ref('baseball.teams_menu').id">
           <a class="dropdown-toggle disabled pdr50" data-toggle="dropdown" t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url" t-ignore="true" t-att-target="'_blank' if submenu.new_window else None">
                         <span t-field="submenu.name"/>
-                    </a><a class="dropdown-toggle subdropdown" data-toggle="dropdown"><i class="fa fa-caret-down fa-2x"></i></a>
+                    </a><a href="#" class="dropdown-toggle subdropdown" data-toggle="dropdown"><i class="fa fa-caret-down fa-2x"></i></a>
           <ul class="dropdown-menu" role="menu">
             <t t-foreach="request.env['baseball.teams'].sudo().search([('is_opponent','=',False)])" t-as="team">
                 <li t-att-class="
@@ -206,7 +206,7 @@
         }">
         <a class="dropdown-toggle disabled pdr50" data-toggle="dropdown" t-att-href="(website.menu_id.child_id[0] == submenu) and '/' or submenu.url">
             <span t-field="submenu.name"/>
-        </a><a class="dropdown-toggle subdropdown" data-toggle="dropdown"><i class="fa fa-caret-down fa-2x"></i></a>
+        </a><a href="#" class="dropdown-toggle subdropdown" data-toggle="dropdown"><i class="fa fa-caret-down fa-2x"></i></a>
         <ul class="dropdown-menu" role="menu">
             <t t-foreach="submenu.child_id" t-as="submenu">
                 <t t-call="website.submenu_mini"/>
