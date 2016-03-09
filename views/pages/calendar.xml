@@ -63,12 +63,12 @@
                 <td><span t-field="game.home_team.name"/></td>
                 <td>
                   <t t-if="game.home_team.logo_id and game.home_team.logo_id.image" >
-                    <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.home_team.logo_id.sudo().image"/>
+                    <img class="maxed img img-responsive img-circle" style="width: 25px" t-att-src="'data:image/png;base64,'+game.home_team.logo_id.sudo().image"/>
                   </t>
                 </td>
                 <td>
                   <t t-if="game.away_team.logo_id and game.away_team.logo_id.image" >
-                    <img class="maxed img img-responsive img-circle" width="25px" t-att-src="'data:image/png;base64,'+game.away_team.logo_id.sudo().image"/>
+                    <img class="maxed img img-responsive img-circle" style="width: 25px" t-att-src="'data:image/png;base64,'+game.away_team.logo_id.sudo().image"/>
                   </t>
                 </td>          
                 <td><span t-field="game.away_team.name"/></td>

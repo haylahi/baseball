@@ -15,12 +15,12 @@ $(document).ready(function () {
       }
 
   $('[data-toggle=offcanvas]').click(function() {
-    $('.row-offcanvas-right').toggleClass('active');
+    $('.row-offcanvas-right').toggleClass('active', 200);
   });
 
   $('.dropdown-toggle-menu').click(function() {
     var id = $(this).attr('id')
-    $('[parent_id='+id+']').toggleClass('hidden');
+    $('[parent_id='+id+']').toggleClass('hidden', 200);
   });
 
 });

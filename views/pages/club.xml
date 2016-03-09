@@ -25,7 +25,7 @@
                         <t t-foreach="board or []" t-as="member">
                           <tr>
                             <td class="col-md-2"><t t-if="member.image">
-                              <img class="maxed img img-responsive" width="50px" t-att-src="'data:image/png;base64,'+member.sudo().image_small"/>
+                              <img class="maxed img img-responsive" style="width: 50px" t-att-src="'data:image/png;base64,'+member.sudo().image_small"/>
                             </t></td>
                             <td class="col-md-2"><span t-field="member.name"/></td>
                             <td class="col-md-2"><span t-field="member.main_club_role_id.name"/></td>

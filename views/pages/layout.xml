@@ -81,7 +81,7 @@
               </div>
             </div>
             <div class="col-md-10">
-              <div class="collapse navbar-collapse navbar-top-collapse col-md-12" style="width:100%;">
+              <div class="collapse navbar-collapse navbar-top-collapse col-md-12 hidden-xs hidden-sm" style="width:100%;">
                   <ul class="nav navbar-nav navbar-right" id="top_menu">
                       <t t-foreach="website.menu_id.child_id" t-as="submenu">
                           <t t-call="website.submenu"/>
@@ -183,7 +183,7 @@
                   </t>
                   <t t-if="website.user_id != user_id">
                     <div class="btn-group" role="group"> 
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span t-esc="user_id.sudo().current_partner_id.name"/><span class="caret"></span> </button> 
+                      <button type="button" class="btn btn-default btn-square dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span t-esc="user_id.sudo().current_partner_id.name"/><span class="caret"></span> </button> 
                       <ul class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop4"> 
                         <li><a href="/profile"><i class="fa fa-user"/> Mon Profil</a></li> 
                         <li><a href="/web/session/logout?redirect=/">Log out</a></li> 
@@ -191,7 +191,7 @@
                     </div>
                   </t>
                   <t t-if="website.user_id == user_id">
-                    <a class="btn btn-default" href="/web/login?redirect=/profile">Log in</a>
+                    <a class="btn btn-default btn-square" href="/web/login?redirect=/profile">Log in</a>
                   </t>
                 </div>
               </div>
@@ -200,15 +200,17 @@
         </div>
     </div><!--/.container-->
     </xpath>
-
+    <xpath expr="//meta[@name='viewport']" position="replace">
+        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+    </xpath>
 
     </template>
 
 
-        <record id="layout" model="ir.ui.view">
-            <field name="priority">17</field>
-          
-        </record>
+<record id="layout" model="ir.ui.view">
+    <field name="priority">17</field>
+  
+</record>
 
 <template id="website.submenu_mini" name="Submenu">
     <t t-if="not submenu.child_id">
@@ -301,7 +303,7 @@
           <t t-if="sponsor.image">
             <div t-att-class="'item active' if sponsor == request.env['baseball.sponsor'].sudo().get_active_sponsors()[0] else 'item'">
               <a t-attf-href="/sponsors/#{slug(sponsor)}">
-                <img class="img-carousel-sponsor" t-att-src="'data:image/png;base64,'+sponsor.image" width="150px"/>
+                <img class="img-carousel-sponsor" t-att-src="'data:image/png;base64,'+sponsor.image" style="width: 150px"/>
               </a>
             </div>
           </t>

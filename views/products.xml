@@ -119,6 +119,7 @@
                   <filter name="rented_paid" string="Rented and paid" domain="[('state', '=', 'rented_paid')]"/>
                   <filter name="lost" string="Lost" domain="[('state', '=', 'lost')]"/>
                   <filter name="borrow" string="Borrowed" domain="[('state', '=', 'borrow')]"/>
+                  <filter name="control" string="To Control" domain="[('state', '=', 'control')]"/>
                 </search>
             </field>
         </record>
