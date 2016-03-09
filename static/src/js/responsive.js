@@ -13,6 +13,16 @@ $(document).ready(function () {
         $('.panel-heading-old').addClass("panel-heading").removeClass("panel-heading-old");
         $('.panel-default-old').addClass("panel-default").removeClass("panel-default-old");
       }
+
+  $('[data-toggle=offcanvas]').click(function() {
+    $('.row-offcanvas-right').toggleClass('active');
+  });
+
+  $('.dropdown-toggle-menu').click(function() {
+    var id = $(this).attr('id')
+    $('[parent_id='+id+']').toggleClass('hidden');
+  });
+
 });
 
 $(document).ready(function () {
