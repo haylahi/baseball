@@ -270,7 +270,7 @@ class baseball_club(http.Controller):
 
 
         calendar = Calendar()
-        calendar.add('prodid', '-//My practices//mxm.dk//')
+        calendar.add('prodid', '-//My games//mxm.dk//')
         calendar.add('version', '2.0')
         calendar.add('method', 'PUBLISH')
         calendar.add('class', 'PUBLIC')
@@ -285,12 +285,20 @@ class baseball_club(http.Controller):
         for game_id in team.game_ids:
             game = Event()
             game['organizer'] = organizer
-            game.add('summary', '%s: vs %s (%s)' % (game_id.game_number, game_id.home_team.name if game_id.home_team != team else game_id.away_team.name, game_id.division.code))
-            if game_id.venue:
-                location = '%s: %s %s, %s %s' % (game_id.venue.name, game_id.venue.street or '', game_id.venue.street2 or '', game_id.venue.zip_code or '', game_id.venue.city or '')
-                game['location'] = vText(location)
-            game.add('dtstart', fields.Datetime.from_string(game_id.start_time).replace(tzinfo=pytz.utc) )
-            game.add('dtend', fields.Datetime.from_string(game_id.end_time).replace(tzinfo=pytz.utc))
+            if game_id.game_type == 'tournament':
+                game.add('summary', 'Tournament@ %s' % (game_id.venue.name or ''))
+                if game_id.venue:
+                    location = '%s: %s %s, %s %s' % (game_id.venue.name, game_id.venue.street or '', game_id.venue.street2 or '', game_id.venue.zip_code or '', game_id.venue.city or '')
+                    game['location'] = vText(location)
+                game.add('dtstart', fields.Datetime.from_string(game_id.start_time).replace(tzinfo=pytz.utc) )
+                game.add('dtend', fields.Datetime.from_string(game_id.end_time_tournament).replace(tzinfo=pytz.utc))
+            else:
+                game.add('summary', '%s: vs %s (%s)' % (game_id.game_number, game_id.home_team.name if game_id.home_team != team else game_id.away_team.name, game_id.division.code))
+                if game_id.venue:
+                    location = '%s: %s %s, %s %s' % (game_id.venue.name, game_id.venue.street or '', game_id.venue.street2 or '', game_id.venue.zip_code or '', game_id.venue.city or '')
+                    game['location'] = vText(location)
+                game.add('dtstart', fields.Datetime.from_string(game_id.start_time).replace(tzinfo=pytz.utc) )
+                game.add('dtend', fields.Datetime.from_string(game_id.end_time).replace(tzinfo=pytz.utc))
             calendar.add_component(game)
         
         return request.make_response(calendar.to_ical(), headers=[('Content-Type', 'text/calendar')])

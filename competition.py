@@ -7,6 +7,7 @@ from openerp.exceptions import ValidationError
 from datetime import datetime, timedelta
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMAT
 import uuid
+import pytz
 
 
 
@@ -75,10 +76,6 @@ class Game(models.Model):
          'UNIQUE(game_number)',
          "The game number must be unique"),
     ]
-
-
-
-
 
     @api.one
     def _set_official(self):
@@ -183,6 +180,8 @@ class Game(models.Model):
 
     @api.model
     def action_get_games_database(self):
+        local = pytz.timezone ("Europe/Brussels")
+
         def get_or_create_team(team_name, division):
             tag_name = self.env['baseball.teams.dbname'].search([('name','=',team_name)])  
             if not tag_name:
@@ -263,6 +262,8 @@ class Game(models.Model):
                     values.update(
                         {'score_away':  (ga['score'].split('-')[1])}),
 
+                local_dt = local.localize(fields.Datetime.from_string(values.get('start_time')), is_dst=None)
+                values.update({'start_time': fields.Datetime.to_string(local_dt.astimezone(pytz.utc))})
                 if current_game:
                     current_game.write(values)
                 else:
