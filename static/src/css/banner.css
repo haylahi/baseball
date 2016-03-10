@@ -140,15 +140,6 @@ div #header_top_bar_small_alias {
     left: 0px;
 	height: 100%;
 	position: absolute;
-	animation: shake 0.5s 7s, slideIn 1.5s 5.5s;
-	-webkit-animation:  shake 0.5s 7s, slideIn 1.5s 5.5s;
-    -moz-animation: shake 0.5s 7s, slideIn 1.5s 5.5s;
-    -o-animation: shake 0.5s 7s, slideIn 1.5s 5.5s;
-    animation: wait 5s;
-    -webkit-animation:  wait 5s;
-    -moz-animation: wait 5s;
-    /*-o-animation: wait 5s;*/
-    /*animation-iteration-count:infinite;*/
 }
 
 
@@ -158,15 +149,6 @@ div #header_top_bar_small_alias {
     left: 0px;
     width: 100%;
     height: 100%;
-    animation: bounceleftright 1s 5s;
-	-webkit-animation: bounceleftright 1s 5s; 
-    -moz-animation: bounceleftright 1s 5s;
-    -o-animation:   bounceleftright 1s 5s;
-    animation: wait 5s;
-    -webkit-animation:  wait 5s;
-    -moz-animation: wait 5s;
-    /*-o-animation: wait 5s;*/
-    /*animation-iteration-count:infinite;*/
 	z-index: 0;
 
 }
@@ -177,15 +159,6 @@ div #header_top_bar_small_alias {
     left: 0px;
     width: 100%;
     height: 100%;
-    animation: bouncerightleft 1s 6s;
-	-webkit-animation: bouncerightleft 1s 6s;
-    -moz-animation: bouncerightleft 1s 6s;
-    -o-animation:   bouncerightleft 1s 6s;
-    animation: wait 5s;
-    -webkit-animation:  wait 5s;
-    -moz-animation: wait 5s;
-    /*-o-animation: wait 5s;*/
-    /*animation-iteration-count:infinite;*/
 	z-index: 0;
 }
 
@@ -195,15 +168,6 @@ div #header_top_bar_small_alias {
     left: 0px;
     width: 100%;
     height: 100%;
-    animation: bounceupdown 1s 7s;
-	-webkit-animation: bounceupdown 1s 7s;
-    -moz-animation: bbounceupdown 1s 7s;
-    -o-animation:   bounceupdown 1s 7s;
-    animation: wait 5s;
-    -webkit-animation:  wait 5s;
-    -moz-animation: wait 5s;
-    /*-o-animation: wait 5s;*/
-    /*animation-iteration-count:infinite;*/
 	z-index: 0;
 }
 
@@ -213,16 +177,6 @@ div #header_top_bar_small_alias {
 	left: 0px;
     width: 100%;
     height: 100%;
-    animation: fadeIn 2s 6s linear;
-	-webkit-animation: fadeIn 2s 6s linear;
-    -moz-animation:fadeIn 2s 6s linear;
-    -o-animation:   fadeIn 2s 6s linear;
-    animation: wait 5s;
-    -webkit-animation:  wait 5s;
-    -moz-animation: wait 5s;
-    /*-o-animation: wait 5s;*/
-    /*animation-iteration-count:infinite;*/
-
 }
 
 #fond {
@@ -234,204 +188,6 @@ div #header_top_bar_small_alias {
 
 
 }
-
-/* 
-	Animation Definitions 
-*/
-
-
-
-@-webkit-keyframes shake {
-	from { left: 4px; }
-	to   { left: -4px; }
-}
-
-@-webkit-keyframes slideIn {
-	from { left: -250px; }
-	to   { left: 0px }
-}
-
-
-@-webkit-keyframes bounceleftright { 
-    0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);} 
-    40% {-webkit-transform: translateX(-10px);} 
-    60% {-webkit-transform: translateX(-5px);} 
-}
-
-@-webkit-keyframes bouncerightleft { 
-    0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);} 
-    40% {-webkit-transform: translateX(+5px);} 
-    60% {-webkit-transform: translateX(+5px);} 
-}
-
-@-webkit-keyframes bounceupdown { 
-    0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);} 
-    40% {-webkit-transform: translateY(-10px);} 
-    60% {-webkit-transform: translateY(-5px);} 
-}
-
-@-webkit-keyframes fadeIn { 
-    0% {opacity: 0;} 
-    100% {opacity: 1;} 
-    -webkit-animation-fill-mode:forwards;
-} 
-
-@-webkit-keyframes fadeOut { 
-    0% {opacity: 1;} 
-    100% {opacity: 0;} 
-    -webkit-animation-fill-mode:forwards;
-} 
-
-/*@-webkit-keyframes wait { 
-    100% {-webkit-transform: translateY(0px);} 
-} */
-
-/* 
-	Animation Definitions 
-*/
-
-
-@-moz-keyframes shake {
-	from { left: 1px; }
-	to   { left: -1px; }
-}
-
-@-moz-keyframes slideIn {
-	from { left: -250px; }
-	to   { left: 0px }
-}
-
-
-@-moz-keyframes bounceleftright { 
-    0%, 20%, 50%, 80%, 100% {-moz-transform: translateY(0);} 
-    40% {-moz-transform: translateX(-10px);} 
-    60% {-moz-transform: translateX(-5px);} 
-}
-
-@-moz-keyframes bouncerightleft { 
-    0%, 20%, 50%, 80%, 100% {-moz-transform: translateY(0);} 
-    40% {-moz-transform: translateX(+5px);} 
-    60% {-moz-transform: translateX(+5px);} 
-}
-
-@-moz-keyframes bounceupdown { 
-    0%, 20%, 50%, 80%, 100% {-moz-transform: translateY(0);} 
-    40% {-moz-transform: translateY(-10px);} 
-    60% {-moz-transform: translateY(-5px);} 
-}
-
-@-moz-keyframes fadeIn { 
-    0% {opacity: 0;} 
-    100% {opacity: 1;} 
-    -moz-animation-fill-mode:forwards;
-} 
-
-@-moz-keyframes fadeOut { 
-    moz {opacity: 1;} 
-    100% {opacity: 0;} 
-    -moz-animation-fill-mode:forwards;
-} 
-/*@-moz-keyframes wait { 
-    100% {-moz-transform: translateY(0px);} 
-} 
-*/
-/* 
-	Animation Definitions 
-*/
-
-
-@-o-keyframes shake {
-	from { left: 1px; }
-	to   { left: -1px; }
-}
-
-@-o-keyframes slideIn {
-	from { left: -250px; }
-	to   { left: 0px }
-}
-
-
-@-o-keyframes bounceleftright { 
-    0%, 20%, 50%, 80%, 100% {-o-transform: translateY(0);} 
-    40% {-o-transform: translateX(-10px);} 
-    60% {-o-transform: translateX(-5px);} 
-}
-
-@-o-keyframes bouncerightleft { 
-    0%, 20%, 50%, 80%, 100% {-o-transform: translateY(0);} 
-    40% {-o-transform: translateX(+5px);} 
-    60% {-o-transform: translateX(+5px);} 
-}
-
-@-o-keyframes bounceupdown { 
-    0%, 20%, 50%, 80%, 100% {-o-transform: translateY(0);} 
-    40% {-o-transform: translateY(-10px);} 
-    60% {-o-transform: translateY(-5px);} 
-}
-
-@-o-keyframes fadeIn { 
-    0% {opacity: 0;} 
-    100% {opacity: 1;} 
-    -o-animation-fill-mode:forwards;
-} 
-
-@-o-keyframes fadeOut { 
-    0% {opacity: 1;} 
-    100% {opacity: 0;} 
-    -o-animation-fill-mode:forwards;
-} 
-
-/*@-o-keyframes wait { 
-    100% {-o-transform: translateY(0px);} 
-} */
-
-/* 
-	Animation Definitions 
-*/
-
-
-@keyframes shake {
-	from { left: 1px; }
-	to   { left: -1px; }
-}
-
-@keyframes slideIn {
-	from { left: -250px; }
-	to   { left: 0px }
-}
-
-
-@keyframes bounceleftright { 
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 
-    40% {transform: translateX(-10px);} 
-    60% {transform: translateX(-5px);} 
-}
-
-@keyframes bouncerightleft { 
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 
-    40% {transform: translateX(+5px);} 
-    60% {transform: translateX(+5px);} 
-}
-
-@keyframes bounceupdown { 
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 
-    40% {transform: translateY(-10px);} 
-    60% {transform: translateY(-5px);} 
-}
-
-@keyframes fadeIn { 
-    0% {opacity: 0;} 
-    100% {opacity: 1;} 
-    animation-fill-mode:forwards; 
-
-} 
-
-@keyframes fadeOut { 
-    0% {opacity: 1;} 
-    100% {opacity: 0;} 
-    animation-fill-mode:forwards; 
-
-} 
 
 .data_roster_table > tbody > tr > td {
     padding: 0px;
