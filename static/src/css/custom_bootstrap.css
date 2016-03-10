@@ -116,6 +116,9 @@
     display: inline-block;
 }
 
+html, body {
+  overflow-x:hidden 
+} 
 /*
  * Off Canvas
  * --------------------------------------------------
@@ -128,15 +131,7 @@
     transition: all 0.4s ease-out;
   }
 
-  .row-offcanvas-left
-  #sidebarLeft {
-    left: -40%;
-  }
 
-  .row-offcanvas-left.active {
-    left: 40%;
-  }
- 
   .row-offcanvas-right 
   #sidebarRight {
     right: -40%;
