@@ -152,6 +152,36 @@
             </field>
         </record>
 
+        <record id="view_member_form_fee_readonly" model="ir.ui.view">
+            <field name="name">res.partner.form.readonly</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="view_baseball_members_form"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_team_manager') ])]"/>
+            <field name="arch" type="xml">
+                <field name="fee_paid" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="fee_to_pay" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="view_member_tree_fee_readonly" model="ir.ui.view">
+            <field name="name">res.partner.tree.readonly</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="view_baseball_members_tree"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_team_manager') ])]"/>
+            <field name="arch" type="xml">
+                <field name="fee_paid" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="fee_to_pay" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
 
         <record model="ir.actions.act_window" id="baseball_list_members">
             <field name="name">Members</field>

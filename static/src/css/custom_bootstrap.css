@@ -134,17 +134,17 @@ html, body {
 
   .row-offcanvas-right 
   #sidebarRight {
-    right: -40%;
+    right: -80%;
   }
 
   .row-offcanvas-right.active {
-    right: 40%;
+    right: 80%;
   }
 
   .sidebar-offcanvas {
     position: absolute;
     top: 0;
-    width: 40%;
+    width: 80%;
     margin-left: 10px;
   }
   .btn-square {

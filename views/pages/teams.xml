@@ -151,7 +151,7 @@
                   </t>
                   <div class="col-lg-3">
                     <t t-if="team.image">
-                      <img class="img-responsive" style="width: 150px" t-att-src="'data:image/png;base64,'+team.image"/>
+                      <img class="img-responsive" style="width: 100px" t-att-src="'data:image/png;base64,'+team.image"/>
                     </t>
                   </div>
                   <div class="col-lg-9">
@@ -330,7 +330,7 @@
     <t t-if="game.home_team == team">
       <td class="js_game" t-attf-id="#{game.id}">
         <t t-if="game.away_team.logo_id and game.away_team.logo_id.image">
-          <img class="maxed img img-responsive img-circle" style="width: 50px" t-att-src="'data:image/png;base64,'+game.away_team.logo_id.sudo().image"/>
+          <img class="maxed img img-responsive img-circle" style="width: 25px" t-att-src="'data:image/png;base64,'+game.away_team.logo_id.sudo().image"/>
         </t>
       </td>
       <td class="js_game" t-attf-id="#{game.id}"><span t-field="game.away_team.name"/></td>
@@ -499,7 +499,7 @@
                   <div class="row">
                     <div class="col-md-3">
                       <t t-if="attendee.image">
-                        <img class="maxed img img-responsive" style="width: 50px" t-att-src="'data:image/png;base64,'+attendee.sudo().image_small"/>
+                        <img class="maxed img img-responsive" style="width: 25px" t-att-src="'data:image/png;base64,'+attendee.sudo().image_small"/>
                       </t>
                     </div>
                     <div class="col-md-9">
@@ -515,7 +515,7 @@
                   <div class="row">
                     <div class="col-md-3">
                       <t t-if="absentee.image">
-                        <img class="maxed img img-responsive" style="width: 50px" t-att-src="'data:image/png;base64,'+absentee.sudo().image_small"/>
+                        <img class="maxed img img-responsive" style="width: 25px" t-att-src="'data:image/png;base64,'+absentee.sudo().image_small"/>
                       </t>
                     </div>
                     <div class="col-md-9">
