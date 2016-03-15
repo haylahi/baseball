@@ -381,10 +381,14 @@ class baseball_club(http.Controller):
             invitation_id.state = 'accepted'
         game_team = invitation_id.game_id.home_team | invitation_id.game_id.away_team
         team = invitation_id.partner_id.team_ids & game_team
-        if team:
-            return request.redirect("/page/team/%s" % (team[0].id))
-        else:
-            return request.redirect("/profile")
+        values = {
+            'answer': True,
+            'team' : team,
+            'game' : invitation_id.game_id,
+            'partner': invitation_id.partner_id,
+        }
+        return request.render('baseball.invitation_response', values)
+
 
     @http.route('/game/invitation/decline', type='http', auth='public', website=True)
     def game_invite_decline(self, token, invite_id, **kwargs):
@@ -395,10 +399,13 @@ class baseball_club(http.Controller):
             invitation_id.state = 'declined'
         game_team = invitation_id.game_id.home_team | invitation_id.game_id.away_team
         team = invitation_id.partner_id.team_ids & game_team
-        if team:
-            return request.redirect("/page/team/%s" % (team[0].id))
-        else:
-            return request.redirect("/profile")
+        values = {
+            'answer': False,
+            'team' : team,
+            'game' : invitation_id.game_id,
+            'partner': invitation_id.partner_id,
+        }
+        return request.render('baseball.invitation_response', values)
 
 
     @http.route(['/game/score'], type='json', auth="public", methods=['POST'], website=True)
@@ -454,6 +461,8 @@ class baseball_club(http.Controller):
             }
 
             return request.render('baseball.profile', values)
+        else:
+            return request.redirect("/web/login?redirect=/profile")
 
     @http.route(['/sponsors'], type='http', auth="public", website=True)
     def sponsors(self, **kw):

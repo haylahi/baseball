@@ -68,6 +68,7 @@ class Registration(models.Model):
     is_certificate = fields.Boolean(default=False, string="Certificate")
     fee_to_pay = fields.Float(string="Fee", compute='_compute_fee', inverse="_set_fee", store=True)
     fee_paid = fields.Float(string="Paid")
+    payment_date = fields.Date(string="Payment date")
 
     @api.one
     @api.depends('category_id.cotisation', 'season_id')

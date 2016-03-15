@@ -27,6 +27,8 @@ class JerseyItem(models.Model):
         ('lost', "Lost"),
         ('borrow', "Borrowed"),
         ('control', "To control"),
+        ('order', "To order"),
+        ('unused', "Not used anymore"),
     ], default='stock')
     time_rent = fields.Selection([
         (1, "1 year"),

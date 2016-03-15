@@ -93,5 +93,31 @@
       </table>
 </template>
 
+
+<template id="invitation_response" name="Game invitation response">                
+  <t t-call="website.layout">
+      <t t-set="additional_title">Game invitation response</t>
+      <div id="wrap">
+        <div class="oe_structure"/>
+          <div class="container">
+            <div class='row'>
+              <div class="col-lg-12 panel panel-default">
+                <h4><span t-esc="'%s : %s @ %s' % (game.game_number, game.away_team.name, game.home_team.name)"/></h4>
+
+
+                <p><span t-field="partner.name"/> <span t-esc="'ta présence' if answer else 'ton absence'"/> a bien été enregistrée. N'hésite pas à anticiper et mettre à jour tes présences et absences pour les matches suivants en te connectant avec ton compte et en allant ensuite sur la <a t-att-href="'/page/teams/%s' % team.id">page de ton équipe</a>.</p>
+                
+                 <p>Retrouve toutes les informations qui te concerne via <a href="/profile">ton profil</a>.</p>
+
+              </div>
+            </div>
+          </div>
+        <div class="oe_structure mb32"/>
+      </div>
+  </t>
+</template>
+
+
+
   </data>
 </openerp>

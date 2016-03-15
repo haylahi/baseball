@@ -102,6 +102,7 @@
                                             <field name="category_id" />
                                             <field name="fee_to_pay"/>
                                             <field name="fee_paid"/>
+                                            <field name="payment_date"/>
                                         </tree>
                                     </field>
                                 </group>
@@ -164,9 +165,11 @@
                 <field name="fee_to_pay" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
+                <field name="payment_date" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
             </field>
         </record>
-
 
         <record id="view_member_tree_fee_readonly" model="ir.ui.view">
             <field name="name">res.partner.tree.readonly</field>
