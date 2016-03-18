@@ -116,14 +116,15 @@
     display: inline-block;
 }
 
-html, body {
-  overflow-x:hidden 
-} 
+
 /*
  * Off Canvas
  * --------------------------------------------------
  */
 @media screen and (max-width: 992px) {
+  html, body {
+    overflow-x:hidden 
+  } 
   .row-offcanvas {
     position: relative;
     -webkit-transition: all 0.4s ease-out;

@@ -61,8 +61,7 @@ class Members(models.Model):
     mobile2 = fields.Char(string="Mobile 2")
     practice_event_ids = fields.Many2many(
         'baseball.teams.practice.event', string="Practices", compute='_get_practices')
-
-
+    birthdate = fields.Date('Birthdate')
 
     @api.model
     def create(self, vals):
@@ -218,7 +217,9 @@ class Members(models.Model):
         for team_id in self.team_ids:
             ids += self.env['baseball.categories'].search(
                 [('teams_ids', 'in', team_id.id)]).ids
-        self.baseball_category_ids = ids
+        current_register = self.season_ids.filtered(lambda r: r.season_id == self.env['baseball.season'].get_current_season())
+        ids += current_register.mapped('category_id').ids
+        self.baseball_category_ids = list(set(ids))
 
 
 
@@ -243,9 +244,9 @@ class Members(models.Model):
     def _is_in_order(self):
         if self.env['baseball.season'].get_current_season().id in self.season_ids.mapped('season_id').ids :
             current_register = self.season_ids.filtered(lambda r: r.season_id == self.env['baseball.season'].get_current_season())
-            self.is_certificate = current_register.is_certificate
-            self.is_registered = current_register.is_registered
-            self.is_in_order = all([self.is_photo,current_register.is_certificate, current_register.fee_to_pay <= current_register.fee_paid])
+            self.is_certificate = all(current_register.mapped('is_certificate'))
+            self.is_registered =  all(current_register.mapped('is_registered'))
+            self.is_in_order = all([self.is_photo,self.is_certificate, all(current_register.mapped(lambda r: r.fee_to_pay <= r.fee_paid))])
 
     @api.one
     @api.depends('team_ids')
@@ -329,8 +330,8 @@ class Members(models.Model):
     @api.depends('season_ids.fee_paid', 'season_ids.fee_to_pay')
     def _compute_fee(self):
         for current_registration in self.season_ids.filtered(lambda r: r.season_id.is_current):
-            self.fee_paid = current_registration.fee_paid
-            self.fee_to_pay = current_registration.fee_to_pay
+            self.fee_paid = sum(current_registration.mapped('fee_paid'))
+            self.fee_to_pay = sum(current_registration.mapped('fee_to_pay'))
 
 
     @api.one

@@ -9,7 +9,7 @@
   </template>
 
 <template id="website.teams" name="Teams page">                
-  <t t-set="categories" t-value="request.env['baseball.categories'].sudo().search([])"/>
+  <t t-set="categories" t-value="request.env['baseball.categories'].sudo().search([('published','=', True)])"/>
 
   <t t-call="website.layout">
       <t t-set="additional_title">Equipes</t>
@@ -288,7 +288,7 @@
           <tr>
             <th class="col-md-2">Date</th>
             <th class="col-md-1"/>
-            <th class="col-md-3">Adversaire</th>
+            <th class="col-md-3"><span class="hidden-xs">Adversaire</span><span class="visible-xs">Adv.</span></th>
             <th class="col-md-3 hidden-xs">Lieu</th>
             <th class="col-md-3">Heure</th>
             <th class="col-md-2"></th>

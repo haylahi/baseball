@@ -40,17 +40,17 @@
       <table class="table table-condensed data_calendar_table data_full_calendar_table">
         <thead>
           <tr>
-            <th class="col-md-2">Date</th>
-            <th class="col-md-2">Catégorie</th>
-            <th class="col-md-2">Division</th>
-            <th class="col-md-2">Home</th>
+            <th class="col-md-2" data-toggle="true">Date</th>
+            <th class="col-md-2" data-hide="phone">Catégorie</th>
+            <th class="col-md-2" data-hide="phone,tablet">Division</th>
+            <th class="col-md-2" data-hide="phone">Home</th>
             <th class="col-md-1"/>
             <th class="col-md-1"/>
-            <th class="col-md-2">Away</th>
-            <th class="col-md-2">Lieu</th>
+            <th class="col-md-2" data-hide="phone">Away</th>
+            <th class="col-md-2" data-hide="phone">Lieu</th>
             <th class="col-md-2">Heure</th>
-            <th class="col-md-2">Scoreur</th>
-            <th class="col-md-2">Arbitre</th>
+            <th class="col-md-2" data-hide="phone,tablet">Scoreur</th>
+            <th class="col-md-2" data-hide="phone,tablet">Arbitre</th>
           </tr>
         </thead>
         <tbody>

@@ -1,4 +1,8 @@
 $(document).ready(function () {
+  $(function () {
+    $('.footable').footable();
+  });
+
       if ($( window ).width() < 768){  
         $('.panel').addClass("panel-old").removeClass("panel");
         $('.panel-title').addClass("panel-title-old").removeClass("panel-title");        

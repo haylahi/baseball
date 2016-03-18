@@ -25,6 +25,7 @@
                             <field name="start_date"/>
                             <field name="end_date"/>
                             <field name="active"/>
+                            <field name="published"/>
                         </group>
                     </group>
                     <notebook colspan="4">

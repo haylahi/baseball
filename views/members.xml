@@ -74,7 +74,7 @@
                             <field name="is_player"/>
                             <field name="club_role_id" widget="many2many_tags"  placeholder="e.g. Member, Secretary"/>
                             <field name="active"  invisible="1"/>
-                            <field name="is_active_current_season" attrs="{'invisible': [('is_player','=',False)]}"/>
+                            <field name="is_active_current_season"/>
                             <field name="is_in_order" invisible="1"/>
                             <field name="licence_number"/>
 
@@ -82,7 +82,7 @@
                     </group>
                     <notebook>
                         <page name="registration" string="Registration">
-                            <group col="3" attrs="{'invisible': [('is_player','=',False)]}">
+                            <group col="3">
                                 <group colspan="1">
                                     <field name="jerseys_ids"  nolabel="1" context="{'form_view_ref':'baseball.view_baseball_jerseysitem_form', 'default_member_id': id}">
                                         <tree>

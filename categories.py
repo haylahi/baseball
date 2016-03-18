@@ -24,7 +24,7 @@ class Categories(models.Model):
     game_ids = fields.Many2many(
         'baseball.game', string="Games", compute="_compute_games")
     sequence = fields.Integer(string='Sequence')
-
+    published = fields.Boolean('Published', default=True)
 
     @api.one
     @api.depends('teams_ids')
@@ -32,7 +32,6 @@ class Categories(models.Model):
         players_ids = self.env['res.partner']
         for team_id in self.teams_ids:
              players_ids |= team_id.players_ids
-        self.players_ids = players_ids
 
     @api.one
     def _set_fee(self):
